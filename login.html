@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - VerifDiploma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css">
+    <style>
+        body, * {
+            font-family: 'GE SS Unique', Arial, sans-serif !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-100 to-violet-200 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm animate-fade-in">
+        <div class="flex items-center justify-center mb-6">
+            <span class="text-violet-900 text-3xl font-bold">verif</span><span class="text-gray-700 text-3xl font-light">diploma</span>
+        </div>
+        <h2 class="text-violet-900 text-2xl font-bold mb-6 text-center tracking-wide">Login to your account</h2>
+        <button type="button" class="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold py-2 rounded transition mb-6 shadow-sm">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5"> Login with Google
+        </button>
+        <div class="flex items-center mb-6">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="mx-2 text-gray-400 text-xs">or</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+        </div>
+        <form>
+            <div class="mb-4 relative">
+                <label class="block text-violet-900 mb-1" for="email">Email</label>
+                <span class="absolute left-3 top-9 text-gray-400"><i class="fa-solid fa-envelope"></i></span>
+                <input id="email" type="email" required class="w-full border border-violet-900 rounded pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-900 transition-shadow focus:shadow-lg">
+            </div>
+            <div class="mb-6 relative">
+                <label class="block text-violet-900 mb-1" for="password">Password</label>
+                <span class="absolute left-3 top-9 text-gray-400"><i class="fa-solid fa-lock"></i></span>
+                <input id="password" type="password" required class="w-full border border-violet-900 rounded pl-10 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-900 transition-shadow focus:shadow-lg">
+            </div>
+            <button type="submit" class="w-full bg-violet-900 text-white py-2 rounded font-semibold text-lg transition-colors hover:bg-violet-800 shadow-md">Login</button>
+        </form>
+        <p class="text-center text-xs text-gray-500 mt-4">Don't have an account? <a href="register.html" class="text-violet-900 underline">Register</a></p>
+    </div>
+    <style>
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fade-in 0.7s cubic-bezier(.4,0,.2,1) both; }
+    </style>
+</body>
+</html> 

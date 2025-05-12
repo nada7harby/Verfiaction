@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment - VerifDiploma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet">
+    <style>
+        body, * {
+            font-family: 'GE SS Unique', Arial, sans-serif !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-100 to-violet-200 min-h-screen">
+    <!-- Logo -->
+    <div class="flex items-center p-6">
+        <span class="text-violet-900 text-3xl font-bold">verif</span><span class="text-gray-700 text-3xl font-light">diploma</span>
+    </div>
+    <div class="flex flex-col md:flex-row justify-center items-start gap-8 mt-4">
+        <!-- Payment Box -->
+        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+            <h2 class="text-violet-900 text-xl font-bold mb-2">Payment</h2>
+            <p class="mb-4 text-gray-700">Summary of your order</p>
+            <div class="bg-gray-100 rounded p-4 mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <span>Apply French degree credit</span>
+                    <input type="checkbox" class="accent-violet-900 w-7 h-7 border border-gray-400 rounded bg-white">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span>Remaining credits</span>
+                    <input type="checkbox" class="accent-violet-900 w-7 h-7 border border-gray-400 rounded bg-white">
+                </div>
+            </div>
+            <div class="flex items-center mb-4">
+                <input id="terms" type="checkbox" class="accent-violet-900 mr-2">
+                <label for="terms" class="text-sm">I accept the <a href="#" class="text-violet-900 underline">Terms and Conditions</a></label>
+            </div>
+            <button id="nextBtn" class="w-full bg-violet-900 text-white py-2 rounded font-semibold text-lg transition-colors disabled:opacity-50" disabled>Next</button>
+        </div>
+        <!-- Package Deals -->
+        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
+            <h3 class="text-violet-900 text-lg font-bold mb-1">Our Package Deals</h3>
+            <p class="text-sm text-gray-700 mb-4">Save up to 17% !</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 25 Credits -->
+                <div class="bg-gray-100 rounded p-4">
+                    <div class="text-violet-900 font-bold text-lg mb-1">25 Credits</div>
+                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
+                        <li>Save 25,00€ with a French package.</li>
+                        <li>Save 50,00€ with an International package.</li>
+                    </ul>
+                    <div class="mb-1">
+                        <input type="checkbox" id="vf25" class="accent-violet-900 mr-1">
+                        <label for="vf25" class="text-xs">Vérifications françaises</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="vi25" class="accent-violet-900 mr-1">
+                        <label for="vi25" class="text-xs">Vérifications internationales</label>
+                    </div>
+                </div>
+                <!-- 50 Credits -->
+                <div class="bg-gray-100 rounded p-4">
+                    <div class="text-violet-900 font-bold text-lg mb-1">50 Credits</div>
+                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
+                        <li>Save 100,00€ with a French package.</li>
+                        <li>Save 200,00€ with an International package.</li>
+                    </ul>
+                    <div class="mb-1">
+                        <input type="checkbox" id="vf50" class="accent-violet-900 mr-1">
+                        <label for="vf50" class="text-xs">Vérifications françaises</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="vi50" class="accent-violet-900 mr-1">
+                        <label for="vi50" class="text-xs">Vérifications internationales</label>
+                    </div>
+                </div>
+                <!-- 100 Credits -->
+                <div class="bg-gray-100 rounded p-4">
+                    <div class="text-violet-900 font-bold text-lg mb-1">100 Credits</div>
+                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
+                        <li>Save 400,00€ with a French package.</li>
+                        <li>Save 600,00€ with an International package.</li>
+                    </ul>
+                    <div class="mb-1">
+                        <input type="checkbox" id="vf100" class="accent-violet-900 mr-1">
+                        <label for="vf100" class="text-xs">Vérifications françaises</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="vi100" class="accent-violet-900 mr-1">
+                        <label for="vi100" class="text-xs">Vérifications internationales</label>
+                    </div>
+                </div>
+                <!-- 200 Credits -->
+                <div class="bg-gray-100 rounded p-4">
+                    <div class="text-violet-900 font-bold text-lg mb-1">200 Credits</div>
+                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
+                        <li>Save 1 200,00€ with a French package.</li>
+                        <li>Save 1 600,00€ with an International package.</li>
+                    </ul>
+                    <div class="mb-1">
+                        <input type="checkbox" id="vf200" class="accent-violet-900 mr-1">
+                        <label for="vf200" class="text-xs">Vérifications françaises</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="vi200" class="accent-violet-900 mr-1">
+                        <label for="vi200" class="text-xs">Vérifications internationales</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="text-center text-xs text-gray-500 mt-12 mb-4">
+        Copyright © 2001 - 2002 Diploma. All Rights Reserved - <a href="#" class="underline">Logout</a>
+    </footer>
+    <script>
+        // تفعيل زر Next فقط عند الموافقة على الشروط
+        const terms = document.getElementById('terms');
+        const nextBtn = document.getElementById('nextBtn');
+        terms.addEventListener('change', function() {
+            nextBtn.disabled = !this.checked;
+        });
+    </script>
+</body>
+</html> 
