@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify a degree</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-purple-950 min-h-screen">
+    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-lg mt-8 p-8">
+        <h2 class="text-2xl font-bold text-purple-900 mb-6">Verify a degree</h2>
+        <form id="verificationForm">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-purple-900 mb-2">Account Information</h3>
+                    <label class="block mb-2 text-sm font-medium">Last Name*<input type="text" name="lastName" required class="mt-1 w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-900"></label>
+                    <label class="block mb-2 text-sm font-medium">Given Last Name<input type="text" name="givenLastName" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                    <label class="block mb-2 text-sm font-medium">First Name*<input type="text" name="firstName" required class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                    <label class="block mb-2 text-sm font-medium">Date of Birth<input type="date" name="dob" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                    <label class="block mb-2 text-sm font-medium">Candidate email<input type="email" name="candidateEmail" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                    <label class="block mb-2 text-sm font-medium">Address<input type="text" name="address" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                    <label class="block mb-2 text-sm font-medium">Candidate phone number<input type="tel" name="phone" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-purple-900 mb-2">Program</h3>
+                    <label class="block mb-2 text-sm font-medium">Country*
+                        <select name="country" required class="mt-1 w-full border border-purple-900 rounded px-3 py-2">
+                            <option value="France">France</option>
+                        </select>
+                    </label>
+                    <label class="block mb-2 text-sm font-medium">Establishment*
+                        <select name="establishment" required class="mt-1 w-full border border-purple-900 rounded px-3 py-2">
+                            <option value="">Select</option>
+                        </select>
+                    </label>
+                    <label class="block mb-2 text-sm font-medium">Program*
+                        <select name="program" required class="mt-1 w-full border border-purple-900 rounded px-3 py-2">
+                            <option value="">Select</option>
+                        </select>
+                    </label>
+                    <label class="block mb-2 text-sm font-medium">Graduation Year*
+                        <select name="graduationYear" required class="mt-1 w-full border border-purple-900 rounded px-3 py-2">
+                            <option value="">Select</option>
+                        </select>
+                    </label>
+                    <label class="block mb-2 text-sm font-medium">Your Internal Reference
+                        <input type="text" name="reference" class="mt-1 w-full border border-purple-900 rounded px-3 py-2">
+                    </label>
+                </div>
+            </div>
+            <hr class="my-8 border-purple-900">
+            <div class="mb-8">
+                <h3 class="text-lg font-semibold text-purple-900 mb-4">Documents</h3>
+                <div class="flex flex-col md:flex-row gap-6 justify-between">
+                    <div class="flex-1 text-center">
+                        <span class="block font-bold mb-2">Consent form*</span>
+                        <input type="file" name="consentForm" required class="w-11/12 border border-purple-900 rounded px-2 py-1">
+                    </div>
+                    <div class="flex-1 text-center">
+                        <span class="block font-bold mb-2">Degree holder's ID</span>
+                        <input type="file" name="degreeId" class="w-11/12 border border-purple-900 rounded px-2 py-1">
+                    </div>
+                    <div class="flex-1 text-center">
+                        <span class="block font-bold mb-2">Copy of the diploma</span>
+                        <input type="file" name="diplomaCopy" class="w-11/12 border border-purple-900 rounded px-2 py-1">
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 mb-6">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium">Company<input type="text" name="company" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-medium">Contact<input type="text" name="contact" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                </div>
+                <div class="flex-1">
+                    <label class="block text-sm font-medium">E-mail address<input type="email" name="contactEmail" class="mt-1 w-full border border-purple-900 rounded px-3 py-2"></label>
+                </div>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium">Comment
+                    <input type="text" name="comment" class="mt-1 w-full border border-purple-900 rounded px-3 py-2">
+                </label>
+            </div>
+            <div class="flex justify-between">
+                <button type="button" onclick="saveDraft()" class="border-2 border-purple-950 text-purple-950 bg-transparent px-4 py-2 rounded hover:bg-purple-950 hover:text-white transition-colors">Save the verification in Drafts</button>
+                <button type="submit" class="bg-purple-950 text-white px-4 py-2 rounded hover:bg-purple-900 transition-colors">Submit the verification</button>
+            </div>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
