@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>State Request</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      body, * {
+        font-family: 'GE SS Unique', sans-serif !important;
+      }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-gray-100 to-violet-200 min-h-screen">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8 px-8 pt-8">
+        <div class="flex items-center gap-4">
+            <img src="logo.png" alt="logo" class="h-10">
+            <span class="text-3xl font-bold text-violet-900">verifdiploma</span>
+        </div>
+        <div class="flex gap-6 items-center">
+            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700">Dashboard</a>
+            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700 border-b-2 border-violet-700">Verifications</a>
+            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700">Packages</a>
+            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700">Contact</a>
+            <button class="bg-violet-800 text-white px-4 py-2 rounded-lg font-bold text-lg hover:bg-violet-900 transition-colors">New Verification</button>
+        </div>
+    </div>
+    <!-- Tabs -->
+    <div class="flex gap-4 mb-6 px-8">
+        <button class="bg-violet-800 text-white px-4 py-2 rounded-lg font-bold">All</button>
+        <button class="bg-violet-200 text-violet-900 px-4 py-2 rounded-lg font-bold flex items-center gap-1">In Progress <span class="bg-violet-700 text-white rounded-full px-2">6</span></button>
+        <button class="bg-gray-200 text-violet-900 px-4 py-2 rounded-lg font-bold">On Hold</button>
+        <button class="bg-gray-200 text-violet-900 px-4 py-2 rounded-lg font-bold">Completed</button>
+        <button class="bg-gray-200 text-violet-900 px-4 py-2 rounded-lg font-bold">Not finalized</button>
+    </div>
+    <!-- In Progress Table -->
+    <div class="mb-8 px-8">
+        <h3 class="text-2xl font-bold text-violet-900 mb-4 flex items-center gap-2">In Progress <span class="bg-violet-700 text-white rounded-full px-2">6</span></h3>
+        <div class="overflow-x-auto rounded-xl border border-violet-200">
+            <table class="min-w-full text-center">
+                <thead class="bg-violet-100 text-violet-900">
+                    <tr>
+                        <th class="py-3 px-2">Reference Number</th>
+                        <th class="py-3 px-2">Last Name</th>
+                        <th class="py-3 px-2">First Name</th>
+                        <th class="py-3 px-2">School</th>
+                        <th class="py-3 px-2">Program</th>
+                        <th class="py-3 px-2">Year</th>
+                        <th class="py-3 px-2">Start</th>
+                        <th class="py-3 px-2">Time</th>
+                        <th class="py-3 px-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr>
+                        <td colspan="9" class="py-8 text-gray-400 text-lg">-- Sample data here --</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mt-4">
+            <a href="#" class="text-violet-700 font-bold hover:underline">Show all</a>
+        </div>
+    </div>
+    <!-- On Hold Table -->
+    <div class="mb-8 px-8">
+        <h3 class="text-2xl font-bold text-violet-900 mb-4">On Hold</h3>
+        <div class="overflow-x-auto rounded-xl border border-violet-200">
+            <table class="min-w-full text-center">
+                <thead class="bg-violet-100 text-violet-900">
+                    <tr>
+                        <th class="py-3 px-2">Reference Number</th>
+                        <th class="py-3 px-2">Last Name</th>
+                        <th class="py-3 px-2">First Name</th>
+                        <th class="py-3 px-2">School</th>
+                        <th class="py-3 px-2">Program</th>
+                        <th class="py-3 px-2">Year</th>
+                        <th class="py-3 px-2">Start</th>
+                        <th class="py-3 px-2">Time</th>
+                        <th class="py-3 px-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr>
+                        <td colspan="9" class="py-8 text-gray-400 text-lg">- No results -</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Completed Table -->
+    <div class="px-8">
+        <h3 class="text-2xl font-bold text-violet-900 mb-4">Completed</h3>
+        <div class="overflow-x-auto rounded-xl border border-violet-200">
+            <table class="min-w-full text-center">
+                <thead class="bg-violet-100 text-violet-900">
+                    <tr>
+                        <th class="py-3 px-2">Reference Number</th>
+                        <th class="py-3 px-2">Last Name</th>
+                        <th class="py-3 px-2">First Name</th>
+                        <th class="py-3 px-2">School</th>
+                        <th class="py-3 px-2">Program</th>
+                        <th class="py-3 px-2">Year</th>
+                        <th class="py-3 px-2">Start</th>
+                        <th class="py-3 px-2">End</th>
+                        <th class="py-3 px-2">Time</th>
+                        <th class="py-3 px-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr>
+                        <td colspan="10" class="py-8 text-gray-400 text-lg">-- Sample data here --</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html> 
