@@ -1,0 +1,16 @@
+{
+  "name": "verifdiploma",
+  "version": "1.0.0",
+  "description": "VerifDiploma - Diploma Verification System",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  },
+  "main": "tailwind.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
