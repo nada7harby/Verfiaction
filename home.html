@@ -89,10 +89,10 @@
             >
           </div>
         </div>
-        <div class="slider-slide hidden" data-index="1">
+        <div class="slider-slide hidden" data-index="2">
           <img
             src="images/v3.jpg"
-            alt="Slide 2"
+            alt="Slide 3"
             class="slider-img"
             style="height: 100vh"
           />
@@ -477,91 +477,33 @@
       </div>
     </section>
 
-    <!-- 5. Contact Us Section (Modern Style) -->
+    <!-- 5. Contact Us Section (Simple Two-Column) -->
     <section class="max-w-5xl mx-auto mt-16 px-4 mb-16" id="contact">
-      <h2
-        class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"
-      >
-        <i class="fas fa-envelope"></i> Contact Us
-      </h2>
-      <div
-        class="flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden border-2 border-violet-100"
-      >
-        <!-- Contact Info Side -->
-        <div
-          class="bg-gradient-to-br from-violet-800 to-violet-600 text-white flex-1 flex flex-col justify-center gap-6 p-8 min-w-[260px]"
-        >
-          <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-3">
-              <i class="fas fa-map-marker-alt text-2xl"></i> 123 Main St, Paris,
-              France
-            </div>
-            <div class="flex items-center gap-3">
-              <i class="fas fa-phone text-2xl"></i> +33 1 23 45 67 89
-            </div>
-            <div class="flex items-center gap-3">
-              <i class="fas fa-envelope text-2xl"></i> info@spatrak.com
-            </div>
-          </div>
-          <div class="flex gap-4 mt-4">
-            <a href="#" class="text-white hover:text-violet-200 text-2xl"
-              ><i class="fab fa-facebook-f"></i
-            ></a>
-            <a href="#" class="text-white hover:text-violet-200 text-2xl"
-              ><i class="fab fa-instagram"></i
-            ></a>
-            <a href="#" class="text-white hover:text-violet-200 text-2xl"
-              ><i class="fab fa-whatsapp"></i
-            ></a>
-          </div>
-          <iframe
-            class="rounded-xl border-2 border-violet-200 mt-4 w-full h-32"
-            src="https://maps.google.com/maps?q=paris&t=&z=13&ie=UTF8&iwloc=&output=embed"
-            allowfullscreen=""
-            loading="lazy"
-          ></iframe>
-        </div>
-        <!-- Contact Form Side -->
-        <form class="flex-1 bg-white p-8 flex flex-col gap-4 justify-center">
+      <h2 class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"><i class="fas fa-envelope"></i> Contact Us</h2>
+      <div class="flex flex-col md:flex-row gap-10">
+        <!-- Contact Form -->
+        <form class="flex-1 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border-2 border-violet-100">
           <div class="relative">
-            <input
-              type="text"
-              placeholder="Name"
-              required
-              class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10"
-            />
-            <span class="absolute left-3 top-2.5 text-violet-400"
-              ><i class="fas fa-user"></i
-            ></span>
+            <input type="text" placeholder="Name" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10">
+            <span class="absolute left-3 top-2.5 text-violet-400"><i class="fas fa-user"></i></span>
           </div>
           <div class="relative">
-            <input
-              type="email"
-              placeholder="Email"
-              required
-              class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10"
-            />
-            <span class="absolute left-3 top-2.5 text-violet-400"
-              ><i class="fas fa-envelope"></i
-            ></span>
+            <input type="email" placeholder="Email" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10">
+            <span class="absolute left-3 top-2.5 text-violet-400"><i class="fas fa-envelope"></i></span>
           </div>
           <div class="relative">
-            <textarea
-              placeholder="Your Message"
-              required
-              class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 min-h-[120px] w-full pl-10"
-            ></textarea>
-            <span class="absolute left-3 top-4 text-violet-400"
-              ><i class="fas fa-comment-dots"></i
-            ></span>
+            <textarea placeholder="Your Message" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 min-h-[120px] w-full pl-10"></textarea>
+            <span class="absolute left-3 top-4 text-violet-400"><i class="fas fa-comment-dots"></i></span>
           </div>
-          <button
-            type="submit"
-            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
-          >
-            <i class="fas fa-paper-plane"></i> Send
-          </button>
+          <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-paper-plane"></i> Send</button>
         </form>
+        <!-- Contact Info -->
+        <div class="flex-1 flex flex-col gap-4 justify-center">
+          <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-map-marker-alt text-xl"></i> 123 Main St, Paris, France</div>
+          <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-phone text-xl"></i> +33 1 23 45 67 89</div>
+          <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-envelope text-xl"></i> info@spatrak.com</div>
+          <iframe class="rounded-xl border-2 border-violet-200 mt-2 w-full h-40" src="https://maps.google.com/maps?q=paris&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+        </div>
       </div>
     </section>
 
@@ -671,6 +613,10 @@
       }
       window.addEventListener("scroll", animatePlans);
       window.addEventListener("DOMContentLoaded", animatePlans);
+    </script>
+  </body>
+</html>
+
     </script>
   </body>
 </html>
