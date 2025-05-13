@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- رابط Font Awesome الصحيح -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      integrity="sha512-1ycn6IcaQQ40/MKB4Imkb9kuUj6+3JzB5U6c5Hks5SLqqf9X5IVLrQAt2Buhhx7nfbJkz5i1kKfn9wtef1iJDQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- الخط -->
+    <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet" />
+
+    <style>
+      body,
+      * {
+        font-family: "GE SS Unique", Arial, sans-serif !important;
+      }
+    </style>
+  </head>
+  <body>
+    <footer
+      class="w-full max-w-6xl mx-auto mt-12 mb-0 px-6 py-8 flex flex-col gap-6 bg-gradient-to-r from-violet-900 via-violet-700 to-violet-800 rounded-t-3xl"
+    >
+      <div
+        class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 w-full"
+      >
+        <!-- Logo & Social -->
+        <div class="flex flex-col items-start gap-4 min-w-[180px]">
+          <div class="flex items-center gap-3 mb-2">
+            <img
+              src="images/logo-removebg-preview 12.png"
+              alt="SPATRAK Logo"
+              class="h-10 w-10 object-contain"
+            />
+            <span class="text-xl font-bold text-white tracking-wide"
+              >SPATRAK</span
+            >
+          </div>
+          <!-- Social Icons -->
+          <div class="flex gap-3 mt-2">
+            <a
+              href="#"
+              class="text-white hover:text-violet-300 bg-violet-800/60 rounded-full p-2 transition"
+            >
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a
+              href="#"
+              class="text-white hover:text-violet-300 bg-violet-800/60 rounded-full p-2 transition"
+            >
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a
+              href="#"
+              class="text-white hover:text-violet-300 bg-violet-800/60 rounded-full p-2 transition"
+            >
+              <i class="fab fa-whatsapp"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="flex flex-col gap-1 min-w-[200px]">
+          <div class="text-sm font-bold text-white mb-1">CONTACT US</div>
+          <div class="text-sm text-violet-100">info@spatrak.com</div>
+          <div class="text-sm text-violet-100">123 Main St, Paris, France</div>
+          <div class="text-sm text-violet-100">+33 1 23 45 67 89</div>
+        </div>
+
+        <!-- Subscribe -->
+        <div class="flex flex-col gap-2 min-w-[220px] w-full md:w-auto">
+          <div class="text-sm font-bold text-white mb-1">SUBSCRIBE</div>
+          <div class="text-sm text-violet-100">
+            Enter your email to get notified about our new solutions
+          </div>
+          <form class="flex mt-1 w-full max-w-sm">
+            <div class="relative w-full">
+              <span
+                class="absolute inset-y-0 left-0 pl-3 flex items-center text-violet-200"
+              >
+                <i class="fas fa-envelope"></i>
+              </span>
+              <input
+                type="email"
+                placeholder="Email"
+                class="pl-10 pr-3 py-2 rounded-l-lg bg-violet-900/80 border border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-400 text-white placeholder-violet-200 w-full"
+              />
+            </div>
+            <button
+              type="submit"
+              class="bg-violet-700 hover:bg-violet-600 text-white px-4 rounded-r-lg flex items-center justify-center"
+            >
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <hr class="border-violet-700 my-2" />
+      <div class="text-xs text-violet-100 text-center">
+        &copy; 2025 SPATRAK. All Rights Reserved.
+      </div>
+    </footer>
+  </body>
+</html>
