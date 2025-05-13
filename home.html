@@ -23,25 +23,26 @@
 </head>
 <body class="bg-gradient-to-br from-violet-200 via-white to-violet-400">
     <!-- Navbar -->
+    <div id="navbar-container"></div>
     <!--#include file="navbar.html" -->
 
     <!-- 1. Auto Slider Section -->
-    <section class="relative w-full max-w-5xl mx-auto mt-8 rounded-3xl overflow-hidden shadow-lg">
+    <section class="relative w-full mt-0 overflow-hidden shadow-lg" style="height:100vh;">
         <div id="slider" class="relative">
             <div class="slider-slide block" data-index="0">
-                <img src="images/ss1.jpg" alt="Slide 1" class="slider-img">
+                <img src="images/ss1.jpg" alt="Slide 1" class="slider-img" style="height:100vh;">
                 <div class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"><i class="fas fa-certificate"></i> Welcome to SPATRAK</h2>
                     <p class="text-lg text-violet-100 mb-4">Smart and reliable solutions for certificate and document verification.</p>
-                    <a href="#plans" class="inline-block bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-rocket"></i> Get Started</a>
+                    <a href="#plans" class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"><i class="fas fa-rocket"></i> Get Started</a>
                 </div>
             </div>
             <div class="slider-slide hidden" data-index="1">
-                <img src="images/ss2.jpg" alt="Slide 2" class="slider-img">
+                <img src="images/ss2.jpg" alt="Slide 2" class="slider-img" style="height:100vh;">
                 <div class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8">
                     <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"><i class="fas fa-bolt"></i> Fast & Accurate Verification</h2>
                     <p class="text-lg text-violet-100 mb-4">We guarantee you fast and reliable verification results every time.</p>
-                    <a href="#contact" class="inline-block bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-envelope"></i> Contact Us</a>
+                    <a href="#contact" class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"><i class="fas fa-envelope"></i> Contact Us</a>
                 </div>
             </div>
             <!-- Controls -->
@@ -56,7 +57,7 @@
     </section>
 
     <!-- 2. Our Vision Section -->
-    <section class="max-w-5xl mx-auto mt-16 flex flex-col md:flex-row items-center gap-10 px-4" id="vision">
+    <section class="max-w-5xl mx-auto mt-16 flex flex-col md:flex-row items-center gap-10 px-4" id="vision" style="margin-top:120px;">
         <div class="flex-1 order-2 md:order-1">
             <h2 class="text-3xl font-bold text-violet-900 mb-4 flex items-center gap-2"><i class="fas fa-eye"></i> Our Vision</h2>
             <p class="text-lg text-violet-800 mb-2">We aspire to be the leading platform for smart certificate and document verification, ensuring the highest standards of security and reliability.</p>
@@ -332,6 +333,26 @@
         });
         showSlide(0);
         startSlider();
+    </script>
+    
+    <script>
+        // Function to load the navbar
+        function loadNavbar() {
+            const navToggle = document.getElementById("nav-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            navToggle && navToggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        }
+
+        // Load the navbar content
+        fetch('./navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                // Initialize navbar functionality
+                loadNavbar();
+            });
     </script>
 </body>
 </html>
