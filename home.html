@@ -23,6 +23,7 @@
 </head>
 <body class="bg-gradient-to-br from-violet-200 via-white to-violet-400">
     <!-- Navbar -->
+    <div id="navbar-container"></div>
     <!--#include file="navbar.html" -->
 
     <!-- 1. Auto Slider Section -->
@@ -203,6 +204,26 @@
         });
         showSlide(0);
         startSlider();
+    </script>
+    
+    <script>
+        // Function to load the navbar
+        function loadNavbar() {
+            const navToggle = document.getElementById("nav-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            navToggle && navToggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        }
+
+        // Load the navbar content
+        fetch('./navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                // Initialize navbar functionality
+                loadNavbar();
+            });
     </script>
 </body>
 </html>
