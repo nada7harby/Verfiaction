@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+
     <style>
       body,
       * {
@@ -23,6 +24,11 @@
       .slider-dot {
         width: 12px;
         height: 12px;
+      }
+      .card-hover:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+        box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
       }
     </style>
   </head>
@@ -39,7 +45,7 @@
       <div id="slider" class="relative">
         <div class="slider-slide block" data-index="0">
           <img
-            src="images/v1.jpg"
+            src="images/ss1.jpg"
             alt="Slide 1"
             class="slider-img"
             style="height: 100vh"
@@ -67,32 +73,6 @@
           <img
             src="images/ss2.jpg"
             alt="Slide 2"
-            class="slider-img"
-            style="height: 100vh"
-          />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8"
-          >
-            <h2
-              class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"
-            >
-              <i class="fas fa-bolt"></i> Fast & Accurate Verification
-            </h2>
-            <p class="text-lg text-violet-100 mb-4">
-              We guarantee you fast and reliable verification results every
-              time.
-            </p>
-            <a
-              href="#contact"
-              class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"
-              ><i class="fas fa-envelope"></i> Contact Us</a
-            >
-          </div>
-        </div>
-        <div class="slider-slide hidden" data-index="2">
-          <img
-            src="images/v3.jpg"
-            alt="Slide 3"
             class="slider-img"
             style="height: 100vh"
           />
@@ -145,177 +125,206 @@
     </section>
 
     <!-- 2. Our Vision Section -->
-    <section
-      class="max-w-5xl mx-auto mt-16 flex flex-col md:flex-row items-center gap-10 px-4"
-      id="vision"
-      style="margin-top: 120px"
-    >
-      <div class="flex-1 order-2 md:order-1">
-        <h2
-          class="text-3xl font-bold text-violet-900 mb-4 flex items-center gap-2"
-        >
-          <i class="fas fa-eye"></i> Our Vision
-        </h2>
-        <p class="text-lg text-violet-800 mb-2">
-          We aspire to be the leading platform for smart certificate and
-          document verification, ensuring the highest standards of security and
-          reliability.
-        </p>
-        <ul class="list-disc ml-6 text-violet-700 mb-2">
-          <li>
-            Facilitate verification processes for institutions and individuals.
-          </li>
-          <li>Provide advanced and user-friendly digital solutions.</li>
-          <li>
-            Support digital transformation in education and employment sectors.
-          </li>
-        </ul>
-      </div>
-      <div class="flex-1 order-1 md:order-2 flex justify-center">
-        <img
-          src="images/verfication1.png"
-          alt="Our Vision"
-          class="w-80 md:w-[400px] rounded-2xl shadow-lg"
-        />
-      </div>
-    </section>
+  <section class="relative py-20 bg-gradient-to-br from-violet-50 to-white overflow-hidden" id="vision">
+  <!-- Decorative elements -->
+  <div class="absolute top-0 left-0 w-64 h-64 bg-violet-100 rounded-full filter blur-3xl opacity-30"></div>
+  <div class="absolute bottom-0 right-0 w-64 h-64 bg-indigo-100 rounded-full filter blur-3xl opacity-30"></div>
 
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+    <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      <!-- Image with creative frame -->
+      <div class="flex-1 order-1 lg:order-1 relative">
+        <div class="relative z-10 overflow-hidden rounded-[1.75rem] shadow-xl transform hover:scale-[1.02] transition duration-500">
+          <img 
+            src="images/verfication1.png" 
+            alt="Our Vision Illustration" 
+            class="w-full h-auto object-cover"
+          >
+          <div class="absolute inset-0 bg-gradient-to-tr from-violet-600/10 to-indigo-600/10"></div>
+        </div>
+        <div class="absolute -inset-4 border-2 border-violet-200 rounded-[2.25rem] z-0 opacity-70"></div>
+      </div>
+
+      <!-- Content section -->
+      <div class="flex-1 order-2 lg:order-2">
+        <div class="relative pl-10">
+          <!-- Vertical accent bar -->
+          <div class="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-violet-400 to-indigo-500 rounded-full"></div>
+
+          <h2 class="text-3xl md:text-4xl font-bold text-violet-900 mb-6 flex items-center gap-3">
+            <span class="w-10 h-10 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            <span>Our Vision</span>
+          </h2>
+          
+          <p class="text-lg md:text-xl text-violet-700 mb-8 leading-relaxed">
+            We aspire to be the leading platform for smart certificate and
+            document verification, ensuring the highest standards of security and
+            reliability.
+          </p>
+          
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-start gap-4">
+              <span class="flex-shrink-0 mt-1 w-6 h-6 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-base md:text-lg text-violet-700">
+                Facilitate verification processes for institutions and individuals.
+              </span>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="flex-shrink-0 mt-1 w-6 h-6 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-base md:text-lg text-violet-700">
+                Provide advanced and user-friendly digital solutions.
+              </span>
+            </li>
+            <li class="flex items-start gap-4">
+              <span class="flex-shrink-0 mt-1 w-6 h-6 bg-violet-100 text-violet-600 rounded-full flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-base md:text-lg text-violet-700">
+                Support digital transformation in education and employment sectors.
+              </span>
+            </li>
+          </ul>
+          
+          <a href="#contact" class="inline-flex items-center px-6 py-3 bg-violet-600 hover:bg-violet-700 text-white rounded-lg shadow-md hover:shadow-lg transition-all">
+            <span>Learn More</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
     <!-- 3. How to Verify Section -->
-    <section class="max-w-5xl mx-auto mt-16 px-4" id="how-to-verify">
-      <h2
-        class="text-3xl font-bold text-violet-900 mb-12 text-center flex items-center justify-center gap-2"
-      >
-        <i class="fas fa-list-ol"></i> How to Verify
-      </h2>
+ <section class="max-w-5xl mx-auto mt-16 px-4" id="how-to-verify">
+  <h2 class="text-3xl font-bold text-violet-900 mb-12 text-center flex items-center justify-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+    </svg>
+    How to Verify
+  </h2>
 
-      <div class="relative">
-        <!-- Vertical timeline line -->
-        <div
-          class="absolute left-1/2 h-full w-0.5 bg-violet-200 transform -translate-x-1/2"
-        ></div>
+  <div class="relative">
+    <!-- Vertical timeline line -->
+    <div class="absolute left-1/2 h-full w-0.5 bg-violet-200 transform -translate-x-1/2"></div>
 
-        <!-- Step 1 (Right) -->
-        <div
-          class="mb-12 flex justify-between items-center w-full right-timeline"
-        >
-          <div class="order-1 w-5/12"></div>
-          <div
-            class="order-1 w-5/12 px-6 py-4 bg-purple-800 rounded-lg shadow-lg hover:scale-105 transition-transform"
-          >
-            <div class="flex items-center gap-4">
-              <div
-                class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center text-xl"
-              >
-                <i class="fas fa-upload"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white">Submit Request</h3>
-                <p class="text-blue-100">
-                  Submit your certificate or document verification request.
-                </p>
-              </div>
-            </div>
+    <!-- Step 1 (Right) -->
+    <div class="mb-12 flex justify-between items-center w-full right-timeline">
+      <div class="order-1 w-5/12"></div>
+      <div class="order-1 w-5/12 px-6 py-4 bg-purple-800 rounded-lg shadow-lg hover:scale-105 transition-transform">
+        <div class="flex items-center gap-4">
+          <div class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
           </div>
-        </div>
-
-        <!-- Step 2 (Left) -->
-        <div
-          class="mb-12 flex justify-between items-center w-full left-timeline"
-        >
-          <div
-            class="order-1 w-5/12 px-6 py-4 bg-purple-700 rounded-lg shadow-lg hover:scale-105 transition-transform"
-          >
-            <div class="flex items-center gap-4">
-              <div
-                class="bg-white text-green-700 rounded-full w-12 h-12 flex items-center justify-center text-xl"
-              >
-                <i class="fas fa-search"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white">Review & Analysis</h3>
-                <p class="text-green-100">
-                  Our team reviews and analyzes your request.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="order-1 w-5/12"></div>
-        </div>
-
-        <!-- Step 3 (Right) -->
-        <div
-          class="mb-12 flex justify-between items-center w-full right-timeline"
-        >
-          <div class="order-1 w-5/12"></div>
-          <div
-            class="order-1 w-5/12 px-6 py-4 bg-purple-600 rounded-lg shadow-lg hover:scale-105 transition-transform"
-          >
-            <div class="flex items-center gap-4">
-              <div
-                class="bg-white text-cyan-600 rounded-full w-12 h-12 flex items-center justify-center text-xl"
-              >
-                <i class="fas fa-check-circle"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white">Receive Result</h3>
-                <p class="text-cyan-100">
-                  Get your verification result via the platform.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Step 4 (Left) - Additional Step -->
-        <div
-          class="mb-12 flex justify-between items-center w-full left-timeline"
-        >
-          <div
-            class="order-1 w-5/12 px-6 py-4 bg-purple-500 rounded-lg shadow-lg hover:scale-105 transition-transform"
-          >
-            <div class="flex items-center gap-4">
-              <div
-                class="bg-white text-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-xl"
-              >
-                <i class="fas fa-file-alt"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white">Documentation</h3>
-                <p class="text-blue-100">
-                  We prepare official verification documents.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="order-1 w-5/12"></div>
-        </div>
-
-        <!-- Step 5 (Right) - Additional Step -->
-        <div
-          class="mb-12 flex justify-between items-center w-full right-timeline"
-        >
-          <div class="order-1 w-5/12"></div>
-          <div
-            class="order-1 w-5/12 px-6 py-4 bg-purple-400 rounded-lg shadow-lg hover:scale-105 transition-transform"
-          >
-            <div class="flex items-center gap-4">
-              <div
-                class="bg-white text-blue-400 rounded-full w-12 h-12 flex items-center justify-center text-xl"
-              >
-                <i class="fas fa-envelope"></i>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-white">Delivery</h3>
-                <p class="text-blue-50">
-                  Receive verified documents via email.
-                </p>
-              </div>
-            </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Submit Request</h3>
+            <p class="text-blue-100">
+              Submit your certificate or document verification request.
+            </p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
+    <!-- Step 2 (Left) -->
+    <div class="mb-12 flex justify-between items-center w-full left-timeline">
+      <div class="order-1 w-5/12 px-6 py-4 bg-purple-700 rounded-lg shadow-lg hover:scale-105 transition-transform">
+        <div class="flex items-center gap-4">
+          <div class="bg-white text-green-700 rounded-full w-12 h-12 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Review & Analysis</h3>
+            <p class="text-green-100">
+              Our team reviews and analyzes your request.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="order-1 w-5/12"></div>
+    </div>
+
+    <!-- Step 3 (Right) -->
+    <div class="mb-12 flex justify-between items-center w-full right-timeline">
+      <div class="order-1 w-5/12"></div>
+      <div class="order-1 w-5/12 px-6 py-4 bg-purple-600 rounded-lg shadow-lg hover:scale-105 transition-transform">
+        <div class="flex items-center gap-4">
+          <div class="bg-white text-cyan-600 rounded-full w-12 h-12 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Receive Result</h3>
+            <p class="text-cyan-100">
+              Get your verification result via the platform.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 (Left) - Additional Step -->
+    <div class="mb-12 flex justify-between items-center w-full left-timeline">
+      <div class="order-1 w-5/12 px-6 py-4 bg-purple-500 rounded-lg shadow-lg hover:scale-105 transition-transform">
+        <div class="flex items-center gap-4">
+          <div class="bg-white text-blue-600 rounded-full w-12 h-12 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Documentation</h3>
+            <p class="text-blue-100">
+              We prepare official verification documents.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="order-1 w-5/12"></div>
+    </div>
+
+    <!-- Step 5 (Right) - Additional Step -->
+    <div class="mb-12 flex justify-between items-center w-full right-timeline">
+      <div class="order-1 w-5/12"></div>
+      <div class="order-1 w-5/12 px-6 py-4 bg-purple-400 rounded-lg shadow-lg hover:scale-105 transition-transform">
+        <div class="flex items-center gap-4">
+          <div class="bg-white text-blue-400 rounded-full w-12 h-12 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-white">Delivery</h3>
+            <p class="text-blue-50">
+              Receive verified documents via email.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
     <style>
       .right-timeline,
       .left-timeline {
@@ -382,130 +391,264 @@
       });
     </script>
 
-    <!-- 4. Plans Section with Animation -->
-    <section class="max-w-5xl mx-auto mt-16 px-4" id="plans">
-      <h2
-        class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"
-      >
-        <i class="fas fa-tags"></i> Plans
+    <!-- 4. Plans Section -->
+    <section id="plans" class="max-w-7xl mx-auto mt-28 px-6 md:px-12 py-12">
+      <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">
+        Our Plans
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Plan 1 -->
+        <!-- Basic Plan -->
         <div
-          class="plan-card bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-100 opacity-0 translate-y-8 transition-all duration-700"
-          style="transition-delay: 0ms"
+          class="plan-card bg-white rounded-xl shadow-lg p-10 flex flex-col items-center card-hover"
         >
-          <h3
-            class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"
-          >
-            <i class="fas fa-leaf"></i> Basic Plan
-          </h3>
-          <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
-            <li>
-              <i class="fas fa-certificate mr-2"></i> Basic certificate
-              verification
+          <h3 class="text-2xl font-bold text-violet-800 mb-4">Basic</h3>
+          <ul class="mb-6 text-violet-700 space-y-3">
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"  /></svg>Basic document scanning
             </li>
-            <li>
-              <i class="fas fa-headset mr-2"></i> Support during business hours
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"/></svg>Email support
             </li>
-            <li>
-              <i class="fas fa-file-pdf mr-2"></i> PDF verification report
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg>Basic report
             </li>
           </ul>
-          <div class="text-2xl font-bold text-violet-900 mb-4">Free</div>
-          <button
-            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
-          >
-            <i class="fas fa-check"></i> Choose Plan
-          </button>
-        </div>
-        <!-- Plan 2 -->
-        <div
-          class="plan-card bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-400 scale-105 opacity-0 translate-y-8 transition-all duration-700"
-          style="transition-delay: 200ms"
-        >
-          <h3
-            class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"
-          >
-            <i class="fas fa-bolt"></i> Advanced Plan
-          </h3>
-          <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
-            <li>
-              <i class="fas fa-certificate mr-2"></i> All basic plan features
-            </li>
-            <li>
-              <i class="fas fa-stopwatch mr-2"></i> Fast verification (within
-              24h)
-            </li>
-            <li><i class="fas fa-headset mr-2"></i> 24/7 support</li>
-          </ul>
-          <div class="text-2xl font-bold text-violet-900 mb-4">
-            99 EGP/month
+          <div class="text-4xl font-extrabold text-violet-900 mb-6">
+            $9<span class="text-xl font-normal">/mo</span>
           </div>
           <button
-            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
+            class="bg-violet-700 hover:bg-violet-800 text-white rounded-xl px-8 py-3 font-semibold w-full transition"
           >
-            <i class="fas fa-check"></i> Choose Plan
+            Choose Basic
           </button>
         </div>
-        <!-- Plan 3 -->
+        <!-- Advanced Plan -->
         <div
-          class="plan-card bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-100 opacity-0 translate-y-8 transition-all duration-700"
-          style="transition-delay: 400ms"
+          class="plan-card bg-white rounded-xl shadow-lg p-10 flex flex-col items-center card-hover border-4 border-violet-600"
         >
-          <h3
-            class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"
-          >
-            <i class="fas fa-building"></i> Enterprise Plan
-          </h3>
-          <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
-            <li>
-              <i class="fas fa-certificate mr-2"></i> All advanced plan features
+          <h3 class="text-2xl font-bold text-violet-800 mb-4">Advanced</h3>
+          <ul class="mb-6 text-violet-700 space-y-3">
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg >Advanced document scanning & verification
             </li>
-            <li>
-              <i class="fas fa-tachograph-digital mr-2"></i> Custom dashboard
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg>Priority email & chat support
             </li>
-            <li><i class="fas fa-user-shield mr-2"></i> Dedicated support</li>
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg >Detailed verification report
+            </li>
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg >Data export options
+            </li>
           </ul>
-          <div class="text-2xl font-bold text-violet-900 mb-4">Contact Us</div>
+          <div class="text-4xl font-extrabold text-violet-900 mb-6">
+            $29<span class="text-xl font-normal">/mo</span>
+          </div>
           <button
-            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
+            class="bg-violet-700 hover:bg-violet-800 text-white rounded-xl px-8 py-3 font-semibold w-full transition"
           >
-            <i class="fas fa-check"></i> Choose Plan
+            Choose Advanced
+          </button>
+        </div>
+        <!-- Enterprise Plan -->
+        <div
+          class="plan-card bg-white rounded-xl shadow-lg p-10 flex flex-col items-center card-hover"
+        >
+          <h3 class="text-2xl font-bold text-violet-800 mb-4">Enterprise</h3>
+          <ul class="mb-6 text-violet-700 space-y-3">
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg>Custom document verification workflows
+            </li>
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg>Dedicated account manager
+            </li>
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg>24/7 premium support
+            </li>
+            <li class="flex items-center">
+              <svg
+                class="w-5 h-5 mr-2 text-violet-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 13l4 4L19 7"
+                /></svg>Advanced analytics & reports
+            </li>
+          </ul>
+          <div class="text-4xl font-extrabold text-violet-900 mb-6">
+            $79<span class="text-xl font-normal">/mo</span>
+          </div>
+          <button
+            class="bg-violet-700 hover:bg-violet-800 text-white rounded-xl px-8 py-3 font-semibold w-full transition"
+          >
+            Choose Enterprise
           </button>
         </div>
       </div>
     </section>
+    <!-- 5. Contact Us Section -->
+   <section id="contact" class="max-w-7xl mx-auto mt-28 px-6 md:px-12 py-12 bg-white bg-opacity-70 rounded-xl shadow-xl mb-32">
+    <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">Contact Us</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <!-- Contact Form -->
+      <form id="contact-form" class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6" novalidate>
+        <label class="block">
+          <span class="text-violet-900 font-semibold mb-1 block">Name</span>
+          <input type="text" name="name" required placeholder="Your name" class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400" />
+        </label>
+        <label class="block">
+          <span class="text-violet-900 font-semibold mb-1 block">Email</span>
+          <input type="email" name="email" required placeholder="Your email" class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400" />
+        </label>
+        <label class="block">
+          <span class="text-violet-900 font-semibold mb-1 block">Message</span>
+          <textarea name="message" rows="5" required placeholder="Your message" class="w-full border border-violet-300 rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-violet-400"></textarea>
+        </label>
+        <button type="submit" class="bg-violet-700 hover:bg-violet-800 rounded-xl text-white py-3 font-semibold transition shadow-lg">Send Message</button>
+      </form>
 
-    <!-- 5. Contact Us Section (Simple Two-Column) -->
-    <section class="max-w-5xl mx-auto mt-16 px-4 mb-16" id="contact">
-      <h2 class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"><i class="fas fa-envelope"></i> Contact Us</h2>
-      <div class="flex flex-col md:flex-row gap-10">
-        <!-- Contact Form -->
-        <form class="flex-1 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border-2 border-violet-100">
-          <div class="relative">
-            <input type="text" placeholder="Name" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10">
-            <span class="absolute left-3 top-2.5 text-violet-400"><i class="fas fa-user"></i></span>
-          </div>
-          <div class="relative">
-            <input type="email" placeholder="Email" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10">
-            <span class="absolute left-3 top-2.5 text-violet-400"><i class="fas fa-envelope"></i></span>
-          </div>
-          <div class="relative">
-            <textarea placeholder="Your Message" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 min-h-[120px] w-full pl-10"></textarea>
-            <span class="absolute left-3 top-4 text-violet-400"><i class="fas fa-comment-dots"></i></span>
-          </div>
-          <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-paper-plane"></i> Send</button>
-        </form>
-        <!-- Contact Info -->
-        <div class="flex-1 flex flex-col gap-4 justify-center">
-          <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-map-marker-alt text-xl"></i> 123 Main St, Paris, France</div>
-          <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-phone text-xl"></i> +33 1 23 45 67 89</div>
-          <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-envelope text-xl"></i> info@spatrak.com</div>
-          <iframe class="rounded-xl border-2 border-violet-200 mt-2 w-full h-40" src="https://maps.google.com/maps?q=paris&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+      <!-- Contact Information & Map -->
+      <div class="space-y-6 text-violet-900">
+        <div>
+          <h3 class="text-2xl font-bold mb-2">Our Address</h3>
+          <p>123 Verification St., Trust City, Country</p>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold mb-2">Phone</h3>
+          <p>+123 456 7890</p>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold mb-2">Email</h3>
+          <p>contact@spatrak.com</p>
+        </div>
+        <div class="rounded-xl overflow-hidden shadow-lg border border-violet-300">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799149533!2d-74.25986668729262!3d40.69767006346656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c250b6c30aa0f1%3A0x7e48ef6164c085b1!2sNew%20York%20City%2C%20NY%2010022%2C%20USA!5e0!3m2!1sen!2ses!4v1685611397707!5m2!1sen!2ses"
+            width="100%"
+            height="300"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            aria-label="Google Maps"
+          ></iframe>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
     <!-- Footer -->
     <!--#include file="footer.html" -->
@@ -559,10 +702,6 @@
       });
       showSlide(0);
       startSlider();
-    </script>
-
-    <script>
-      // Function to load the navbar
       function loadNavbar() {
         const navToggle = document.getElementById("nav-toggle");
         const mobileMenu = document.getElementById("mobile-menu");
@@ -581,42 +720,6 @@
           loadNavbar();
         });
     </script>
-
-    <style>
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(32px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .plan-card.animated {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-      }
-    </style>
-    <script>
-      // Animate plans on scroll
-      function animatePlans() {
-        const cards = document.querySelectorAll(".plan-card");
-        const trigger = window.innerHeight * 0.85;
-        cards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          if (rect.top < trigger) {
-            card.classList.add("animated");
-          }
-        });
-      }
-      window.addEventListener("scroll", animatePlans);
-      window.addEventListener("DOMContentLoaded", animatePlans);
-    </script>
-  </body>
-</html>
-
-    </script>
+    <script src="./js/home.js"></script>
   </body>
 </html>

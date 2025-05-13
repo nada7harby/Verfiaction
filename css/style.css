@@ -1,1 +1,16 @@
- 
+.plan-card {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.plan-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Hover scale effect on cards */
+.card-hover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
+}
+/* Navbar */
