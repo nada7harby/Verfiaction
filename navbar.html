@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet" />
+    <style>
+      body,
+      * {
+        font-family: "GE SS Unique", Arial, sans-serif !important;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="glass px-4 py-3 shadow-lg w-full max-w-6xl mx-auto mt-4">
+      <div class="flex items-center justify-between w-full">
+        <!-- Logo and Site Name (far left) -->
+        <div class="flex items-center gap-3 min-w-0">
+          <img
+            src="images/logo-removebg-preview.png"
+            alt="SPATRAK Logo"
+            class="h-12 w-12 object-contain"
+          />
+          <span
+            class="text-2xl font-bold text-violet-900 tracking-wide whitespace-nowrap"
+            >SPATRAK</span
+          >
+        </div>
+        <!-- Desktop Centered Navigation Links -->
+        <div id="nav-menu" class="hidden md:flex gap-6 items-center mx-auto">
+          <a
+            href="home.html"
+            class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+            >Home</a
+          >
+          <a
+            href="dashboard.html"
+            class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+            >Dashboard</a
+          >
+          <a
+            href="verify.html"
+            class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+            >Verify</a
+          >
+          <a
+            href="state_request.html"
+            class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+            >Requests</a
+          >
+          <a
+            href="payment.html"
+            class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+            >Payment</a
+          >
+        </div>
+        <!-- Hamburger for mobile (far right) -->
+        <div class="md:hidden flex items-center ml-auto">
+          <button id="nav-toggle" class="text-violet-900 focus:outline-none">
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Desktop User Avatar Dropdown (far right) -->
+        <div class="relative group ml-4 hidden md:block">
+          <button class="focus:outline-none flex items-center">
+            <img
+              src="https://ui-avatars.com/api/?name=User&background=violet&color=fff"
+              alt="User"
+              class="h-10 w-10 rounded-full border-2 border-violet-300 shadow-sm"
+            />
+            <svg
+              class="w-4 h-4 ml-2 text-violet-900"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </button>
+          <div
+            class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-50 invisible group-hover:visible group-focus:visible"
+          >
+            <a
+              href="login.html"
+              class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
+              >Sign in</a
+            >
+            <a
+              href="#"
+              class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
+              >Sign out</a
+            >
+          </div>
+        </div>
+      </div>
+      <!-- Mobile Menu: links + user dropdown inside -->
+      <div id="mobile-menu" class="md:hidden hidden flex-col gap-2 mt-4">
+        <a
+          href="home.html"
+          class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Home</a
+        >
+        <a
+          href="dashboard.html"
+          class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >dash</a
+        >
+        <a
+          href="verify.html"
+          class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Verify</a
+        >
+        <a
+          href="state_request.html"
+          class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Requests</a
+        >
+        <a
+          href="payment.html"
+          class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Payment</a
+        >
+        <div class="border-t border-violet-100 my-2"></div>
+        <div class="flex items-center gap-2 px-3 py-2">
+          <img
+            src="https://ui-avatars.com/api/?name=User&background=violet&color=fff"
+            alt="User"
+            class="h-8 w-8 rounded-full border-2 border-violet-300 shadow-sm"
+          />
+          <span class="text-violet-900 font-semibold">User</span>
+        </div>
+        <a
+          href="login.html"
+          class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
+          >Sign in</a
+        >
+        <a href="#" class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
+          >Sign out</a
+        >
+      </div>
+      <script>
+        const navToggle = document.getElementById("nav-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        navToggle &&
+          navToggle.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+          });
+      </script>
+    </nav>
+  </body>
+</html>
