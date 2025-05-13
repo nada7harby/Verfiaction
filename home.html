@@ -1,358 +1,676 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPATRAK - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <style>
-        body, * {
-            font-family: 'GE SS Unique', Arial, sans-serif !important;
-        }
-        .slider-img {
-            object-fit: cover;
-            width: 100%;
-            height: 400px;
-        }
-        .slider-dot {
-            width: 12px; height: 12px;
-        }
+      body,
+      * {
+        font-family: "GE SS Unique", Arial, sans-serif !important;
+      }
+      .slider-img {
+        object-fit: cover;
+        width: 100%;
+        height: 400px;
+      }
+      .slider-dot {
+        width: 12px;
+        height: 12px;
+      }
     </style>
-</head>
-<body class="bg-gradient-to-br from-violet-200 via-white to-violet-400">
+  </head>
+  <body class="bg-gradient-to-br from-violet-200 via-white to-violet-400">
     <!-- Navbar -->
     <div id="navbar-container"></div>
     <!--#include file="navbar.html" -->
 
     <!-- 1. Auto Slider Section -->
-    <section class="relative w-full mt-0 overflow-hidden shadow-lg" style="height:100vh;">
-        <div id="slider" class="relative">
-            <div class="slider-slide block" data-index="0">
-                <img src="images/ss1.jpg" alt="Slide 1" class="slider-img" style="height:100vh;">
-                <div class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"><i class="fas fa-certificate"></i> Welcome to SPATRAK</h2>
-                    <p class="text-lg text-violet-100 mb-4">Smart and reliable solutions for certificate and document verification.</p>
-                    <a href="#plans" class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"><i class="fas fa-rocket"></i> Get Started</a>
-                </div>
-            </div>
-            <div class="slider-slide hidden" data-index="1">
-                <img src="images/ss2.jpg" alt="Slide 2" class="slider-img" style="height:100vh;">
-                <div class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8">
-                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"><i class="fas fa-bolt"></i> Fast & Accurate Verification</h2>
-                    <p class="text-lg text-violet-100 mb-4">We guarantee you fast and reliable verification results every time.</p>
-                    <a href="#contact" class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"><i class="fas fa-envelope"></i> Contact Us</a>
-                </div>
-            </div>
-            <!-- Controls -->
-            <button id="prevSlide" class="absolute left-4 top-1/2 -translate-y-1/2 bg-violet-900/60 hover:bg-violet-900 text-white rounded-full p-2 z-10"><i class="fas fa-chevron-left"></i></button>
-            <button id="nextSlide" class="absolute right-4 top-1/2 -translate-y-1/2 bg-violet-900/60 hover:bg-violet-900 text-white rounded-full p-2 z-10"><i class="fas fa-chevron-right"></i></button>
-            <!-- Dots -->
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-                <button class="slider-dot bg-white/70 rounded-full border-2 border-violet-700" data-dot="0"></button>
-                <button class="slider-dot bg-white/40 rounded-full border-2 border-violet-700" data-dot="1"></button>
-            </div>
+    <section
+      class="relative w-full mt-0 overflow-hidden shadow-lg"
+      style="height: 100vh"
+    >
+      <div id="slider" class="relative">
+        <div class="slider-slide block" data-index="0">
+          <img
+            src="images/v1.jpg"
+            alt="Slide 1"
+            class="slider-img"
+            style="height: 100vh"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8"
+          >
+            <h2
+              class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"
+            >
+              <i class="fas fa-certificate"></i> Welcome to SPATRAK
+            </h2>
+            <p class="text-lg text-violet-100 mb-4">
+              Smart and reliable solutions for certificate and document
+              verification.
+            </p>
+            <a
+              href="#plans"
+              class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"
+              ><i class="fas fa-rocket"></i> Get Started</a
+            >
+          </div>
         </div>
+        <div class="slider-slide hidden" data-index="1">
+          <img
+            src="images/ss2.jpg"
+            alt="Slide 2"
+            class="slider-img"
+            style="height: 100vh"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8"
+          >
+            <h2
+              class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"
+            >
+              <i class="fas fa-bolt"></i> Fast & Accurate Verification
+            </h2>
+            <p class="text-lg text-violet-100 mb-4">
+              We guarantee you fast and reliable verification results every
+              time.
+            </p>
+            <a
+              href="#contact"
+              class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"
+              ><i class="fas fa-envelope"></i> Contact Us</a
+            >
+          </div>
+        </div>
+        <div class="slider-slide hidden" data-index="1">
+          <img
+            src="images/v3.jpg"
+            alt="Slide 2"
+            class="slider-img"
+            style="height: 100vh"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-violet-900/60 to-transparent flex flex-col justify-end p-8"
+          >
+            <h2
+              class="text-3xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2"
+            >
+              <i class="fas fa-bolt"></i> Fast & Accurate Verification
+            </h2>
+            <p class="text-lg text-violet-100 mb-4">
+              We guarantee you fast and reliable verification results every
+              time.
+            </p>
+            <a
+              href="#contact"
+              class="mt-4 bg-violet-700 hover:bg-violet-800 text-white px-4 py-3 rounded-xl font-bold transition flex items-center gap-2 text-lg shadow-md w-auto inline-flex"
+              ><i class="fas fa-envelope"></i> Contact Us</a
+            >
+          </div>
+        </div>
+        <!-- Controls -->
+        <button
+          id="prevSlide"
+          class="absolute left-4 top-1/2 -translate-y-1/2 bg-violet-900/60 hover:bg-violet-900 text-white rounded-full p-2 z-10"
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button
+          id="nextSlide"
+          class="absolute right-4 top-1/2 -translate-y-1/2 bg-violet-900/60 hover:bg-violet-900 text-white rounded-full p-2 z-10"
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
+        <!-- Dots -->
+        <div
+          class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10"
+        >
+          <button
+            class="slider-dot bg-white/70 rounded-full border-2 border-violet-700"
+            data-dot="0"
+          ></button>
+          <button
+            class="slider-dot bg-white/40 rounded-full border-2 border-violet-700"
+            data-dot="1"
+          ></button>
+        </div>
+      </div>
     </section>
 
     <!-- 2. Our Vision Section -->
-    <section class="max-w-5xl mx-auto mt-16 flex flex-col md:flex-row items-center gap-10 px-4" id="vision" style="margin-top:120px;">
-        <div class="flex-1 order-2 md:order-1">
-            <h2 class="text-3xl font-bold text-violet-900 mb-4 flex items-center gap-2"><i class="fas fa-eye"></i> Our Vision</h2>
-            <p class="text-lg text-violet-800 mb-2">We aspire to be the leading platform for smart certificate and document verification, ensuring the highest standards of security and reliability.</p>
-            <ul class="list-disc ml-6 text-violet-700 mb-2">
-                <li>Facilitate verification processes for institutions and individuals.</li>
-                <li>Provide advanced and user-friendly digital solutions.</li>
-                <li>Support digital transformation in education and employment sectors.</li>
-            </ul>
-        </div>
-        <div class="flex-1 order-1 md:order-2 flex justify-center">
-            <img src="images/verfication1.png" alt="Our Vision" class="w-80 md:w-[400px] rounded-2xl shadow-lg">
-        </div>
+    <section
+      class="max-w-5xl mx-auto mt-16 flex flex-col md:flex-row items-center gap-10 px-4"
+      id="vision"
+      style="margin-top: 120px"
+    >
+      <div class="flex-1 order-2 md:order-1">
+        <h2
+          class="text-3xl font-bold text-violet-900 mb-4 flex items-center gap-2"
+        >
+          <i class="fas fa-eye"></i> Our Vision
+        </h2>
+        <p class="text-lg text-violet-800 mb-2">
+          We aspire to be the leading platform for smart certificate and
+          document verification, ensuring the highest standards of security and
+          reliability.
+        </p>
+        <ul class="list-disc ml-6 text-violet-700 mb-2">
+          <li>
+            Facilitate verification processes for institutions and individuals.
+          </li>
+          <li>Provide advanced and user-friendly digital solutions.</li>
+          <li>
+            Support digital transformation in education and employment sectors.
+          </li>
+        </ul>
+      </div>
+      <div class="flex-1 order-1 md:order-2 flex justify-center">
+        <img
+          src="images/verfication1.png"
+          alt="Our Vision"
+          class="w-80 md:w-[400px] rounded-2xl shadow-lg"
+        />
+      </div>
     </section>
 
     <!-- 3. How to Verify Section -->
-   <section class="max-w-5xl mx-auto mt-16 px-4" id="how-to-verify">
-  <h2 class="text-3xl font-bold text-violet-900 mb-12 text-center flex items-center justify-center gap-2">
-    <i class="fas fa-list-ol"></i> How to Verify
-  </h2>
+    <section class="max-w-5xl mx-auto mt-16 px-4" id="how-to-verify">
+      <h2
+        class="text-3xl font-bold text-violet-900 mb-12 text-center flex items-center justify-center gap-2"
+      >
+        <i class="fas fa-list-ol"></i> How to Verify
+      </h2>
 
-  <div class="relative">
-    <!-- Vertical timeline line -->
-    <div class="absolute left-1/2 h-full w-0.5 bg-violet-200 transform -translate-x-1/2"></div>
+      <div class="relative">
+        <!-- Vertical timeline line -->
+        <div
+          class="absolute left-1/2 h-full w-0.5 bg-violet-200 transform -translate-x-1/2"
+        ></div>
 
-    <!-- Step 1 (Right) -->
-    <div class="mb-12 flex justify-between items-center w-full right-timeline">
-      <div class="order-1 w-5/12"></div>
-      <div class="order-1 w-5/12 px-6 py-4 bg-purple-800 rounded-lg shadow-lg hover:scale-105 transition-transform">
-        <div class="flex items-center gap-4">
-          <div class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center text-xl">
-            <i class="fas fa-upload"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-white">Submit Request</h3>
-            <p class="text-blue-100">Submit your certificate or document verification request.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 2 (Left) -->
-    <div class="mb-12 flex justify-between items-center w-full left-timeline">
-      <div class="order-1 w-5/12 px-6 py-4 bg-purple-700 rounded-lg shadow-lg hover:scale-105 transition-transform">
-        <div class="flex items-center gap-4">
-          <div class="bg-white text-green-700 rounded-full w-12 h-12 flex items-center justify-center text-xl">
-            <i class="fas fa-search"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-white">Review & Analysis</h3>
-            <p class="text-green-100">Our team reviews and analyzes your request.</p>
-          </div>
-        </div>
-      </div>
-      <div class="order-1 w-5/12"></div>
-    </div>
-
-    <!-- Step 3 (Right) -->
-    <div class="mb-12 flex justify-between items-center w-full right-timeline">
-      <div class="order-1 w-5/12"></div>
-      <div class="order-1 w-5/12 px-6 py-4 bg-purple-600 rounded-lg shadow-lg hover:scale-105 transition-transform">
-        <div class="flex items-center gap-4">
-          <div class="bg-white text-cyan-600 rounded-full w-12 h-12 flex items-center justify-center text-xl">
-            <i class="fas fa-check-circle"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-white">Receive Result</h3>
-            <p class="text-cyan-100">Get your verification result via the platform.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 4 (Left) - Additional Step -->
-    <div class="mb-12 flex justify-between items-center w-full left-timeline">
-      <div class="order-1 w-5/12 px-6 py-4 bg-purple-500 rounded-lg shadow-lg hover:scale-105 transition-transform">
-        <div class="flex items-center gap-4">
-          <div class="bg-white text-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-xl">
-            <i class="fas fa-file-alt"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-white">Documentation</h3>
-            <p class="text-blue-100">We prepare official verification documents.</p>
-          </div>
-        </div>
-      </div>
-      <div class="order-1 w-5/12"></div>
-    </div>
-
-    <!-- Step 5 (Right) - Additional Step -->
-    <div class="mb-12 flex justify-between items-center w-full right-timeline">
-      <div class="order-1 w-5/12"></div>
-      <div class="order-1 w-5/12 px-6 py-4 bg-purple-400 rounded-lg shadow-lg hover:scale-105 transition-transform">
-        <div class="flex items-center gap-4">
-          <div class="bg-white text-blue-400 rounded-full w-12 h-12 flex items-center justify-center text-xl">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-bold text-white">Delivery</h3>
-            <p class="text-blue-50">Receive verified documents via email.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .right-timeline, .left-timeline {
-    position: relative;
-  }
-
-  .right-timeline::before,
-  .left-timeline::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #4f46e5;
-    border: 4px solid white;
-    z-index: 10;
-    box-shadow: 0 0 0 2px #4f46e5;
-  }
-
-  @media (max-width: 768px) {
-    .right-timeline, .left-timeline {
-      flex-direction: column;
-    }
-    .right-timeline::before,
-    .left-timeline::before {
-      display: none;
-    }
-    .order-1 {
-      width: 100% !important;
-      margin-bottom: 1rem;
-    }
-  }
-</style>
-
-<script>
-  // Optional animation on scroll
-  document.addEventListener('DOMContentLoaded', () => {
-    const steps = document.querySelectorAll('.right-timeline, .left-timeline');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-
-    steps.forEach(step => {
-      step.style.opacity = 0;
-      step.style.transform = 'translateY(20px)';
-      step.style.transition = 'all 0.6s ease-out';
-      observer.observe(step);
-    });
-  });
-</script>
-
-    <!-- 4. Plans Section -->
-    <section class="max-w-5xl mx-auto mt-16 px-4" id="plans">
-        <h2 class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"><i class="fas fa-tags"></i> Plans</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Plan 1 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-100">
-                <h3 class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"><i class="fas fa-leaf"></i> Basic Plan</h3>
-                <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
-                    <li><i class="fas fa-certificate mr-2"></i> Basic certificate verification</li>
-                    <li><i class="fas fa-headset mr-2"></i> Support during business hours</li>
-                    <li><i class="fas fa-file-pdf mr-2"></i> PDF verification report</li>
-                </ul>
-                <div class="text-2xl font-bold text-violet-900 mb-4">Free</div>
-                <button class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-check"></i> Choose Plan</button>
+        <!-- Step 1 (Right) -->
+        <div
+          class="mb-12 flex justify-between items-center w-full right-timeline"
+        >
+          <div class="order-1 w-5/12"></div>
+          <div
+            class="order-1 w-5/12 px-6 py-4 bg-purple-800 rounded-lg shadow-lg hover:scale-105 transition-transform"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="bg-white text-blue-800 rounded-full w-12 h-12 flex items-center justify-center text-xl"
+              >
+                <i class="fas fa-upload"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">Submit Request</h3>
+                <p class="text-blue-100">
+                  Submit your certificate or document verification request.
+                </p>
+              </div>
             </div>
-            <!-- Plan 2 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-400 scale-105">
-                <h3 class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"><i class="fas fa-bolt"></i> Advanced Plan</h3>
-                <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
-                    <li><i class="fas fa-certificate mr-2"></i> All basic plan features</li>
-                    <li><i class="fas fa-stopwatch mr-2"></i> Fast verification (within 24h)</li>
-                    <li><i class="fas fa-headset mr-2"></i> 24/7 support</li>
-                </ul>
-                <div class="text-2xl font-bold text-violet-900 mb-4">99 EGP/month</div>
-                <button class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-check"></i> Choose Plan</button>
-            </div>
-            <!-- Plan 3 -->
-            <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-100">
-                <h3 class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"><i class="fas fa-building"></i> Enterprise Plan</h3>
-                <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
-                    <li><i class="fas fa-certificate mr-2"></i> All advanced plan features</li>
-                    <li><i class="fas fa-tachograph-digital mr-2"></i> Custom dashboard</li>
-                    <li><i class="fas fa-user-shield mr-2"></i> Dedicated support</li>
-                </ul>
-                <div class="text-2xl font-bold text-violet-900 mb-4">Contact Us</div>
-                <button class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-check"></i> Choose Plan</button>
-            </div>
+          </div>
         </div>
+
+        <!-- Step 2 (Left) -->
+        <div
+          class="mb-12 flex justify-between items-center w-full left-timeline"
+        >
+          <div
+            class="order-1 w-5/12 px-6 py-4 bg-purple-700 rounded-lg shadow-lg hover:scale-105 transition-transform"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="bg-white text-green-700 rounded-full w-12 h-12 flex items-center justify-center text-xl"
+              >
+                <i class="fas fa-search"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">Review & Analysis</h3>
+                <p class="text-green-100">
+                  Our team reviews and analyzes your request.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="order-1 w-5/12"></div>
+        </div>
+
+        <!-- Step 3 (Right) -->
+        <div
+          class="mb-12 flex justify-between items-center w-full right-timeline"
+        >
+          <div class="order-1 w-5/12"></div>
+          <div
+            class="order-1 w-5/12 px-6 py-4 bg-purple-600 rounded-lg shadow-lg hover:scale-105 transition-transform"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="bg-white text-cyan-600 rounded-full w-12 h-12 flex items-center justify-center text-xl"
+              >
+                <i class="fas fa-check-circle"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">Receive Result</h3>
+                <p class="text-cyan-100">
+                  Get your verification result via the platform.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4 (Left) - Additional Step -->
+        <div
+          class="mb-12 flex justify-between items-center w-full left-timeline"
+        >
+          <div
+            class="order-1 w-5/12 px-6 py-4 bg-purple-500 rounded-lg shadow-lg hover:scale-105 transition-transform"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="bg-white text-blue-600 rounded-full w-12 h-12 flex items-center justify-center text-xl"
+              >
+                <i class="fas fa-file-alt"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">Documentation</h3>
+                <p class="text-blue-100">
+                  We prepare official verification documents.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="order-1 w-5/12"></div>
+        </div>
+
+        <!-- Step 5 (Right) - Additional Step -->
+        <div
+          class="mb-12 flex justify-between items-center w-full right-timeline"
+        >
+          <div class="order-1 w-5/12"></div>
+          <div
+            class="order-1 w-5/12 px-6 py-4 bg-purple-400 rounded-lg shadow-lg hover:scale-105 transition-transform"
+          >
+            <div class="flex items-center gap-4">
+              <div
+                class="bg-white text-blue-400 rounded-full w-12 h-12 flex items-center justify-center text-xl"
+              >
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold text-white">Delivery</h3>
+                <p class="text-blue-50">
+                  Receive verified documents via email.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- 5. Contact Us Section -->
-    <section class="max-w-5xl mx-auto mt-16 px-4 mb-16" id="contact">
-        <h2 class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"><i class="fas fa-envelope"></i> Contact Us</h2>
-        <div class="flex flex-col md:flex-row gap-10">
-            <!-- Contact Form -->
-            <form class="flex-1 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-4 border-2 border-violet-100">
-                <div class="relative">
-                    <input type="text" placeholder="Name" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10">
-                    <span class="absolute left-3 top-2.5 text-violet-400"><i class="fas fa-user"></i></span>
-                </div>
-                <div class="relative">
-                    <input type="email" placeholder="Email" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10">
-                    <span class="absolute left-3 top-2.5 text-violet-400"><i class="fas fa-envelope"></i></span>
-                </div>
-                <div class="relative">
-                    <textarea placeholder="Your Message" required class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 min-h-[120px] w-full pl-10"></textarea>
-                    <span class="absolute left-3 top-4 text-violet-400"><i class="fas fa-comment-dots"></i></span>
-                </div>
-                <button type="submit" class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"><i class="fas fa-paper-plane"></i> Send</button>
-            </form>
-            <!-- Contact Info -->
-            <div class="flex-1 flex flex-col gap-4 justify-center">
-                <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-map-marker-alt text-xl"></i> 123 Main St, Paris, France</div>
-                <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-phone text-xl"></i> +33 1 23 45 67 89</div>
-                <div class="flex items-center gap-3 text-violet-900"><i class="fas fa-envelope text-xl"></i> info@spatrak.com</div>
-                <iframe class="rounded-xl border-2 border-violet-200 mt-2 w-full h-40" src="https://maps.google.com/maps?q=paris&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+    <style>
+      .right-timeline,
+      .left-timeline {
+        position: relative;
+      }
+
+      .right-timeline::before,
+      .left-timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #4f46e5;
+        border: 4px solid white;
+        z-index: 10;
+        box-shadow: 0 0 0 2px #4f46e5;
+      }
+
+      @media (max-width: 768px) {
+        .right-timeline,
+        .left-timeline {
+          flex-direction: column;
+        }
+        .right-timeline::before,
+        .left-timeline::before {
+          display: none;
+        }
+        .order-1 {
+          width: 100% !important;
+          margin-bottom: 1rem;
+        }
+      }
+    </style>
+
+    <script>
+      // Optional animation on scroll
+      document.addEventListener("DOMContentLoaded", () => {
+        const steps = document.querySelectorAll(
+          ".right-timeline, .left-timeline"
+        );
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = "translateY(0)";
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        steps.forEach((step) => {
+          step.style.opacity = 0;
+          step.style.transform = "translateY(20px)";
+          step.style.transition = "all 0.6s ease-out";
+          observer.observe(step);
+        });
+      });
+    </script>
+
+    <!-- 4. Plans Section with Animation -->
+    <section class="max-w-5xl mx-auto mt-16 px-4" id="plans">
+      <h2
+        class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"
+      >
+        <i class="fas fa-tags"></i> Plans
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Plan 1 -->
+        <div
+          class="plan-card bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-100 opacity-0 translate-y-8 transition-all duration-700"
+          style="transition-delay: 0ms"
+        >
+          <h3
+            class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"
+          >
+            <i class="fas fa-leaf"></i> Basic Plan
+          </h3>
+          <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
+            <li>
+              <i class="fas fa-certificate mr-2"></i> Basic certificate
+              verification
+            </li>
+            <li>
+              <i class="fas fa-headset mr-2"></i> Support during business hours
+            </li>
+            <li>
+              <i class="fas fa-file-pdf mr-2"></i> PDF verification report
+            </li>
+          </ul>
+          <div class="text-2xl font-bold text-violet-900 mb-4">Free</div>
+          <button
+            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
+          >
+            <i class="fas fa-check"></i> Choose Plan
+          </button>
         </div>
+        <!-- Plan 2 -->
+        <div
+          class="plan-card bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-400 scale-105 opacity-0 translate-y-8 transition-all duration-700"
+          style="transition-delay: 200ms"
+        >
+          <h3
+            class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"
+          >
+            <i class="fas fa-bolt"></i> Advanced Plan
+          </h3>
+          <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
+            <li>
+              <i class="fas fa-certificate mr-2"></i> All basic plan features
+            </li>
+            <li>
+              <i class="fas fa-stopwatch mr-2"></i> Fast verification (within
+              24h)
+            </li>
+            <li><i class="fas fa-headset mr-2"></i> 24/7 support</li>
+          </ul>
+          <div class="text-2xl font-bold text-violet-900 mb-4">
+            99 EGP/month
+          </div>
+          <button
+            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
+          >
+            <i class="fas fa-check"></i> Choose Plan
+          </button>
+        </div>
+        <!-- Plan 3 -->
+        <div
+          class="plan-card bg-white rounded-2xl shadow-lg p-8 flex flex-col items-center border-2 border-violet-100 opacity-0 translate-y-8 transition-all duration-700"
+          style="transition-delay: 400ms"
+        >
+          <h3
+            class="text-xl font-bold text-violet-900 mb-2 flex items-center gap-2"
+          >
+            <i class="fas fa-building"></i> Enterprise Plan
+          </h3>
+          <ul class="text-violet-700 mb-4 list-disc ml-4 text-sm">
+            <li>
+              <i class="fas fa-certificate mr-2"></i> All advanced plan features
+            </li>
+            <li>
+              <i class="fas fa-tachograph-digital mr-2"></i> Custom dashboard
+            </li>
+            <li><i class="fas fa-user-shield mr-2"></i> Dedicated support</li>
+          </ul>
+          <div class="text-2xl font-bold text-violet-900 mb-4">Contact Us</div>
+          <button
+            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
+          >
+            <i class="fas fa-check"></i> Choose Plan
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Contact Us Section (Modern Style) -->
+    <section class="max-w-5xl mx-auto mt-16 px-4 mb-16" id="contact">
+      <h2
+        class="text-3xl font-bold text-violet-900 mb-8 text-center flex items-center justify-center gap-2"
+      >
+        <i class="fas fa-envelope"></i> Contact Us
+      </h2>
+      <div
+        class="flex flex-col md:flex-row rounded-2xl shadow-2xl overflow-hidden border-2 border-violet-100"
+      >
+        <!-- Contact Info Side -->
+        <div
+          class="bg-gradient-to-br from-violet-800 to-violet-600 text-white flex-1 flex flex-col justify-center gap-6 p-8 min-w-[260px]"
+        >
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-3">
+              <i class="fas fa-map-marker-alt text-2xl"></i> 123 Main St, Paris,
+              France
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-phone text-2xl"></i> +33 1 23 45 67 89
+            </div>
+            <div class="flex items-center gap-3">
+              <i class="fas fa-envelope text-2xl"></i> info@spatrak.com
+            </div>
+          </div>
+          <div class="flex gap-4 mt-4">
+            <a href="#" class="text-white hover:text-violet-200 text-2xl"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="text-white hover:text-violet-200 text-2xl"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" class="text-white hover:text-violet-200 text-2xl"
+              ><i class="fab fa-whatsapp"></i
+            ></a>
+          </div>
+          <iframe
+            class="rounded-xl border-2 border-violet-200 mt-4 w-full h-32"
+            src="https://maps.google.com/maps?q=paris&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            allowfullscreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+        <!-- Contact Form Side -->
+        <form class="flex-1 bg-white p-8 flex flex-col gap-4 justify-center">
+          <div class="relative">
+            <input
+              type="text"
+              placeholder="Name"
+              required
+              class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10"
+            />
+            <span class="absolute left-3 top-2.5 text-violet-400"
+              ><i class="fas fa-user"></i
+            ></span>
+          </div>
+          <div class="relative">
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 w-full pl-10"
+            />
+            <span class="absolute left-3 top-2.5 text-violet-400"
+              ><i class="fas fa-envelope"></i
+            ></span>
+          </div>
+          <div class="relative">
+            <textarea
+              placeholder="Your Message"
+              required
+              class="border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 placeholder-violet-400 min-h-[120px] w-full pl-10"
+            ></textarea>
+            <span class="absolute left-3 top-4 text-violet-400"
+              ><i class="fas fa-comment-dots"></i
+            ></span>
+          </div>
+          <button
+            type="submit"
+            class="bg-violet-700 hover:bg-violet-800 text-white px-6 py-2 rounded-xl font-bold transition flex items-center gap-2"
+          >
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
+        </form>
+      </div>
     </section>
 
     <!-- Footer -->
     <!--#include file="footer.html" -->
 
     <script>
-        // Simple slider logic
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slider-slide');
-        const dots = document.querySelectorAll('.slider-dot');
-        const nextBtn = document.getElementById('nextSlide');
-        const prevBtn = document.getElementById('prevSlide');
-        let sliderInterval;
+      // Simple slider logic
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".slider-slide");
+      const dots = document.querySelectorAll(".slider-dot");
+      const nextBtn = document.getElementById("nextSlide");
+      const prevBtn = document.getElementById("prevSlide");
+      let sliderInterval;
 
-        function showSlide(idx) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('hidden', i !== idx);
-                slide.classList.toggle('block', i === idx);
-                dots[i].classList.toggle('bg-white/70', i === idx);
-                dots[i].classList.toggle('bg-white/40', i !== idx);
-            });
-            currentSlide = idx;
-        }
-        function nextSlide() {
-            showSlide((currentSlide + 1) % slides.length);
-        }
-        function prevSlide() {
-            showSlide((currentSlide - 1 + slides.length) % slides.length);
-        }
-        function startSlider() {
-            sliderInterval = setInterval(nextSlide, 5000);
-        }
-        function stopSlider() {
-            clearInterval(sliderInterval);
-        }
-        nextBtn.addEventListener('click', () => { stopSlider(); nextSlide(); startSlider(); });
-        prevBtn.addEventListener('click', () => { stopSlider(); prevSlide(); startSlider(); });
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => { stopSlider(); showSlide(i); startSlider(); });
+      function showSlide(idx) {
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("hidden", i !== idx);
+          slide.classList.toggle("block", i === idx);
+          dots[i].classList.toggle("bg-white/70", i === idx);
+          dots[i].classList.toggle("bg-white/40", i !== idx);
         });
-        showSlide(0);
+        currentSlide = idx;
+      }
+      function nextSlide() {
+        showSlide((currentSlide + 1) % slides.length);
+      }
+      function prevSlide() {
+        showSlide((currentSlide - 1 + slides.length) % slides.length);
+      }
+      function startSlider() {
+        sliderInterval = setInterval(nextSlide, 5000);
+      }
+      function stopSlider() {
+        clearInterval(sliderInterval);
+      }
+      nextBtn.addEventListener("click", () => {
+        stopSlider();
+        nextSlide();
         startSlider();
+      });
+      prevBtn.addEventListener("click", () => {
+        stopSlider();
+        prevSlide();
+        startSlider();
+      });
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          stopSlider();
+          showSlide(i);
+          startSlider();
+        });
+      });
+      showSlide(0);
+      startSlider();
     </script>
-    
-    <script>
-        // Function to load the navbar
-        function loadNavbar() {
-            const navToggle = document.getElementById("nav-toggle");
-            const mobileMenu = document.getElementById("mobile-menu");
-            navToggle && navToggle.addEventListener("click", () => {
-                mobileMenu.classList.toggle("hidden");
-            });
-        }
 
-        // Load the navbar content
-        fetch('./navbar.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('navbar-container').innerHTML = data;
-                // Initialize navbar functionality
-                loadNavbar();
-            });
+    <script>
+      // Function to load the navbar
+      function loadNavbar() {
+        const navToggle = document.getElementById("nav-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        navToggle &&
+          navToggle.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+          });
+      }
+
+      // Load the navbar content
+      fetch("./navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar-container").innerHTML = data;
+          // Initialize navbar functionality
+          loadNavbar();
+        });
     </script>
-</body>
+
+    <style>
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(32px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .plan-card.animated {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+      }
+    </style>
+    <script>
+      // Animate plans on scroll
+      function animatePlans() {
+        const cards = document.querySelectorAll(".plan-card");
+        const trigger = window.innerHeight * 0.85;
+        cards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          if (rect.top < trigger) {
+            card.classList.add("animated");
+          }
+        });
+      }
+      window.addEventListener("scroll", animatePlans);
+      window.addEventListener("DOMContentLoaded", animatePlans);
+    </script>
+  </body>
 </html>
