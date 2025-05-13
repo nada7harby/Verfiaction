@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet">
+    <style>
+        body, * {
+            font-family: "GE SS Unique", Arial, sans-serif !important;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+    </style>
+</head>
+<body>
+    <!-- Include the navbar -->
+    <div id="navbar-container"></div>
+
+    <!-- Your page content here -->
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold text-violet-900">Your Page Content</h1>
+        <p class="mt-4">This is an example page showing how to use the navbar component.</p>
+    </div>
+
+    <script>
+        // Function to load the navbar
+        function loadNavbar() {
+            const navToggle = document.getElementById("nav-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            navToggle && navToggle.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        }
+
+        // Load the navbar content
+        fetch('./navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                // Initialize navbar functionality
+                loadNavbar();
+            });
+    </script>
+</body>
+</html>
