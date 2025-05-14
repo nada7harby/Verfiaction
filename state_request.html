@@ -9,37 +9,125 @@
       body, * {
         font-family: 'GE SS Unique', sans-serif !important;
       }
+      .hidden-table {
+        display: none;
+      }
+      .active-tab {
+        background-color: #5b21b6; /* violet-800 */
+        color: white;
+      }
+      .inactive-tab {
+        background-color: #e9d5ff; /* violet-200 */
+        color: #5b21b6; /* violet-900 */
+      }
+      .summary-card {
+        background-color: #f3f4f6; /* gray-100 */
+        border-radius: 0.75rem; /* rounded-xl */
+        padding: 1rem; /* p-4 */
+        margin-top: 0.5rem; /* mt-2 */
+      }
     </style>
 </head>
 <body class="bg-white min-h-screen">
     <!-- Navbar -->
-    <!--#include file="navbar.html" -->
-    <!-- If not using server-side includes, paste the navbar code here -->
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-8 px-8 pt-8 border-solid border-1 border-voilet-900">
-        <div class="flex items-center gap-4">
-            <img src="logo.png" alt="logo" class="h-10">
-            <span class="text-3xl font-bold text-violet-900">verifdiploma</span>
+    <div id="navbar-container"></div>
+    
+    <!-- Tabs with Summary Cards -->
+    <div class="px-8 mt-[100px]">
+        <div class="flex gap-4 mb-2"> <!-- Reduced margin-bottom -->
+            <button onclick="showTable('all')" class="active-tab px-4 py-2 rounded-lg font-bold">All</button>
+            <button onclick="showTable('in-progress')" class="inactive-tab px-4 py-2 rounded-lg font-bold">In Progress</button>
+            <button onclick="showTable('on-hold')" class="inactive-tab px-4 py-2 rounded-lg font-bold">On Hold</button>
+            <button onclick="showTable('completed')" class="inactive-tab px-4 py-2 rounded-lg font-bold">Completed</button>
+            <button onclick="showTable('not-finalized')" class="inactive-tab px-4 py-2 rounded-lg font-bold">Not finalized</button>
         </div>
-        <div class="flex gap-6 items-center ">
-            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700">Dashboard</a>
-            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700 border-b-2 border-violet-700">Verifications</a>
-            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700">Packages</a>
-            <a href="#" class="text-lg font-semibold text-violet-900 hover:text-violet-700">Contact</a>
-            <button class="bg-violet-800 text-white px-4 py-2 rounded-lg font-bold text-lg hover:bg-violet-900 transition-colors">New Verification</button>
+
+        <!-- Summary Cards Row -->
+        <div class="flex gap-4 mb-6">
+            <div class="summary-card flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-violet-900">Total Requests</span>
+                    <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">24</span>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">All requests in the system</div>
+            </div>
+            
+            <div class="summary-card flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-violet-900">In Progress</span>
+                    <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">6</span>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">Requests being processed</div>
+            </div>
+            
+            <div class="summary-card flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-violet-900">On Hold</span>
+                    <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">3</span>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">Requests pending action</div>
+            </div>
+            
+            <div class="summary-card flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-violet-900">Completed</span>
+                    <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">12</span>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">Finished requests</div>
+            </div>
+            
+            <div class="summary-card flex-1">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-violet-900">Not Finalized</span>
+                    <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">3</span>
+                </div>
+                <div class="mt-2 text-sm text-gray-600">Pending final approval</div>
+            </div>
         </div>
     </div>
-    <!-- Tabs -->
-    <div class="flex gap-4 mb-6 px-8">
-        <button class="bg-violet-800 text-white px-4 py-2 rounded-lg font-bold">All</button>
-        <button class="bg-violet-200 text-violet-900 px-4 py-2 rounded-lg font-bold flex items-center gap-1">In Progress <span class="bg-violet-700 text-white rounded-full px-2">6</span></button>
-        <button class="bg-gray-200 text-violet-900 px-4 py-2 rounded-lg font-bold">On Hold</button>
-        <button class="bg-gray-200 text-violet-900 px-4 py-2 rounded-lg font-bold">Completed</button>
-        <button class="bg-gray-200 text-violet-900 px-4 py-2 rounded-lg font-bold">Not finalized</button>
+
+    <!-- Tables Section (same as before) -->
+    <div id="all-tables">
+        <!-- In Progress Table -->
+        <div class="mb-8 px-8">
+            <div class="overflow-x-auto rounded-xl border border-violet-200">
+                <table class="min-w-full text-center">
+                    <thead class="bg-violet-100 text-violet-900">
+                        <tr>
+                            <th class="py-3 px-2">Reference Number</th>
+                            <th class="py-3 px-2">Last Name</th>
+                            <th class="py-3 px-2">First Name</th>
+                            <th class="py-3 px-2">School</th>
+                            <th class="py-3 px-2">Program</th>
+                            <th class="py-3 px-2">Year</th>
+                            <th class="py-3 px-2">Start Date</th>
+                            <th class="py-3 px-2">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white">
+                        <tr class="border-b border-violet-100">
+                            <td class="py-3 px-2">REF-2023-001</td>
+                            <td class="py-3 px-2">Smith</td>
+                            <td class="py-3 px-2">John</td>
+                            <td class="py-3 px-2">Engineering</td>
+                            <td class="py-3 px-2">Computer Science</td>
+                            <td class="py-3 px-2">3rd</td>
+                            <td class="py-3 px-2">2023-09-01</td>
+                            <td class="py-3 px-2">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">In Progress</span>
+                            </td>
+                        </tr>
+                        <!-- More rows... -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Other tables... -->
     </div>
-    <!-- In Progress Table -->
-    <div class="mb-8 px-8">
-        <h3 class="text-2xl font-bold text-violet-900 mb-4 flex items-center gap-2">In Progress <span class="bg-violet-700 text-white rounded-full px-2">6</span></h3>
+
+    <!-- Individual Tables (hidden by default) -->
+    <div id="in-progress-table" class="hidden-table mb-8 px-8">
         <div class="overflow-x-auto rounded-xl border border-violet-200">
             <table class="min-w-full text-center">
                 <thead class="bg-violet-100 text-violet-900">
@@ -50,74 +138,74 @@
                         <th class="py-3 px-2">School</th>
                         <th class="py-3 px-2">Program</th>
                         <th class="py-3 px-2">Year</th>
-                        <th class="py-3 px-2">Start</th>
-                        <th class="py-3 px-2">Time</th>
+                        <th class="py-3 px-2">Start Date</th>
                         <th class="py-3 px-2">Status</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white">
-                    <tr>
-                        <td colspan="9" class="py-8 text-gray-400 text-lg bg-gray-100">-- Sample data here --</td>
+                    <!-- Sample data for In Progress -->
+                    <tr class="border-b border-violet-100">
+                        <td class="py-3 px-2">REF-2023-001</td>
+                        <td class="py-3 px-2">Smith</td>
+                        <td class="py-3 px-2">John</td>
+                        <td class="py-3 px-2">Engineering</td>
+                        <td class="py-3 px-2">Computer Science</td>
+                        <td class="py-3 px-2">3rd</td>
+                        <td class="py-3 px-2">2023-09-01</td>
+                        <td class="py-3 px-2">
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">In Progress</span>
+                        </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="text-center mt-4">
-            <a href="#" class="text-violet-700 font-bold hover:underline">Show all</a>
-        </div>
-    </div>
-    <!-- On Hold Table -->
-    <div class="mb-8 px-8">
-        <h3 class="text-2xl font-bold text-violet-900 mb-4">On Hold</h3>
-        <div class="overflow-x-auto rounded-xl border border-violet-200">
-            <table class="min-w-full text-center">
-                <thead class="bg-violet-100 text-violet-900">
-                    <tr>
-                        <th class="py-3 px-2">Reference Number</th>
-                        <th class="py-3 px-2">Last Name</th>
-                        <th class="py-3 px-2">First Name</th>
-                        <th class="py-3 px-2">School</th>
-                        <th class="py-3 px-2">Program</th>
-                        <th class="py-3 px-2">Year</th>
-                        <th class="py-3 px-2">Start</th>
-                        <th class="py-3 px-2">Time</th>
-                        <th class="py-3 px-2">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white">
-                    <tr>
-                        <td colspan="9" class="py-8 text-gray-400 bg-gray-100 text-lg">- No results -</td>
-                    </tr>
+                    <!-- More rows... -->
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- Completed Table -->
-    <div class="px-8">
-        <h3 class="text-2xl font-bold text-violet-900 mb-4">Completed</h3>
-        <div class="overflow-x-auto rounded-xl border border-violet-200">
-            <table class="min-w-full text-center">
-                <thead class="bg-violet-100 text-violet-900">
-                    <tr>
-                        <th class="py-3 px-2">Reference Number</th>
-                        <th class="py-3 px-2">Last Name</th>
-                        <th class="py-3 px-2">First Name</th>
-                        <th class="py-3 px-2">School</th>
-                        <th class="py-3 px-2">Program</th>
-                        <th class="py-3 px-2">Year</th>
-                        <th class="py-3 px-2">Start</th>
-                        <th class="py-3 px-2">End</th>
-                        <th class="py-3 px-2">Time</th>
-                        <th class="py-3 px-2">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white">
-                    <tr>
-                        <td colspan="10" class="py-8 bg-gray-100 text-gray-400 text-lg">-- Sample data here --</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+    <!-- Footer -->
+    <div id="footer-container"></div>
+
+    <script>
+        // Tab functionality
+        function showTable(tableId) {
+            // Hide all tables
+            document.querySelectorAll('[id$="-table"]').forEach(table => {
+                table.classList.add('hidden-table');
+            });
+            document.getElementById('all-tables').classList.add('hidden-table');
+            
+            // Show selected table
+            if (tableId === 'all') {
+                document.getElementById('all-tables').classList.remove('hidden-table');
+            } else {
+                document.getElementById(tableId + '-table').classList.remove('hidden-table');
+            }
+            
+            // Update tab styles
+            document.querySelectorAll('.flex.gap-4 button').forEach(button => {
+                button.classList.remove('active-tab');
+                button.classList.add('inactive-tab');
+            });
+            
+            // Set active tab
+            event.currentTarget.classList.remove('inactive-tab');
+            event.currentTarget.classList.add('active-tab');
+        }
+
+        // Load navbar and footer
+        fetch("./navbar.html")
+            .then((response) => response.text())
+            .then((data) => {
+                document.getElementById("navbar-container").innerHTML = data;
+                // Initialize navbar functionality
+                loadNavbar();
+            });
+            
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-container').innerHTML = data;
+            });
+    </script>
 </body>
-</html> 
+</html>

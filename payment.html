@@ -12,14 +12,15 @@
     </style>
 </head>
 <body class="bg-gradient-to-b from-gray-100 to-violet-200 min-h-screen">
-
+ <!-- Navbar -->
+    <div id="navbar-container"></div>
     <!-- Logo -->
     <div class="flex items-center p-6">
-        <span class="text-violet-900 text-3xl font-bold">verif</span><span class="text-gray-700 text-3xl font-light">diploma</span>
+        <span class="text-violet-900 text-3xl font-bold">verify</span><span class="text-gray-700 text-3xl font-light">diploma</span>
     </div>
-    <div class="flex flex-col md:flex-row justify-center items-start gap-8 mt-4">
+    <div class="flex flex-col md:flex-row justify-center items-start gap-8 my-4">
         <!-- Payment Box -->
-        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mb-2">
             <h2 class="text-violet-900 text-xl font-bold mb-2">Payment</h2>
             <p class="mb-4 text-gray-700">Summary of your order</p>
             <div class="bg-gray-100 rounded p-4 mb-4">
@@ -111,9 +112,8 @@
         </div>
     </div>
     <!-- Footer -->
-    <footer class="text-center text-xs text-gray-500 mt-12 mb-4">
-        Copyright © 2001 - 2002 Diploma. All Rights Reserved - <a href="#" class="underline">Logout</a>
-    </footer>
+    <!-- Footer -->
+<div id="footer-container"></div>
     <script>
         // تفعيل زر Next فقط عند الموافقة على الشروط
         const terms = document.getElementById('terms');
@@ -121,6 +121,18 @@
         terms.addEventListener('change', function() {
             nextBtn.disabled = !this.checked;
         });
+          fetch("./navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar-container").innerHTML = data;
+          // Initialize navbar functionality
+          loadNavbar();
+        });
+         fetch('footer.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('footer-container').innerHTML = data;
+    });
     </script>
 </body>
 </html> 
