@@ -45,22 +45,38 @@
                     <div class="flex-grow border-t border-gray-300"></div>
                 </div>
                 <form class="flex flex-col gap-4">
-                    <div class="relative">
-                        <input id="firstName" type="text" required placeholder="First Name" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
-                        <span class="absolute left-3 top-2.5 text-violet-400"><i class="fa-solid fa-user"></i></span>
-                    </div>
-                    <div class="relative">
-                        <input id="lastName" type="text" required placeholder="Last Name" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
-                        <span class="absolute left-3 top-2.5 text-violet-400"><i class="fa-solid fa-user"></i></span>
-                    </div>
-                    <div class="relative">
-                        <input id="email" type="email" required placeholder="E-mail" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
-                        <span class="absolute left-3 top-2.5 text-violet-400"><i class="fa-solid fa-envelope"></i></span>
-                    </div>
-                    <div class="relative">
-                        <input id="password" type="password" required placeholder="Password" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
-                        <span class="absolute left-3 top-2.5 text-violet-400"><i class="fa-solid fa-lock"></i></span>
-                    </div>
+                  <div class="relative">
+    <input id="firstName" type="text" required placeholder="First Name" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
+    <span class="absolute left-3 top-2.5 text-violet-400">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="16" height="16" fill="currentColor">
+            <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+        </svg>
+    </span>
+</div>
+                   <div class="relative">
+    <input id="lastName" type="text" required placeholder="Last Name" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
+    <span class="absolute left-3 top-2.5 text-violet-400">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 fill-current">
+            <path d="M224 256a128 128 0 1 0 0-256 128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3 0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7 0-98.5-79.8-178.3-178.3-178.3h-91.4z"/>
+        </svg>
+    </span>
+</div>
+                  <div class="relative">
+    <input id="email" type="email" required placeholder="E-mail" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
+    <span class="absolute left-3 top-2.5 text-violet-400">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current">
+            <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+        </svg>
+    </span>
+</div>
+                  <div class="relative">
+    <input id="password" type="password" required placeholder="Password" class="w-full border border-violet-200 rounded-xl pl-10 pr-3 py-2 bg-white/70 focus:outline-none focus:ring-2 focus:ring-violet-400 transition-shadow focus:shadow-lg placeholder-gray-400">
+    <span class="absolute left-3 top-2.5 text-violet-400">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-4 h-4 fill-current">
+            <path d="M144 144v48H304V144c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192V144C80 64.5 144.5 0 224 0s144 64.5 144 144v48h16c35.3 0 64 28.7 64 64V448c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V256c0-35.3 28.7-64 64-64H80z"/>
+        </svg>
+    </span>
+</div>
                     <button type="submit" class="w-full bg-gradient-to-r from-violet-700 to-violet-900 text-white py-2 rounded-xl font-semibold text-lg transition hover:from-violet-800 hover:to-violet-900 shadow-lg mt-2">Register</button>
                 </form>
                 <div class="text-center">
