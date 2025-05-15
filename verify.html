@@ -373,5 +373,62 @@
           document.getElementById("footer-container").innerHTML = data;
         });
     </script>
+    <script>
+document.querySelector('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Show loading state
+    const submitButton = document.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+    
+    // Get form values
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    // Simple validation
+    if (!firstName || !lastName || !email || !password) {
+        alert('Please fill in all fields');
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+        return;
+    }
+    
+    try {
+        const response = await fetch('http://verify-backend-nu.vercel.app/api/requests/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                firstname: firstName,
+                lastname: lastName,
+                email: email,
+                password: password,
+                confirmPassword: password
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            // Registration successful
+            window.location.href = 'login.html?registered=true';
+        } else {
+            // Handle errors
+            alert(data.message || 'Registration failed. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Network error. Please check your connection and try again.');
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+    }
+});
+</script>
   </body>
 </html>
