@@ -99,48 +99,72 @@
             <!-- Main Content -->
             <main class="container mx-auto px-4 pt-20 pb-8 h-[calc(100vh-5rem)] overflow-y-auto">
                 <!-- Overview Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-violet-600">Total Requests</p>
-                                <h3 class="text-3xl font-bold text-violet-900">1,234</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <!-- Total Requests -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
+                        <div class="flex flex-row items-center justify-start w-full mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mr-4">
+                                <i class="fas fa-file-alt text-violet-900 text-4xl"></i>
                             </div>
-                            <div class="bg-violet-100 p-3 rounded-full">
-                                <i class="fas fa-file-alt text-violet-900 text-2xl"></i>
+                            <p class="text-violet-700 font-bold text-2xl">Total Requests</p>
+                        </div>
+                        <div class="w-full flex flex-col items-center">
+                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
+                                <canvas id="donut-total" width="160" height="160"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                    <span class="text-4xl font-extrabold text-violet-900">1,234</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-violet-600">Pending Requests</p>
-                                <h3 class="text-3xl font-bold text-violet-900">42</h3>
+                    <!-- Pending Requests -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
+                        <div class="flex flex-row items-center justify-start w-full mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mr-4">
+                                <i class="fas fa-clock text-violet-900 text-4xl"></i>
                             </div>
-                            <div class="bg-violet-100 p-3 rounded-full">
-                                <i class="fas fa-clock text-violet-900 text-2xl"></i>
+                            <p class="text-violet-700 font-bold text-2xl">Pending Requests</p>
+                        </div>
+                        <div class="w-full flex flex-col items-center">
+                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
+                                <canvas id="donut-pending" width="160" height="160"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                    <span class="text-4xl font-extrabold text-violet-900">42</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-violet-600">Rejected Requests</p>
-                                <h3 class="text-3xl font-bold text-violet-900">15</h3>
+                    <!-- Rejected Requests -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
+                        <div class="flex flex-row items-center justify-start w-full mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mr-4">
+                                <i class="fas fa-times-circle text-violet-900 text-4xl"></i>
                             </div>
-                            <div class="bg-violet-100 p-3 rounded-full">
-                                <i class="fas fa-times-circle text-violet-900 text-2xl"></i>
+                            <p class="text-violet-700 font-bold text-2xl">Rejected Requests</p>
+                        </div>
+                        <div class="w-full flex flex-col items-center">
+                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
+                                <canvas id="donut-rejected" width="160" height="160"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                    <span class="text-4xl font-extrabold text-violet-900">15</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-violet-600">New This Month</p>
-                                <h3 class="text-3xl font-bold text-violet-900">89</h3>
+                    <!-- New This Month -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
+                        <div class="flex flex-row items-center justify-start w-full mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mr-4">
+                                <i class="fas fa-calendar-alt text-violet-900 text-4xl"></i>
                             </div>
-                            <div class="bg-violet-100 p-3 rounded-full">
-                                <i class="fas fa-calendar-alt text-violet-900 text-2xl"></i>
+                            <p class="text-violet-700 font-bold text-2xl">New This Month</p>
+                        </div>
+                        <div class="w-full flex flex-col items-center">
+                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
+                                <canvas id="donut-new" width="160" height="160"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                    <span class="text-4xl font-extrabold text-violet-900">89</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -291,6 +315,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Sample data for demonstration
         const requests = [
@@ -339,6 +364,52 @@
                     sidebar.classList.add('-translate-x-full');
                 }
             }
+        });
+
+        // Donut chart configs for each card
+        const donutConfigs = [
+            {
+                id: 'donut-total',
+                data: [800, 300, 134],
+                colors: ['#f9a8d4', '#6ee7b7', '#93c5fd']
+            },
+            {
+                id: 'donut-pending',
+                data: [30, 10, 2],
+                colors: ['#f9a8d4', '#6ee7b7', '#93c5fd']
+            },
+            {
+                id: 'donut-rejected',
+                data: [10, 3, 2],
+                colors: ['#f9a8d4', '#6ee7b7', '#93c5fd']
+            },
+            {
+                id: 'donut-new',
+                data: [60, 20, 9],
+                colors: ['#f9a8d4', '#6ee7b7', '#93c5fd']
+            }
+        ];
+        donutConfigs.forEach(cfg => {
+            const ctx = document.getElementById(cfg.id).getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['ON HOLD', 'In progress', 'Candidate Action Required'],
+                    datasets: [{
+                        data: cfg.data,
+                        backgroundColor: cfg.colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true }
+                    },
+                    responsive: false
+                }
+            });
         });
     </script>
 </body>
