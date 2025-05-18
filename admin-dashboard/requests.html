@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests - SPATRAK Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        violet: {
+                            200: '#ddd6fe',
+                            400: '#a78bfa',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400">
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50">
+            <div class="flex flex-col h-full">
+                <div class="p-6">
+                    <div class="flex items-center space-x-3 mb-8">
+                        <img src="images/logo-removebg-preview 12.png" alt="SPATRAK Logo" class="h-12 w-12">
+                        <span class="text-xl font-bold">SPATRAK</span>
+                    </div>
+                    
+                    <nav class="space-y-2">
+                        <a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-users"></i>
+                            <span>Users</span>
+                        </a>
+                        <a href="requests.html" class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100 text-violet-900">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Requests</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verification</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Payments</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="mt-auto p-6">
+                    <div class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin" class="w-10 h-10 rounded-full">
+                        <div>
+                            <p class="font-medium text-violet-900">Admin User</p>
+                            <p class="text-sm text-violet-600">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 lg:ml-64">
+            <!-- Header -->
+            <header class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40">
+                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <button id="sidebarToggle" class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold">Requests Management</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="container mx-auto px-4 pt-20 pb-8 h-[calc(100vh-5rem)] overflow-y-auto">
+                <!-- Filters and Search -->
+                <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center space-x-4">
+                            <select class="bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                            <select class="bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                                <option value="all">All Types</option>
+                                <option value="verification">Verification</option>
+                                <option value="payment">Payment</option>
+                                <option value="support">Support</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="relative">
+                                <input type="text" placeholder="Search requests..." class="bg-violet-50 border border-violet-200 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                                <i class="fas fa-search absolute left-3 top-3 text-violet-900"></i>
+                            </div>
+                            <button class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300">
+                                <i class="fas fa-filter mr-2"></i>Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Requests Table -->
+                <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-violet-50">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Request ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">User</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-violet-100">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">#REQ-001</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center space-x-3">
+                                            <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="User" class="w-8 h-8 rounded-full">
+                                            <span class="text-violet-900">John Doe</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">Verification</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">2024-03-15</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="openRequestModal('REQ-001')" class="text-violet-900 hover:text-violet-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-violet-900 hover:text-violet-700">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">#REQ-002</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center space-x-3">
+                                            <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=random" alt="User" class="w-8 h-8 rounded-full">
+                                            <span class="text-violet-900">Jane Smith</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">Payment</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">2024-03-14</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Approved</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="openRequestModal('REQ-002')" class="text-violet-900 hover:text-violet-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-violet-900 hover:text-violet-700">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-between items-center mt-6">
+                        <div class="text-sm text-violet-600">
+                            Showing 1 to 2 of 50 entries
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="bg-violet-50 text-violet-900 px-3 py-1 rounded-lg hover:bg-violet-100 transition duration-300">
+                                Previous
+                            </button>
+                            <button class="bg-violet-100 text-violet-900 px-3 py-1 rounded-lg">1</button>
+                            <button class="bg-violet-50 text-violet-900 px-3 py-1 rounded-lg hover:bg-violet-100 transition duration-300">2</button>
+                            <button class="bg-violet-50 text-violet-900 px-3 py-1 rounded-lg hover:bg-violet-100 transition duration-300">3</button>
+                            <button class="bg-violet-50 text-violet-900 px-3 py-1 rounded-lg hover:bg-violet-100 transition duration-300">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Request Management Modal -->
+    <div id="requestModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white/90 backdrop-blur-md rounded-lg p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-violet-900">Manage Request</h3>
+                <button onclick="closeRequestModal()" class="text-violet-600 hover:text-violet-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-violet-900 mb-1">Request ID</label>
+                    <input type="text" id="requestId" class="w-full px-3 py-2 border border-violet-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900" readonly>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-violet-900 mb-1">Status</label>
+                    <select id="requestStatus" class="w-full px-3 py-2 border border-violet-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-violet-900 mb-1">Notes</label>
+                    <textarea id="requestNotes" rows="3" class="w-full px-3 py-2 border border-violet-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900" placeholder="Add any notes about this request..."></textarea>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button onclick="closeRequestModal()" class="px-4 py-2 text-violet-900 bg-violet-50 rounded-lg hover:bg-violet-100 transition duration-300">
+                        Cancel
+                    </button>
+                    <button onclick="saveRequestChanges()" class="px-4 py-2 bg-violet-100 text-violet-900 rounded-lg hover:bg-violet-200 transition duration-300">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar Toggle Functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('aside');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+        });
+
+        // Request Management Modal Functions
+        function openRequestModal(requestId) {
+            const modal = document.getElementById('requestModal');
+            const requestIdInput = document.getElementById('requestId');
+            const requestStatus = document.getElementById('requestStatus');
+            
+            // Set the request ID
+            requestIdInput.value = requestId;
+            
+            // Get current status from the table
+            const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
+            if (row) {
+                const statusCell = row.querySelector('td:nth-child(5) span');
+                const currentStatus = statusCell.textContent.toLowerCase();
+                requestStatus.value = currentStatus;
+            }
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeRequestModal() {
+            const modal = document.getElementById('requestModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function saveRequestChanges() {
+            const requestId = document.getElementById('requestId').value;
+            const newStatus = document.getElementById('requestStatus').value;
+            const notes = document.getElementById('requestNotes').value;
+            
+            // Update the status in the table
+            const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
+            if (row) {
+                const statusCell = row.querySelector('td:nth-child(5) span');
+                statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+                
+                // Update status badge color
+                statusCell.className = `px-2 py-1 rounded-full text-sm ${
+                    newStatus === 'approved' ? 'bg-green-100 text-green-800' :
+                    newStatus === 'rejected' ? 'bg-red-100 text-red-800' :
+                    'bg-yellow-100 text-yellow-800'
+                }`;
+            }
+            
+            // Here you would typically make an API call to save the changes
+            console.log('Saving changes:', { requestId, newStatus, notes });
+            
+            // Show success message
+            alert('Request status updated successfully!');
+            
+            // Close modal
+            closeRequestModal();
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('requestModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeRequestModal();
+            }
+        });
+    </script>
+</body>
+</html> 
