@@ -228,11 +228,6 @@
             
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-violet-900 mb-1">Request ID</label>
-                    <input type="text" id="requestId" class="w-full px-3 py-2 border border-violet-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900" readonly>
-                </div>
-                
-                <div>
                     <label class="block text-sm font-medium text-violet-900 mb-1">Status</label>
                     <select id="requestStatus" class="w-full px-3 py-2 border border-violet-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
                         <option value="pending">Pending</option>
@@ -240,12 +235,6 @@
                         <option value="rejected">Rejected</option>
                     </select>
                 </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-violet-900 mb-1">Notes</label>
-                    <textarea id="requestNotes" rows="3" class="w-full px-3 py-2 border border-violet-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900" placeholder="Add any notes about this request..."></textarea>
-                </div>
-                
                 <div class="flex justify-end space-x-3 mt-6">
                     <button onclick="closeRequestModal()" class="px-4 py-2 text-violet-900 bg-violet-50 rounded-lg hover:bg-violet-100 transition duration-300">
                         Cancel
@@ -279,12 +268,7 @@
         // Request Management Modal Functions
         function openRequestModal(requestId) {
             const modal = document.getElementById('requestModal');
-            const requestIdInput = document.getElementById('requestId');
             const requestStatus = document.getElementById('requestStatus');
-            
-            // Set the request ID
-            requestIdInput.value = requestId;
-            
             // Get current status from the table
             const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
             if (row) {
@@ -292,7 +276,8 @@
                 const currentStatus = statusCell.textContent.toLowerCase();
                 requestStatus.value = currentStatus;
             }
-            
+            // Store requestId for saving
+            modal.dataset.requestId = requestId;
             // Show modal
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -305,16 +290,14 @@
         }
 
         function saveRequestChanges() {
-            const requestId = document.getElementById('requestId').value;
+            const modal = document.getElementById('requestModal');
+            const requestId = modal.dataset.requestId;
             const newStatus = document.getElementById('requestStatus').value;
-            const notes = document.getElementById('requestNotes').value;
-            
             // Update the status in the table
             const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
             if (row) {
                 const statusCell = row.querySelector('td:nth-child(5) span');
                 statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-                
                 // Update status badge color
                 statusCell.className = `px-2 py-1 rounded-full text-sm ${
                     newStatus === 'approved' ? 'bg-green-100 text-green-800' :
@@ -322,14 +305,8 @@
                     'bg-yellow-100 text-yellow-800'
                 }`;
             }
-            
-            // Here you would typically make an API call to save the changes
-            console.log('Saving changes:', { requestId, newStatus, notes });
-            
-            // Show success message
+            // API call can be added here
             alert('Request status updated successfully!');
-            
-            // Close modal
             closeRequestModal();
         }
 
