@@ -18,7 +18,7 @@
     <div class="flex items-center p-6">
         <span class="text-violet-900 text-3xl font-bold">verify</span><span class="text-gray-700 text-3xl font-light">diploma</span>
     </div>
-    <div class="flex flex-col md:flex-row justify-center items-start gap-8 my-4">
+    <div class="flex flex-col justify-center items-center my-4">
         <!-- Payment Box -->
         <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md mb-2">
             <h2 class="text-violet-900 text-xl font-bold mb-2">Payment</h2>
@@ -33,87 +33,22 @@
                     <input type="checkbox" class="accent-violet-900 w-7 h-7 border border-gray-400 rounded bg-white">
                 </div>
             </div>
+            <label for="packageSelect" class="block text-violet-900 text-lg font-bold mb-2">Select Package</label>
+            <select id="packageSelect" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-violet-400 mb-4">
+                <option value="25">25 Credits</option>
+                <option value="50">50 Credits</option>
+                <option value="100">100 Credits</option>
+                <option value="200">200 Credits</option>
+            </select>
             <div class="flex items-center mb-4">
                 <input id="terms" type="checkbox" class="accent-violet-900 mr-2">
                 <label for="terms" class="text-sm">I accept the <a href="#" class="text-violet-900 underline">Terms and Conditions</a></label>
             </div>
             <button id="nextBtn" class="w-full bg-violet-900 text-white py-2 rounded font-semibold text-lg transition-colors disabled:opacity-50" disabled>Next</button>
         </div>
-        <!-- Package Deals -->
-        <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
-            <h3 class="text-violet-900 text-lg font-bold mb-1">Our Package Deals</h3>
-            <p class="text-sm text-gray-700 mb-4">Save up to 17% !</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- 25 Credits -->
-                <div class="bg-gray-100 rounded p-4">
-                    <div class="text-violet-900 font-bold text-lg mb-1">25 Credits</div>
-                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
-                        <li>Save 25,00€ with a French package.</li>
-                        <li>Save 50,00€ with an International package.</li>
-                    </ul>
-                    <div class="mb-1">
-                        <input type="checkbox" id="vf25" class="accent-violet-900 mr-1">
-                        <label for="vf25" class="text-xs">Vérifications françaises</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="vi25" class="accent-violet-900 mr-1">
-                        <label for="vi25" class="text-xs">Vérifications internationales</label>
-                    </div>
-                </div>
-                <!-- 50 Credits -->
-                <div class="bg-gray-100 rounded p-4">
-                    <div class="text-violet-900 font-bold text-lg mb-1">50 Credits</div>
-                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
-                        <li>Save 100,00€ with a French package.</li>
-                        <li>Save 200,00€ with an International package.</li>
-                    </ul>
-                    <div class="mb-1">
-                        <input type="checkbox" id="vf50" class="accent-violet-900 mr-1">
-                        <label for="vf50" class="text-xs">Vérifications françaises</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="vi50" class="accent-violet-900 mr-1">
-                        <label for="vi50" class="text-xs">Vérifications internationales</label>
-                    </div>
-                </div>
-                <!-- 100 Credits -->
-                <div class="bg-gray-100 rounded p-4">
-                    <div class="text-violet-900 font-bold text-lg mb-1">100 Credits</div>
-                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
-                        <li>Save 400,00€ with a French package.</li>
-                        <li>Save 600,00€ with an International package.</li>
-                    </ul>
-                    <div class="mb-1">
-                        <input type="checkbox" id="vf100" class="accent-violet-900 mr-1">
-                        <label for="vf100" class="text-xs">Vérifications françaises</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="vi100" class="accent-violet-900 mr-1">
-                        <label for="vi100" class="text-xs">Vérifications internationales</label>
-                    </div>
-                </div>
-                <!-- 200 Credits -->
-                <div class="bg-gray-100 rounded p-4">
-                    <div class="text-violet-900 font-bold text-lg mb-1">200 Credits</div>
-                    <ul class="text-xs text-gray-700 mb-2 list-disc ml-4">
-                        <li>Save 1 200,00€ with a French package.</li>
-                        <li>Save 1 600,00€ with an International package.</li>
-                    </ul>
-                    <div class="mb-1">
-                        <input type="checkbox" id="vf200" class="accent-violet-900 mr-1">
-                        <label for="vf200" class="text-xs">Vérifications françaises</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="vi200" class="accent-violet-900 mr-1">
-                        <label for="vi200" class="text-xs">Vérifications internationales</label>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <!-- Footer -->
-    <!-- Footer -->
-<div id="footer-container"></div>
+    <div id="footer-container"></div>
     <script>
         // تفعيل زر Next فقط عند الموافقة على الشروط
         const terms = document.getElementById('terms');
