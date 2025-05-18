@@ -99,71 +99,71 @@
             <!-- Main Content -->
             <main class="container mx-auto px-4 pt-20 pb-8 h-[calc(100vh-5rem)] overflow-y-auto">
                 <!-- Overview Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     <!-- Total Requests -->
-                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
-                        <div class="flex flex-row items-center justify-start w-full mb-4">
-                            <div class="bg-violet-100 p-5 rounded-full mr-4">
-                                <i class="fas fa-file-alt text-violet-900 text-4xl"></i>
+                    <div class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200">
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mb-2">
+                                <i class="fas fa-file-alt text-violet-900 text-3xl"></i>
                             </div>
-                            <p class="text-violet-700 font-bold text-2xl">Total Requests</p>
+                            <p class="text-violet-800 font-extrabold text-xl text-center leading-tight">Total<br>Requests</p>
                         </div>
                         <div class="w-full flex flex-col items-center">
-                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
-                                <canvas id="donut-total" width="160" height="160"></canvas>
+                            <div class="relative w-[120px] h-[120px] flex items-center justify-center mb-2">
+                                <canvas id="donut-total" width="120" height="120"></canvas>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <span class="text-4xl font-extrabold text-violet-900">1,234</span>
+                                    <span class="text-3xl font-extrabold text-violet-900">1,234</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Pending Requests -->
-                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
-                        <div class="flex flex-row items-center justify-start w-full mb-4">
-                            <div class="bg-violet-100 p-5 rounded-full mr-4">
-                                <i class="fas fa-clock text-violet-900 text-4xl"></i>
+                    <div class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200">
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mb-2">
+                                <i class="fas fa-clock text-violet-900 text-3xl"></i>
                             </div>
-                            <p class="text-violet-700 font-bold text-2xl">Pending Requests</p>
+                            <p class="text-violet-800 font-extrabold text-xl text-center leading-tight">Pending<br>Requests</p>
                         </div>
                         <div class="w-full flex flex-col items-center">
-                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
-                                <canvas id="donut-pending" width="160" height="160"></canvas>
+                            <div class="relative w-[120px] h-[120px] flex items-center justify-center mb-2">
+                                <canvas id="donut-pending" width="120" height="120"></canvas>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <span class="text-4xl font-extrabold text-violet-900">42</span>
+                                    <span class="text-3xl font-extrabold text-violet-900">42</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Rejected Requests -->
-                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
-                        <div class="flex flex-row items-center justify-start w-full mb-4">
-                            <div class="bg-violet-100 p-5 rounded-full mr-4">
-                                <i class="fas fa-times-circle text-violet-900 text-4xl"></i>
+                    <div class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200">
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mb-2">
+                                <i class="fas fa-times-circle text-violet-900 text-3xl"></i>
                             </div>
-                            <p class="text-violet-700 font-bold text-2xl">Rejected Requests</p>
+                            <p class="text-violet-800 font-extrabold text-xl text-center leading-tight">Rejected<br>Requests</p>
                         </div>
                         <div class="w-full flex flex-col items-center">
-                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
-                                <canvas id="donut-rejected" width="160" height="160"></canvas>
+                            <div class="relative w-[120px] h-[120px] flex items-center justify-center mb-2">
+                                <canvas id="donut-rejected" width="120" height="120"></canvas>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <span class="text-4xl font-extrabold text-violet-900">15</span>
+                                    <span class="text-3xl font-extrabold text-violet-900">15</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- New This Month -->
-                    <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-10 flex flex-col items-center">
-                        <div class="flex flex-row items-center justify-start w-full mb-4">
-                            <div class="bg-violet-100 p-5 rounded-full mr-4">
-                                <i class="fas fa-calendar-alt text-violet-900 text-4xl"></i>
+                    <div class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200">
+                        <div class="flex flex-col items-center mb-4">
+                            <div class="bg-violet-100 p-5 rounded-full mb-2">
+                                <i class="fas fa-calendar-alt text-violet-900 text-3xl"></i>
                             </div>
-                            <p class="text-violet-700 font-bold text-2xl">New This Month</p>
+                            <p class="text-violet-800 font-extrabold text-xl text-center leading-tight">New<br>This Month</p>
                         </div>
                         <div class="w-full flex flex-col items-center">
-                            <div class="relative w-[160px] h-[160px] flex items-center justify-center mb-2">
-                                <canvas id="donut-new" width="160" height="160"></canvas>
+                            <div class="relative w-[120px] h-[120px] flex items-center justify-center mb-2">
+                                <canvas id="donut-new" width="120" height="120"></canvas>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <span class="text-4xl font-extrabold text-violet-900">89</span>
+                                    <span class="text-3xl font-extrabold text-violet-900">89</span>
                                 </div>
                             </div>
                         </div>
