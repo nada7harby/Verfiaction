@@ -97,7 +97,7 @@
             </header>
 
             <!-- Main Content -->
-            <main class="container mx-auto px-4 pt-20 pb-8 h-[calc(100vh-5rem)] overflow-y-auto">
+            <main class="container mx-auto px-4 pt-20 pb-8  overflow-y-auto">
                 <!-- Overview Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                     <!-- Total Requests -->
@@ -168,6 +168,18 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Revenue Overview Chart -->
+                <div class="bg-white/90 rounded-3xl shadow-2xl p-8 mb-12 transform transition-all duration-1000 opacity-0 translate-y-10" id="requestsChartContainer">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-violet-900">Monthly Requests Overview</h2>
+                        <select class="bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+                    <canvas id="requestsChart" height="100"></canvas>
                 </div>
 
                 <!-- Notifications Panel -->
@@ -410,6 +422,144 @@
                     responsive: false
                 }
             });
+        });
+
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe the chart container
+        const chartContainer = document.getElementById('requestsChartContainer');
+        observer.observe(chartContainer);
+
+        // Requests Overview Chart with Animation
+        const requestsCtx = document.getElementById('requestsChart').getContext('2d');
+        const requestsChart = new Chart(requestsCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Total Requests',
+                    data: [150, 220, 180, 290, 250, 300, 280, 320, 350, 400, 380, 420],
+                    borderColor: '#4c1d95',
+                    backgroundColor: 'rgba(76, 29, 149, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#4c1d95',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }, {
+                    label: 'Approved Requests',
+                    data: [120, 180, 150, 240, 200, 250, 230, 270, 300, 350, 330, 370],
+                    borderColor: '#a78bfa',
+                    backgroundColor: 'rgba(167, 139, 250, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#a78bfa',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }, {
+                    label: 'Pending Requests',
+                    data: [20, 30, 25, 40, 35, 45, 40, 45, 50, 45, 40, 45],
+                    borderColor: '#ddd6fe',
+                    backgroundColor: 'rgba(221, 214, 254, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    borderWidth: 3,
+                    pointBackgroundColor: '#ddd6fe',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: {
+                                size: 12,
+                                family: "'Inter', sans-serif"
+                            }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(76, 29, 149, 0.9)',
+                        titleFont: {
+                            size: 14,
+                            family: "'Inter', sans-serif"
+                        },
+                        bodyFont: {
+                            size: 13,
+                            family: "'Inter', sans-serif"
+                        },
+                        padding: 12,
+                        cornerRadius: 8,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(76, 29, 149, 0.1)',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Inter', sans-serif"
+                            },
+                            padding: 10
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Inter', sans-serif"
+                            },
+                            padding: 10
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+
+        // Add smooth animation when changing year
+        document.querySelector('select').addEventListener('change', function() {
+            requestsChart.data.datasets.forEach(dataset => {
+                dataset.data = dataset.data.map(() => Math.random() * 500);
+            });
+            requestsChart.update('none');
         });
     </script>
 </body>
