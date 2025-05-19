@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - SPATRAK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        violet: {
+                            200: '#ddd6fe',
+                            400: '#a78bfa',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400">
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50">
+            <div class="flex flex-col h-full">
+                <div class="p-6">
+                    <div class="flex items-center space-x-3 mb-8">
+                        <img src="images/logo-removebg-preview 12.png" alt="SPATRAK Logo" class="h-12 w-12">
+                        <span class="text-xl font-bold">SPATRAK</span>
+                    </div>
+                    
+                    <nav class="space-y-2">
+                        <a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-users"></i>
+                            <span>Users</span>
+                        </a>
+                        <a href="requests.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Requests</span>
+                        </a>
+                        <a href="verification.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verification</span>
+                        </a>
+                        <a href="payments.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Payments</span>
+                        </a>
+                        <a href="analytics.html" class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100 text-violet-900">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="mt-auto p-6">
+                    <div class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin" class="w-10 h-10 rounded-full">
+                        <div>
+                            <p class="font-medium text-violet-900">Admin User</p>
+                            <p class="text-sm text-violet-600">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 lg:ml-64">
+            <!-- Header -->
+            <header class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40">
+                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <button id="sidebarToggle" class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold">Analytics Dashboard</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <select class="bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30">Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="365">Last Year</option>
+                        </select>
+                        <button class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="container mx-auto px-4 pt-20 pb-8 h-[calc(100vh-5rem)] overflow-y-auto">
+                <!-- Overview Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Total Users</p>
+                                <h3 class="text-3xl font-bold text-violet-900">12,345</h3>
+                                <p class="text-sm text-green-600">↑ 12% from last month</p>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-users text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Total Revenue</p>
+                                <h3 class="text-3xl font-bold text-violet-900">$45,678</h3>
+                                <p class="text-sm text-green-600">↑ 8% from last month</p>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-dollar-sign text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Verification Rate</p>
+                                <h3 class="text-3xl font-bold text-violet-900">89%</h3>
+                                <p class="text-sm text-green-600">↑ 5% from last month</p>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-check-circle text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Active Sessions</p>
+                                <h3 class="text-3xl font-bold text-violet-900">1,234</h3>
+                                <p class="text-sm text-red-600">↓ 3% from last month</p>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-chart-line text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Revenue Chart -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">Revenue Overview</h2>
+                        <canvas id="revenueChart" height="300"></canvas>
+                    </div>
+
+                    <!-- User Growth Chart -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">User Growth</h2>
+                        <canvas id="userGrowthChart" height="300"></canvas>
+                    </div>
+
+                    <!-- Verification Status Chart -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">Verification Status</h2>
+                        <canvas id="verificationChart" height="300"></canvas>
+                    </div>
+
+                    <!-- Payment Methods Chart -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">Payment Methods</h2>
+                        <canvas id="paymentMethodsChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <!-- Additional Statistics -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Top Performing Services -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">Top Performing Services</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="bg-violet-100 p-2 rounded-lg">
+                                        <i class="fas fa-id-card text-violet-900"></i>
+                                    </div>
+                                    <span class="text-violet-900">ID Verification</span>
+                                </div>
+                                <span class="text-violet-900 font-medium">45%</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="bg-violet-100 p-2 rounded-lg">
+                                        <i class="fas fa-passport text-violet-900"></i>
+                                    </div>
+                                    <span class="text-violet-900">Passport Verification</span>
+                                </div>
+                                <span class="text-violet-900 font-medium">30%</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="bg-violet-100 p-2 rounded-lg">
+                                        <i class="fas fa-car text-violet-900"></i>
+                                    </div>
+                                    <span class="text-violet-900">License Verification</span>
+                                </div>
+                                <span class="text-violet-900 font-medium">25%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">Recent Activity</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-green-100 p-2 rounded-full">
+                                    <i class="fas fa-check text-green-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-violet-900">New user registration</p>
+                                    <p class="text-sm text-violet-600">2 minutes ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-blue-100 p-2 rounded-full">
+                                    <i class="fas fa-dollar-sign text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-violet-900">Payment received</p>
+                                    <p class="text-sm text-violet-600">15 minutes ago</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-yellow-100 p-2 rounded-full">
+                                    <i class="fas fa-clock text-yellow-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-violet-900">Verification pending</p>
+                                    <p class="text-sm text-violet-600">1 hour ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Health -->
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <h2 class="text-xl font-bold text-violet-900 mb-4">System Health</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-violet-900">Server Uptime</span>
+                                    <span class="text-violet-900">99.9%</span>
+                                </div>
+                                <div class="w-full bg-violet-100 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 99.9%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-violet-900">Response Time</span>
+                                    <span class="text-violet-900">120ms</span>
+                                </div>
+                                <div class="w-full bg-violet-100 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-violet-900">Error Rate</span>
+                                    <span class="text-violet-900">0.1%</span>
+                                </div>
+                                <div class="w-full bg-violet-100 rounded-full h-2">
+                                    <div class="bg-green-500 h-2 rounded-full" style="width: 99.9%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar Toggle Functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('aside');
+        const mainContent = document.querySelector('main');
+        const header = document.querySelector('header');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+        });
+
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000],
+                    borderColor: '#4c1d95',
+                    backgroundColor: 'rgba(76, 29, 149, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(76, 29, 149, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // User Growth Chart
+        const userGrowthCtx = document.getElementById('userGrowthChart').getContext('2d');
+        new Chart(userGrowthCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'New Users',
+                    data: [500, 800, 1200, 1500, 1800, 2000],
+                    backgroundColor: '#a78bfa',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(76, 29, 149, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // Verification Status Chart
+        const verificationCtx = document.getElementById('verificationChart').getContext('2d');
+        new Chart(verificationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Verified', 'Pending', 'Rejected'],
+                datasets: [{
+                    data: [65, 25, 10],
+                    backgroundColor: [
+                        '#10B981',
+                        '#F59E0B',
+                        '#EF4444'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Payment Methods Chart
+        const paymentMethodsCtx = document.getElementById('paymentMethodsChart').getContext('2d');
+        new Chart(paymentMethodsCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Credit Card', 'PayPal', 'Bank Transfer'],
+                datasets: [{
+                    data: [45, 35, 20],
+                    backgroundColor: [
+                        '#4c1d95',
+                        '#a78bfa',
+                        '#ddd6fe'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

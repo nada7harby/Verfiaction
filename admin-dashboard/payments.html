@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments Management - SPATRAK</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        violet: {
+                            200: '#ddd6fe',
+                            400: '#a78bfa',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400">
+    <div class="flex h-full">
+        <!-- Sidebar -->
+        <aside class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50">
+            <div class="flex flex-col h-full">
+                <div class="p-6">
+                    <div class="flex items-center space-x-3 mb-8">
+                        <img src="images/logo-removebg-preview 12.png" alt="SPATRAK Logo" class="h-12 w-12">
+                        <span class="text-xl font-bold">SPATRAK</span>
+                    </div>
+                    
+                    <nav class="space-y-2">
+                        <a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-users"></i>
+                            <span>Users</span>
+                        </a>
+                        <a href="requests.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Requests</span>
+                        </a>
+                        <a href="verification.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verification</span>
+                        </a>
+                        <a href="payments.html" class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100 text-violet-900">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Payments</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Analytics</span>
+                        </a>
+                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="mt-auto p-6">
+                    <div class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin" class="w-10 h-10 rounded-full">
+                        <div>
+                            <p class="font-medium text-violet-900">Admin User</p>
+                            <p class="text-sm text-violet-600">Administrator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 lg:ml-64">
+            <!-- Header -->
+            <header class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40">
+                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <div class="flex items-center space-x-4">
+                        <button id="sidebarToggle" class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="text-2xl font-bold">Payments Management</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="container mx-auto px-4 pt-20 pb-8 h-[calc(100vh-5rem)] overflow-y-auto">
+                <!-- Overview Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Total Revenue</p>
+                                <h3 class="text-3xl font-bold text-violet-900">$45,678</h3>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-dollar-sign text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Pending Payments</p>
+                                <h3 class="text-3xl font-bold text-violet-900">$2,450</h3>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-clock text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Today's Revenue</p>
+                                <h3 class="text-3xl font-bold text-violet-900">$1,234</h3>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-calendar-day text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-violet-600">Total Transactions</p>
+                                <h3 class="text-3xl font-bold text-violet-900">1,234</h3>
+                            </div>
+                            <div class="bg-violet-100 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt text-violet-900 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payments Table -->
+                <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-violet-900">All Payments</h2>
+                        <div class="flex space-x-4">
+                            <select class="bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
+                                <option value="all">All Status</option>
+                                <option value="success">Success</option>
+                                <option value="pending">Pending</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                            <button class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300">
+                                <i class="fas fa-filter mr-2"></i>Filter
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-violet-50">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Invoice Number</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Amount</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-violet-100">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">INV-001</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">John Doe</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">$1,200.00</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">2024-03-15</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">Success</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="showPaymentDetails('INV-001')" class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-3 py-1 rounded-lg transition duration-300">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">INV-002</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">Jane Smith</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">$800.00</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">2024-03-14</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">Pending</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button onclick="showPaymentDetails('INV-002')" class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-3 py-1 rounded-lg transition duration-300">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Payment Details Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-violet-900">Payment Details</h3>
+                <button onclick="closePaymentModal()" class="text-violet-900 hover:text-violet-600">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-violet-600">Invoice Number</p>
+                        <p class="font-medium text-violet-900" id="modalInvoiceNumber">INV-001</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-violet-600">Date</p>
+                        <p class="font-medium text-violet-900" id="modalDate">2024-03-15</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-violet-600">Customer Name</p>
+                        <p class="font-medium text-violet-900" id="modalCustomer">John Doe</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-violet-600">Amount</p>
+                        <p class="font-medium text-violet-900" id="modalAmount">$1,200.00</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-violet-600">Payment Method</p>
+                        <p class="font-medium text-violet-900" id="modalPaymentMethod">Credit Card</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-violet-600">Status</p>
+                        <p class="font-medium text-violet-900" id="modalStatus">Success</p>
+                    </div>
+                </div>
+                <div class="border-t border-violet-100 pt-4">
+                    <p class="text-sm text-violet-600 mb-2">Description</p>
+                    <p class="text-violet-900" id="modalDescription">Payment for verification services and document processing.</p>
+                </div>
+                <div class="border-t border-violet-100 pt-4">
+                    <p class="text-sm text-violet-600 mb-2">Transaction ID</p>
+                    <p class="text-violet-900" id="modalTransactionId">TRX-123456789</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sidebar Toggle Functionality
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('aside');
+        const mainContent = document.querySelector('main');
+        const header = document.querySelector('header');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 1024) {
+                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+        });
+
+        // Modal Functionality
+        const modal = document.getElementById('paymentModal');
+
+        function showPaymentDetails(invoiceNumber) {
+            // In a real application, you would fetch the payment details from your backend
+            // For now, we'll use sample data
+            const paymentDetails = {
+                'INV-001': {
+                    invoiceNumber: 'INV-001',
+                    date: '2024-03-15',
+                    customer: 'John Doe',
+                    amount: '$1,200.00',
+                    paymentMethod: 'Credit Card',
+                    status: 'Success',
+                    description: 'Payment for verification services and document processing.',
+                    transactionId: 'TRX-123456789'
+                },
+                'INV-002': {
+                    invoiceNumber: 'INV-002',
+                    date: '2024-03-14',
+                    customer: 'Jane Smith',
+                    amount: '$800.00',
+                    paymentMethod: 'PayPal',
+                    status: 'Pending',
+                    description: 'Payment for document verification and processing.',
+                    transactionId: 'TRX-987654321'
+                }
+            };
+
+            const details = paymentDetails[invoiceNumber];
+            if (details) {
+                document.getElementById('modalInvoiceNumber').textContent = details.invoiceNumber;
+                document.getElementById('modalDate').textContent = details.date;
+                document.getElementById('modalCustomer').textContent = details.customer;
+                document.getElementById('modalAmount').textContent = details.amount;
+                document.getElementById('modalPaymentMethod').textContent = details.paymentMethod;
+                document.getElementById('modalStatus').textContent = details.status;
+                document.getElementById('modalDescription').textContent = details.description;
+                document.getElementById('modalTransactionId').textContent = details.transactionId;
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePaymentModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closePaymentModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePaymentModal();
+            }
+        });
+    </script>
+</body>
+</html> 
