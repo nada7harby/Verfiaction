@@ -25,57 +25,7 @@
 <body class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400">
     <div class="flex h-full">
         <!-- Sidebar -->
-        <aside class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50">
-            <div class="flex flex-col h-full">
-                <div class="p-6">
-                    <div class="flex items-center space-x-3 mb-8">
-                        <img src="images/logo-removebg-preview 12.png" alt="SPATRAK Logo" class="h-12 w-12">
-                        <span class="text-xl font-bold">SPATRAK</span>
-                    </div>
-                    
-                    <nav class="space-y-2">
-                        <a href="dashboard.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
-                            <i class="fas fa-home"></i>
-                            <span>Dashboard</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
-                            <i class="fas fa-users"></i>
-                            <span>Users</span>
-                        </a>
-                        <a href="requests.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Requests</span>
-                        </a>
-                        <a href="verification.html" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Verification</span>
-                        </a>
-                        <a href="payments.html" class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100 text-violet-900">
-                            <i class="fas fa-credit-card"></i>
-                            <span>Payments</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Analytics</span>
-                        </a>
-                        <a href="#" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                    </nav>
-                </div>
-                
-                <div class="mt-auto p-6">
-                    <div class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100">
-                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=random" alt="Admin" class="w-10 h-10 rounded-full">
-                        <div>
-                            <p class="font-medium text-violet-900">Admin User</p>
-                            <p class="text-sm text-violet-600">Administrator</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
+      <div id="Sidebar-container"></div>
 
         <!-- Main Content Area -->
         <div class="flex-1 lg:ml-64">
@@ -341,6 +291,13 @@
             if (e.key === 'Escape') {
                 closePaymentModal();
             }
+        });
+          fetch("./Sidebar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("Sidebar-container").innerHTML = data;
+          // Initialize navbar functionality
+          loadNavbar();
         });
     </script>
 </body>
