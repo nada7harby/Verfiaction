@@ -14,3 +14,7 @@
   box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
 }
 /* Navbar */
+html,
+body {
+  overflow-x: hidden;
+}
