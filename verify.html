@@ -412,6 +412,21 @@
         });
     </script>
     <script>
+      // Helper function to show error messages (assuming this exists or is added elsewhere)
+      function showError(element, message) {
+        // Basic implementation: create a div and insert it after the element
+        const errorDiv = document.createElement('div');
+        errorDiv.classList.add('error-message', 'text-red-500', 'text-sm', 'mt-1');
+        errorDiv.textContent = message;
+        // Find the parent element that contains the label or input
+        const parent = element.closest('label') || element.parentElement;
+        if (parent) {
+          parent.appendChild(errorDiv);
+        } else {
+           element.parentElement.appendChild(errorDiv);
+        }
+      }
+
       // Form validation functions
       function validateName(name) {
         return name.length >= 2 && /^[\u0600-\u06FFa-zA-Z\s]+$/.test(name);
@@ -437,7 +452,103 @@
         return validTypes.includes(file.type) && file.size <= maxSize;
       }
 
-      document.getElementById("verificationForm").addEventListener("submit", async function (e) {
+      async function submitVerification() {
+        // الحصول على عناصر النموذج
+        const form = document.getElementById("verificationForm");
+        const firstName = form.querySelector('input[name="firstName"]');
+        const lastName = form.querySelector('input[name="lastName"]');
+        const dobDay = form.querySelector('select[name="dob_day"]');
+        const dobMonth = form.querySelector('select[name="dob_month"]');
+        const dobYear = form.querySelector('input[name="dob_year"]');
+        const email = form.querySelector('input[name="candidateEmail"]');
+        const address = form.querySelector('input[name="address"]');
+        const phone = form.querySelector('input[name="phone"]');
+        const country = form.querySelector('select[name="country"]');
+        const establishment = form.querySelector('select[name="establishment"]');
+        const program = form.querySelector('select[name="program"]');
+        const graduationYear = form.querySelector('select[name="graduationYear"]');
+        const reference = form.querySelector('input[name="reference"]');
+        const company = form.querySelector('input[name="company"]');
+        const contact = form.querySelector('input[name="contact"]');
+        const contactEmail = form.querySelector('input[name="contactEmail"]');
+        const comment = form.querySelector('input[name="comment"]');
+        const consentFormInput = form.querySelector('input[name="consentForm"]');
+        const degreeIdInput = form.querySelector('input[name="degreeId"]');
+        const diplomaCopyInput = form.querySelector('input[name="diplomaCopy"]');
+
+        // إعداد رؤوس الطلب
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", "••••••"); // NOTE: Hardcoded token - consider a more secure method
+
+        // إنشاء FormData وإضافة البيانات
+        const formdata = new FormData();
+        formdata.append("firstName", firstName.value);
+        formdata.append("lastName", lastName.value);
+        formdata.append("birthDateDay", dobDay.value);
+        formdata.append("birthDateMonth", dobMonth.value);
+        formdata.append("birthDateYear", dobYear.value);
+        formdata.append("email", email.value);
+        formdata.append("address", address.value);
+        formdata.append("phone", phone.value);
+        formdata.append("country", country.value);
+        formdata.append("establishment", establishment.value);
+        formdata.append("program", program.value);
+        formdata.append("graduationYear", graduationYear.value);
+        formdata.append("internalRef", reference.value);
+        formdata.append("company", company.value);
+        formdata.append("contact", contact.value);
+        formdata.append("contactEmail", contactEmail.value);
+        formdata.append("comment", comment.value);
+
+        // إضافة الملفات إذا تم اختيارها
+        if (consentFormInput.files.length > 0) {
+          formdata.append("consentForm", consentFormInput.files[0]);
+        }
+        if (degreeIdInput.files.length > 0) {
+          formdata.append("idCard", degreeIdInput.files[0]);
+        }
+        if (diplomaCopyInput.files.length > 0) {
+          formdata.append("diploma", diplomaCopyInput.files[0]);
+        }
+
+        // إعداد خيارات الطلب
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: formdata,
+          redirect: "follow"
+        };
+
+        try {
+          // Show loading state
+          const submitButton = document.querySelector('button[type="submit"]');
+          const originalButtonText = submitButton.textContent;
+          submitButton.disabled = true;
+          submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+          // إرسال الطلب
+          const response = await fetch("https://backend-production-816c.up.railway.app/api/requests", requestOptions);
+          const result = await response.json();
+
+          if (response.ok) {
+            alert("تم إرسال طلب التحقق بنجاح!");
+            form.reset(); // إعادة تعيين النموذج بعد الإرسال الناجح
+          } else {
+            alert(result.message || "فشل في إرسال الطلب. يرجى المحاولة مرة أخرى.");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.");
+        } finally {
+            // Re-enable button and restore text
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Submit the verification'; // Or the original text if stored
+        }
+      }
+
+      // ربط الوظيفة بحدث submit للنموذج
+      document.getElementById("verificationForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
         // Reset previous error messages
@@ -464,7 +575,7 @@
         const dobMonth = document.querySelector('select[name="dob_month"]');
         const dobYear = document.querySelector('input[name="dob_year"]');
         if (!validateDateOfBirth(dobDay.value, dobMonth.value, dobYear.value)) {
-          showError(dobDay, 'الرجاء إدخال تاريخ الميلاد بشكل صحيح');
+          showError(dobYear, 'الرجاء إدخال تاريخ الميلاد بشكل صحيح'); // Link error to year input
           hasErrors = true;
         }
 
@@ -506,25 +617,28 @@
         }
 
         // Validate Required Files
-        const consentForm = document.querySelector('input[name="consentForm"]').files[0];
-        if (!validateFile(consentForm)) {
-          showError(document.querySelector('input[name="consentForm"]').parentElement, 
+        const consentFormInput = document.querySelector('input[name="consentForm"]');
+        if (consentFormInput.files.length === 0) {
+           showError(consentFormInput.parentElement,
+             'الرجاء تحميل نموذج الموافقة');
+           hasErrors = true;
+        } else if (!validateFile(consentFormInput.files[0])) {
+          showError(consentFormInput.parentElement,
             'الرجاء تحميل نموذج الموافقة بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB');
           hasErrors = true;
         }
 
         // Validate Optional Files
-        const degreeId = document.querySelector('input[name="degreeId"]').files[0];
-        const diplomaCopy = document.querySelector('input[name="diplomaCopy"]').files[0];
-
-        if (degreeId && !validateFile(degreeId)) {
-          showError(document.querySelector('input[name="degreeId"]').parentElement,
+        const degreeIdInput = document.querySelector('input[name="degreeId"]');
+        if (degreeIdInput.files.length > 0 && !validateFile(degreeIdInput.files[0])) {
+          showError(degreeIdInput.parentElement,
             'الرجاء تحميل بطاقة الهوية بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB');
           hasErrors = true;
         }
 
-        if (diplomaCopy && !validateFile(diplomaCopy)) {
-          showError(document.querySelector('input[name="diplomaCopy"]').parentElement,
+        const diplomaCopyInput = document.querySelector('input[name="diplomaCopy"]');
+        if (diplomaCopyInput.files.length > 0 && !validateFile(diplomaCopyInput.files[0])) {
+          showError(diplomaCopyInput.parentElement,
             'الرجاء تحميل نسخة الدبلوم بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB');
           hasErrors = true;
         }
@@ -533,78 +647,22 @@
           return;
         }
 
-        // Show loading state
-        const submitButton = document.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.textContent;
-        submitButton.disabled = true;
-        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-
-        // Create FormData object
-        const formData = new FormData(this);
-
-        // Add authorization header
-        const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODI0ZmFjYWNlYmM4OTAyNmFlMWRlYWUiLCJpYXQiOjE3NDc4MTUyNTksImV4cCI6MTc0NzgxODg1OX0.3PVTOegIEZU_NSagO6ClEBlw3aKeKFvf_7NerWLCXLM"
-        );
-
-        // Prepare request options
-        const requestOptions = {
-          method: "POST",
-          headers: myHeaders,
-          body: formData,
-          redirect: "follow",
-        };
-
-        try {
-          const response = await fetch(
-            "https://backend-production-816c.up.railway.app/api/requests",
-            requestOptions
-          );
-          const result = await response.json();
-
-          if (response.ok) {
-            alert("تم إرسال طلب التحقق بنجاح!");
-            this.reset();
-          } else {
-            alert(result.message || "فشل في إرسال الطلب. يرجى المحاولة مرة أخرى.");
-          }
-        } catch (error) {
-          console.error("Error:", error);
-          alert("خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.");
-        } finally {
-          submitButton.disabled = false;
-          submitButton.innerHTML = originalButtonText;
-        }
-      });
-
-      function showError(element, message) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message text-red-600 text-sm mt-1';
-        errorDiv.textContent = message;
-        element.parentNode.appendChild(errorDiv);
-        element.classList.add('border-red-500');
-      }
-
-      // Add input event listeners to remove error styling on input
-      document.querySelectorAll('input, select').forEach(element => {
-        element.addEventListener('input', function() {
-          this.classList.remove('border-red-500');
-          const errorMessage = this.parentNode.querySelector('.error-message');
-          if (errorMessage) {
-            errorMessage.remove();
-          }
-        });
+        submitVerification();
       });
 
       // Helper function to save as draft
       function saveDraft() {
-        const formData = new FormData(document.getElementById("verificationForm"));
+        const form = document.getElementById("verificationForm");
+        const formData = new FormData(form);
         const draftData = {};
-        formData.forEach((value, key) => {
-          draftData[key] = value;
-        });
+        for (let [key, value] of formData.entries()) {
+          if (value instanceof File) {
+            // Handle files differently if needed, e.g., store file names or indicators
+            draftData[key] = value.name; // Storing file name as an example
+          } else {
+            draftData[key] = value;
+          }
+        }
         localStorage.setItem('verificationDraft', JSON.stringify(draftData));
         alert("تم حفظ المسودة بنجاح");
       }
@@ -616,8 +674,12 @@
           const draftData = JSON.parse(savedDraft);
           Object.keys(draftData).forEach(key => {
             const element = document.querySelector(`[name="${key}"]`);
-            if (element) {
+            if (element && element.type !== 'file') {
               element.value = draftData[key];
+            } else if (element && element.type === 'file') {
+              // Cannot restore file input value directly for security reasons
+              console.log(`Draft includes a file for ${key}: ${draftData[key]}. User needs to re-upload.`);
+              // Optionally, display a message to the user to re-upload the file
             }
           });
         }
