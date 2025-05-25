@@ -951,7 +951,9 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <p class="text-md font-medium text-violet-600">Request ID</p>
-                            <p class="text-slate-600">${request._id || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request._id || "N/A"
+                            }</p>
                         </div>
                         <div classname="ml-5">
                             <p class="text-md font-medium text-violet-600">Status</p>
@@ -978,15 +980,21 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <p class="text-md font-medium text-violet-600">First Name</p>
-                            <p class="text-slate-600">${request.firstName || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.firstName || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Last Name</p>
-                            <p class="text-slate-600" >${request.lastName || "N/A"}</p>
+                            <p class="text-slate-600" >${
+                              request.lastName || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Given Last Name</p>
-                            <p class="text-slate-600">${request.givenLastName || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.givenLastName || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Birth Date</p>
@@ -1004,15 +1012,21 @@
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Phone</p>
-                            <p class="text-slate-600">${request.phone || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.phone || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Address</p>
-                            <p class="text-slate-600">${request.address || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.address || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Country</p>
-                            <p class="text-slate-600">${request.country || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.country || "N/A"
+                            }</p>
                         </div>
                     </div>
                 </div>
@@ -1026,19 +1040,27 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <p class="text-md font-medium text-violet-600">Establishment</p>
-                            <p class="text-slate-600" >${request.establishment || "N/A"}</p>
+                            <p class="text-slate-600" >${
+                              request.establishment || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Program</p>
-                            <p class="text-slate-600">${request.program || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.program || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Graduation Year</p>
-                            <p class="text-slate-600" >${request.graduationYear || "N/A"}</p>
+                            <p class="text-slate-600" >${
+                              request.graduationYear || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Internal Reference</p>
-                            <p class="text-slate-600" >${request.internalRef || "N/A"}</p>
+                            <p class="text-slate-600" >${
+                              request.internalRef || "N/A"
+                            }</p>
                         </div>
                     </div>
                 </div>
@@ -1049,63 +1071,70 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <p class="text-md font-medium text-violet-600">Company Name</p>
-                            <p class="text-slate-600">${request.company || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.company || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Contact Person</p>
-                            <p class="text-slate-600">${request.contact || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.contact || "N/A"
+                            }</p>
                         </div>
                         <div>
                             <p class="text-md font-medium text-violet-600">Contact Email</p>
-                            <p class="text-slate-600">${request.contactEmail || "N/A"}</p>
+                            <p class="text-slate-600">${
+                              request.contactEmail || "N/A"
+                            }</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- الملفات المرفقة -->
-                <div class="bg-violet-50 rounded-lg p-4">
-                    <h4 class="font-bold text-violet-800 mb-2">Attached Files</h4>
-                    <div class="space-y-2">
-                        ${
-                          request.files
-                            ? `
-                            <div class="grid grid-cols-1 gap-2">
-                                <button onclick="downloadFile('${request.files.consentForm}', 'consent_form.pdf')" 
-                                   class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
-                                    <i class="fas fa-file-alt text-xl"></i>
-                                    <span>Consent Form</span>
-                                    <i class="fas fa-download ml-auto"></i>
-                                </button>
-                                <button onclick="downloadFile('${request.files.idCard}', 'id_card.pdf')" 
-                                   class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
-                                    <i class="fas fa-id-card text-xl"></i>
-                                    <span>ID Card</span>
-                                    <i class="fas fa-download ml-auto"></i>
-                                </button>
-                                <button onclick="downloadFile('${request.files.diploma}', 'diploma.pdf')" 
-                                   class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
-                                    <i class="fas fa-graduation-cap text-xl"></i>
-                                    <span>Diploma</span>
-                                    <i class="fas fa-download ml-auto"></i>
-                                </button>
-                            </div>
-                            `
-                            : "No files attached"
-                        }
-                    </div>
-                </div>
-
-                <!-- التعليقات -->
-                ${
-                  request.reply.message
-                    ? `
-                <div class="bg-amber-50 rounded-lg p-4">
-                    <h4 class="font-bold text-amber-800 mb-2">Comments</h4>
-                    <p class="text-amber-700">${request.reply.message}</p>
-                </div>
-                `
-                    : ""
-                }
+<!-- الملفات المرفقة -->
+<div class="bg-violet-50 rounded-lg p-4">
+    <h4 class="font-bold text-violet-800 mb-2">Attached Files</h4>
+    <div class="space-y-2">
+        ${
+          request.files
+            ? `
+            <div class="grid grid-cols-1 gap-2">
+                <a href="https://backend-production-816c.up.railway.app/${request.files.consentForm}" 
+                   target="_blank"
+                   class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
+                    <i class="fas fa-file-alt text-xl"></i>
+                    <span>Consent Form</span>
+                    <i class="fas fa-external-link-alt ml-auto"></i>
+                </a>
+                <a href="https://backend-production-816c.up.railway.app/${request.files.idCard}" 
+                   target="_blank"
+                   class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
+                    <i class="fas fa-id-card text-xl"></i>
+                    <span>ID Card</span>
+                    <i class="fas fa-external-link-alt ml-auto"></i>
+                </a>
+                <a href="https://backend-production-816c.up.railway.app/${request.files.diploma}" 
+                   target="_blank"
+                   class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
+                    <i class="fas fa-graduation-cap text-xl"></i>
+                    <span>Diploma</span>
+                    <i class="fas fa-external-link-alt ml-auto"></i>
+                </a>
+            </div>
+            `
+            : "No files attached"
+        }
+    </div>
+</div>
+              <!-- التعليقات -->
+${
+  request.reply && request.reply.message
+    ? `
+<div class="bg-amber-50 rounded-lg p-4">
+    <h4 class="font-bold text-amber-800 mb-2">Comments</h4>
+    <p class="text-amber-700">${request.reply.message}</p>
+</div>
+`
+    : ""
+}
             </div>
         </div>
     `;

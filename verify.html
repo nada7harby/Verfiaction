@@ -171,10 +171,16 @@
                 <option value="École Polytechnique">École Polytechnique</option>
                 <option value="HEC Paris">HEC Paris</option>
                 <option value="Sciences Po">Sciences Po</option>
-                <option value="École Normale Supérieure">École Normale Supérieure</option>
+                <option value="École Normale Supérieure">
+                  École Normale Supérieure
+                </option>
                 <option value="University of Lyon">University of Lyon</option>
-                <option value="University of Strasbourg">University of Strasbourg</option>
-                <option value="University of Bordeaux">University of Bordeaux</option>
+                <option value="University of Strasbourg">
+                  University of Strasbourg
+                </option>
+                <option value="University of Bordeaux">
+                  University of Bordeaux
+                </option>
                 <option value="University of Lille">University of Lille</option>
               </select>
             </label>
@@ -190,12 +196,24 @@
                 <option value="Bachelor of Arts">Bachelor of Arts</option>
                 <option value="Master of Science">Master of Science</option>
                 <option value="Master of Arts">Master of Arts</option>
-                <option value="Master of Business Administration">Master of Business Administration</option>
-                <option value="Doctor of Philosophy">Doctor of Philosophy</option>
-                <option value="Bachelor of Engineering">Bachelor of Engineering</option>
-                <option value="Master of Engineering">Master of Engineering</option>
-                <option value="Bachelor of Computer Science">Bachelor of Computer Science</option>
-                <option value="Master of Computer Science">Master of Computer Science</option>
+                <option value="Master of Business Administration">
+                  Master of Business Administration
+                </option>
+                <option value="Doctor of Philosophy">
+                  Doctor of Philosophy
+                </option>
+                <option value="Bachelor of Engineering">
+                  Bachelor of Engineering
+                </option>
+                <option value="Master of Engineering">
+                  Master of Engineering
+                </option>
+                <option value="Bachelor of Computer Science">
+                  Bachelor of Computer Science
+                </option>
+                <option value="Master of Computer Science">
+                  Master of Computer Science
+                </option>
               </select>
             </label>
             <label class="block mb-4 text-lg font-medium text-violet-900"
@@ -415,15 +433,20 @@
       // Helper function to show error messages (assuming this exists or is added elsewhere)
       function showError(element, message) {
         // Basic implementation: create a div and insert it after the element
-        const errorDiv = document.createElement('div');
-        errorDiv.classList.add('error-message', 'text-red-500', 'text-sm', 'mt-1');
+        const errorDiv = document.createElement("div");
+        errorDiv.classList.add(
+          "error-message",
+          "text-red-500",
+          "text-sm",
+          "mt-1"
+        );
         errorDiv.textContent = message;
         // Find the parent element that contains the label or input
-        const parent = element.closest('label') || element.parentElement;
+        const parent = element.closest("label") || element.parentElement;
         if (parent) {
           parent.appendChild(errorDiv);
         } else {
-           element.parentElement.appendChild(errorDiv);
+          element.parentElement.appendChild(errorDiv);
         }
       }
 
@@ -448,7 +471,12 @@
 
       function validateFile(file, maxSize = 5 * 1024 * 1024) {
         if (!file) return true; // Optional files
-        const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/tiff'];
+        const validTypes = [
+          "application/docx",
+          "image/jpeg",
+          "image/png",
+          "application/pdf",
+        ];
         return validTypes.includes(file.type) && file.size <= maxSize;
       }
 
@@ -464,21 +492,32 @@
         const address = form.querySelector('input[name="address"]');
         const phone = form.querySelector('input[name="phone"]');
         const country = form.querySelector('select[name="country"]');
-        const establishment = form.querySelector('select[name="establishment"]');
+        const establishment = form.querySelector(
+          'select[name="establishment"]'
+        );
         const program = form.querySelector('select[name="program"]');
-        const graduationYear = form.querySelector('select[name="graduationYear"]');
+        const graduationYear = form.querySelector(
+          'select[name="graduationYear"]'
+        );
         const reference = form.querySelector('input[name="reference"]');
         const company = form.querySelector('input[name="company"]');
         const contact = form.querySelector('input[name="contact"]');
         const contactEmail = form.querySelector('input[name="contactEmail"]');
         const comment = form.querySelector('input[name="comment"]');
-        const consentFormInput = form.querySelector('input[name="consentForm"]');
+        const consentFormInput = form.querySelector(
+          'input[name="consentForm"]'
+        );
         const degreeIdInput = form.querySelector('input[name="degreeId"]');
-        const diplomaCopyInput = form.querySelector('input[name="diplomaCopy"]');
+        const diplomaCopyInput = form.querySelector(
+          'input[name="diplomaCopy"]'
+        );
 
         // إعداد رؤوس الطلب
         const myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODI0ZmFjYWNlYmM4OTAyNmFlMWRlYWUiLCJpYXQiOjE3NDgwNzI2NjQsImV4cCI6MTc0ODA3NjI2NH0.su9GmX--o5OiVHNd4PCZ_VUXAvkYSfubzVzgeGeppkI"); // NOTE: Hardcoded token - consider a more secure method
+        myHeaders.append(
+          "Authorization",
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODI0ZmFjYWNlYmM4OTAyNmFlMWRlYWUiLCJpYXQiOjE3NDgxMjYyMDgsImV4cCI6MTc0ODEyOTgwOH0.fpew6bHpykpbk3SBYhm40bGc8R9qMo5hx7i6Bm4KLWg"
+        ); // NOTE: Hardcoded token - consider a more secure method
 
         // إنشاء FormData وإضافة البيانات
         const formdata = new FormData();
@@ -516,7 +555,7 @@
           method: "POST",
           headers: myHeaders,
           body: formdata,
-          redirect: "follow"
+          redirect: "follow",
         };
 
         try {
@@ -524,131 +563,173 @@
           const submitButton = document.querySelector('button[type="submit"]');
           const originalButtonText = submitButton.textContent;
           submitButton.disabled = true;
-          submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+          submitButton.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
 
           // إرسال الطلب
-          const response = await fetch("https://backend-production-816c.up.railway.app/api/requests", requestOptions);
+          const response = await fetch(
+            "https://backend-production-816c.up.railway.app/api/requests",
+            requestOptions
+          );
           const result = await response.json();
 
           if (response.ok) {
             alert("تم إرسال طلب التحقق بنجاح!");
             form.reset(); // إعادة تعيين النموذج بعد الإرسال الناجح
           } else {
-            alert(result.message || "فشل في إرسال الطلب. يرجى المحاولة مرة أخرى.");
+            alert(
+              result.message || "فشل في إرسال الطلب. يرجى المحاولة مرة أخرى."
+            );
           }
         } catch (error) {
           console.error("Error:", error);
           alert("خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.");
         } finally {
-            // Re-enable button and restore text
-            const submitButton = document.querySelector('button[type="submit"]');
-            submitButton.disabled = false;
-            submitButton.innerHTML = 'Submit the verification'; // Or the original text if stored
+          // Re-enable button and restore text
+          const submitButton = document.querySelector('button[type="submit"]');
+          submitButton.disabled = false;
+          submitButton.innerHTML = "Submit the verification"; // Or the original text if stored
         }
       }
 
       // ربط الوظيفة بحدث submit للنموذج
-      document.getElementById("verificationForm").addEventListener("submit", function(e) {
-        e.preventDefault();
+      document
+        .getElementById("verificationForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-        // Reset previous error messages
-        document.querySelectorAll('.error-message').forEach(el => el.remove());
+          // Reset previous error messages
+          document
+            .querySelectorAll(".error-message")
+            .forEach((el) => el.remove());
 
-        let hasErrors = false;
+          let hasErrors = false;
 
-        // Validate First Name
-        const firstName = document.querySelector('input[name="firstName"]');
-        if (!validateName(firstName.value)) {
-          showError(firstName, 'الرجاء إدخال الاسم الأول بشكل صحيح (حروف فقط)');
-          hasErrors = true;
-        }
+          // Validate First Name
+          const firstName = document.querySelector('input[name="firstName"]');
+          if (!validateName(firstName.value)) {
+            showError(
+              firstName,
+              "الرجاء إدخال الاسم الأول بشكل صحيح (حروف فقط)"
+            );
+            hasErrors = true;
+          }
 
-        // Validate Last Name
-        const lastName = document.querySelector('input[name="lastName"]');
-        if (!validateName(lastName.value)) {
-          showError(lastName, 'الرجاء إدخال الاسم الأخير بشكل صحيح (حروف فقط)');
-          hasErrors = true;
-        }
+          // Validate Last Name
+          const lastName = document.querySelector('input[name="lastName"]');
+          if (!validateName(lastName.value)) {
+            showError(
+              lastName,
+              "الرجاء إدخال الاسم الأخير بشكل صحيح (حروف فقط)"
+            );
+            hasErrors = true;
+          }
 
-        // Validate Date of Birth
-        const dobDay = document.querySelector('select[name="dob_day"]');
-        const dobMonth = document.querySelector('select[name="dob_month"]');
-        const dobYear = document.querySelector('input[name="dob_year"]');
-        if (!validateDateOfBirth(dobDay.value, dobMonth.value, dobYear.value)) {
-          showError(dobYear, 'الرجاء إدخال تاريخ الميلاد بشكل صحيح'); // Link error to year input
-          hasErrors = true;
-        }
+          // Validate Date of Birth
+          const dobDay = document.querySelector('select[name="dob_day"]');
+          const dobMonth = document.querySelector('select[name="dob_month"]');
+          const dobYear = document.querySelector('input[name="dob_year"]');
+          if (
+            !validateDateOfBirth(dobDay.value, dobMonth.value, dobYear.value)
+          ) {
+            showError(dobYear, "الرجاء إدخال تاريخ الميلاد بشكل صحيح"); // Link error to year input
+            hasErrors = true;
+          }
 
-        // Validate Email if provided
-        const email = document.querySelector('input[name="candidateEmail"]');
-        if (email.value && !validateEmail(email.value)) {
-          showError(email, 'الرجاء إدخال البريد الإلكتروني بشكل صحيح');
-          hasErrors = true;
-        }
+          // Validate Email if provided
+          const email = document.querySelector('input[name="candidateEmail"]');
+          if (email.value && !validateEmail(email.value)) {
+            showError(email, "الرجاء إدخال البريد الإلكتروني بشكل صحيح");
+            hasErrors = true;
+          }
 
-        // Validate Phone if provided
-        const phone = document.querySelector('input[name="phone"]');
-        if (phone.value && !validatePhone(phone.value)) {
-          showError(phone, 'الرجاء إدخال رقم الهاتف بشكل صحيح');
-          hasErrors = true;
-        }
+          // Validate Phone if provided
+          const phone = document.querySelector('input[name="phone"]');
+          if (phone.value && !validatePhone(phone.value)) {
+            showError(phone, "الرجاء إدخال رقم الهاتف بشكل صحيح");
+            hasErrors = true;
+          }
 
-        // Validate Required Selects
-        const country = document.querySelector('select[name="country"]');
-        const establishment = document.querySelector('select[name="establishment"]');
-        const program = document.querySelector('select[name="program"]');
-        const graduationYear = document.querySelector('select[name="graduationYear"]');
+          // Validate Required Selects
+          const country = document.querySelector('select[name="country"]');
+          const establishment = document.querySelector(
+            'select[name="establishment"]'
+          );
+          const program = document.querySelector('select[name="program"]');
+          const graduationYear = document.querySelector(
+            'select[name="graduationYear"]'
+          );
 
-        if (!country.value) {
-          showError(country, 'الرجاء اختيار الدولة');
-          hasErrors = true;
-        }
-        if (!establishment.value) {
-          showError(establishment, 'الرجاء اختيار المؤسسة');
-          hasErrors = true;
-        }
-        if (!program.value) {
-          showError(program, 'الرجاء اختيار البرنامج');
-          hasErrors = true;
-        }
-        if (!graduationYear.value) {
-          showError(graduationYear, 'الرجاء اختيار سنة التخرج');
-          hasErrors = true;
-        }
+          if (!country.value) {
+            showError(country, "الرجاء اختيار الدولة");
+            hasErrors = true;
+          }
+          if (!establishment.value) {
+            showError(establishment, "الرجاء اختيار المؤسسة");
+            hasErrors = true;
+          }
+          if (!program.value) {
+            showError(program, "الرجاء اختيار البرنامج");
+            hasErrors = true;
+          }
+          if (!graduationYear.value) {
+            showError(graduationYear, "الرجاء اختيار سنة التخرج");
+            hasErrors = true;
+          }
 
-        // Validate Required Files
-        const consentFormInput = document.querySelector('input[name="consentForm"]');
-        if (consentFormInput.files.length === 0) {
-           showError(consentFormInput.parentElement,
-             'الرجاء تحميل نموذج الموافقة');
-           hasErrors = true;
-        } else if (!validateFile(consentFormInput.files[0])) {
-          showError(consentFormInput.parentElement,
-            'الرجاء تحميل نموذج الموافقة بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB');
-          hasErrors = true;
-        }
+          // Validate Required Files
+          const consentFormInput = document.querySelector(
+            'input[name="consentForm"]'
+          );
+          if (consentFormInput.files.length === 0) {
+            showError(
+              consentFormInput.parentElement,
+              "الرجاء تحميل نموذج الموافقة"
+            );
+            hasErrors = true;
+          } else if (!validateFile(consentFormInput.files[0])) {
+            showError(
+              consentFormInput.parentElement,
+              "الرجاء تحميل نموذج الموافقة بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB"
+            );
+            hasErrors = true;
+          }
 
-        // Validate Optional Files
-        const degreeIdInput = document.querySelector('input[name="degreeId"]');
-        if (degreeIdInput.files.length > 0 && !validateFile(degreeIdInput.files[0])) {
-          showError(degreeIdInput.parentElement,
-            'الرجاء تحميل بطاقة الهوية بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB');
-          hasErrors = true;
-        }
+          // Validate Optional Files
+          const degreeIdInput = document.querySelector(
+            'input[name="degreeId"]'
+          );
+          if (
+            degreeIdInput.files.length > 0 &&
+            !validateFile(degreeIdInput.files[0])
+          ) {
+            showError(
+              degreeIdInput.parentElement,
+              "الرجاء تحميل بطاقة الهوية بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB"
+            );
+            hasErrors = true;
+          }
 
-        const diplomaCopyInput = document.querySelector('input[name="diplomaCopy"]');
-        if (diplomaCopyInput.files.length > 0 && !validateFile(diplomaCopyInput.files[0])) {
-          showError(diplomaCopyInput.parentElement,
-            'الرجاء تحميل نسخة الدبلوم بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB');
-          hasErrors = true;
-        }
+          const diplomaCopyInput = document.querySelector(
+            'input[name="diplomaCopy"]'
+          );
+          if (
+            diplomaCopyInput.files.length > 0 &&
+            !validateFile(diplomaCopyInput.files[0])
+          ) {
+            showError(
+              diplomaCopyInput.parentElement,
+              "الرجاء تحميل نسخة الدبلوم بصيغة صحيحة (PDF, JPG, PNG, TIF) وحجم لا يتجاوز 5MB"
+            );
+            hasErrors = true;
+          }
 
-        if (hasErrors) {
-          return;
-        }
+          if (hasErrors) {
+            return;
+          }
 
-        submitVerification();
-      });
+          submitVerification();
+        });
 
       // Helper function to save as draft
       function saveDraft() {
@@ -663,22 +744,24 @@
             draftData[key] = value;
           }
         }
-        localStorage.setItem('verificationDraft', JSON.stringify(draftData));
+        localStorage.setItem("verificationDraft", JSON.stringify(draftData));
         alert("تم حفظ المسودة بنجاح");
       }
 
       // Load draft if exists
-      window.addEventListener('load', function() {
-        const savedDraft = localStorage.getItem('verificationDraft');
+      window.addEventListener("load", function () {
+        const savedDraft = localStorage.getItem("verificationDraft");
         if (savedDraft) {
           const draftData = JSON.parse(savedDraft);
-          Object.keys(draftData).forEach(key => {
+          Object.keys(draftData).forEach((key) => {
             const element = document.querySelector(`[name="${key}"]`);
-            if (element && element.type !== 'file') {
+            if (element && element.type !== "file") {
               element.value = draftData[key];
-            } else if (element && element.type === 'file') {
+            } else if (element && element.type === "file") {
               // Cannot restore file input value directly for security reasons
-              console.log(`Draft includes a file for ${key}: ${draftData[key]}. User needs to re-upload.`);
+              console.log(
+                `Draft includes a file for ${key}: ${draftData[key]}. User needs to re-upload.`
+              );
               // Optionally, display a message to the user to re-upload the file
             }
           });
