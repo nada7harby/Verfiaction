@@ -511,13 +511,10 @@
         const diplomaCopyInput = form.querySelector(
           'input[name="diplomaCopy"]'
         );
-
+        var token = sessionStorage.getItem("authToken");
         // إعداد رؤوس الطلب
         const myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODI0ZmFjYWNlYmM4OTAyNmFlMWRlYWUiLCJpYXQiOjE3NDgxMjYyMDgsImV4cCI6MTc0ODEyOTgwOH0.fpew6bHpykpbk3SBYhm40bGc8R9qMo5hx7i6Bm4KLWg"
-        ); // NOTE: Hardcoded token - consider a more secure method
+        myHeaders.append("Authorization", `Bearer ${token}`); // NOTE: Hardcoded token - consider a more secure method
 
         // إنشاء FormData وإضافة البيانات
         const formdata = new FormData();

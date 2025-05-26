@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((result) => {
           console.log(result);
           // Handle successful login
+          sessionStorage.setItem("authToken", result.token);
           Swal.fire({
             title: "Success!",
             text: "You have successfully logged in",
@@ -117,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
             confirmButtonColor: "#7e22ce",
           }).then(() => {
             // Redirect to dashboard or home page
-            window.location.href = "dashboard.html";
+            window.location.href = "index.html";
           });
         })
         .catch((error) => {
@@ -146,3 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// const token = sessionStorage.getItem("authToken")
+// const payload = JSON.parse(atob(token.split('.')[1]));
+// console.log(payload);
