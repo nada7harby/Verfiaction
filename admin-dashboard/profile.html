@@ -52,6 +52,14 @@
               <span>Requests</span>
             </button>
             <button
+              onclick="window.location.href = '../verify.html'"
+              id="sidebar-add-verification"
+              class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300 focus:outline-none"
+            >
+              <i class="fas fa-file-medical"></i>
+              <span>Add New Verification</span>
+            </button>
+            <button
               onclick="showSection('contact')"
               id="sidebar-contact"
               class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300 focus:outline-none"
@@ -129,7 +137,12 @@
                 Edit Profile
               </button>
             </form>
-         
+          </div>
+        </div>
+        <div class="w-3/4 mx-auto hidden" id="add-verification-section">
+          <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-8">
+            <h2 class="text-4xl font-bold text-violet-900 text-center mb-8">Add New Verification Request</h2>
+            <p class="text-center text-gray-600">Coming Soon: Form to add a new verification request.</p>
           </div>
         </div>
         <div class="w-full mx-auto hidden" id="requests-section">
@@ -362,21 +375,7 @@
 
               <div>
                 <label class="block text-sm font-medium text-violet-700 mb-1"
-                  >Status</label
-                >
-                <select
-                  id="editRequestStatus"
-                  class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400"
-                >
-                  <option value="pending">Pending</option>
-                  <option value="approved">Approved</option>
-                  <option value="rejected">Rejected</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-violet-700 mb-1"
-                  >Notes</label
+                  >Messages</label
                 >
                 <textarea
                   id="editRequestNotes"
@@ -397,7 +396,7 @@
                 onclick="saveRequestChanges()"
                 class="px-4 py-2 text-white bg-violet-600 rounded-lg hover:bg-violet-700 transition"
               >
-                Save Changes
+              Send
               </button>
             </div>
           </div>
@@ -405,41 +404,61 @@
       </div>
 
       <!-- View Request Modal -->
+    <!-- View Request Modal -->
+    <div
+      id="viewModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 overflow-y-auto"
+    >
       <div
-        id="viewModal"
-        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 overflow-y-auto"
+        class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl my-8 max-h-[90vh] overflow-hidden"
       >
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl my-8">
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-2xl font-bold text-violet-900">
-                Request Details
-              </h3>
-              <button
-                onclick="closeModal('viewModal')"
-                class="text-violet-400 hover:text-violet-600"
-              >
-                <i class="fas fa-times text-2xl"></i>
-              </button>
-            </div>
-
-            <div id="requestDetailsContent" class="space-y-6">
-              <div class="flex justify-center items-center py-8">
-                <i class="fas fa-spinner fa-spin text-3xl text-violet-600"></i>
-              </div>
-            </div>
-
-            <div class="flex justify-end mt-6">
-              <button
-                onclick="closeModal('viewModal')"
-                class="px-4 py-2 text-violet-700 bg-violet-100 rounded-lg hover:bg-violet-200 transition"
-              >
-                Close
-              </button>
-            </div>
+        <!-- Modal Header -->
+        <div
+          class="sticky top-0 bg-white border-b border-violet-100 px-6 py-4 z-10"
+        >
+          <div class="flex justify-between items-center">
+            <h3 class="text-2xl font-bold text-violet-900">
+              <i class="fas fa-file-alt text-violet-500 mr-3"></i>
+              Request Details
+            </h3>
+            <button
+              onclick="closeModal('viewModal')"
+              class="text-violet-400 hover:text-violet-600 transition-colors"
+            >
+              <i class="fas fa-times text-2xl"></i>
+            </button>
           </div>
         </div>
-      </div>
+
+        <!-- Modal Content -->
+        <div class="p-6 overflow-y-auto" style="max-height: calc(90vh - 120px)">
+          <div id="requestDetailsContent" class="space-y-6">
+            <!-- Example of how the content will be structured -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Basic Information Section -->
+              <div class="bg-violet-50 rounded-lg p-5">
+                <h4 class="font-bold text-violet-800 mb-4 text-lg">
+                  Basic Information
+                </h4>
+                <div class="grid grid-cols-1 gap-4">
+                  <div>
+                    <p class="text-sm font-semibold text-violet-600">
+                      Request ID
+                    </p>
+                    <p class="text-violet-900">REQ-123456</p>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-violet-600">Status</p>
+                    <p class="text-violet-900">Pending</p>
+                  </div>
+                  <div>
+                    <p class="text-sm font-semibold text-violet-600">
+                      Created At
+                    </p>
+                    <p class="text-violet-900">2023-05-15 14:30</p>
+                  </div>
+                </div>
+              </div>
     </div>
     <script>
       // المتغيرات العامة
@@ -483,6 +502,77 @@
           .addEventListener("click", function (e) {
             if (e.target === e.currentTarget) closeModal("viewModal");
           });
+
+        const editProfileForm = document.querySelector('#profile-section form');
+
+        editProfileForm.addEventListener('submit', async function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          // Collect form data
+          const firstName = document.getElementById('firstName').value;
+          const lastName = document.getElementById('lastName').value;
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+
+          // Construct request body
+          const raw = JSON.stringify({
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            password: password // Note: Sending password like this might not be secure, depending on API design
+          });
+
+          // Get auth token from session storage (assuming it's stored there)
+          const authToken = sessionStorage.getItem("authToken");
+          if (!authToken) {
+            alert("Authentication token not found. Please log in.");
+            return;
+          }
+
+          // Prepare headers
+          const myHeaders = new Headers();
+          myHeaders.append("Content-Type", "application/json");
+          myHeaders.append("Authorization", `Bearer ${authToken}`);
+
+          // Define API endpoint (using a hardcoded ID from your example - should be dynamic)
+          const userId = "682903ed7de20c0c8bf898c5"; // IMPORTANT: Replace with actual logged-in user ID
+          const apiUrl = `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`;
+
+          const requestOptions = {
+            method: "PUT",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+          };
+
+          try {
+            // Show loading indicator (optional)
+            const submitButton = editProfileForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Saving...'; // Change button text
+
+            // Perform the fetch request
+            const response = await fetch(apiUrl, requestOptions);
+            const result = await response.json(); // Assuming the API returns JSON
+
+            if (response.ok) {
+              alert("Profile updated successfully!");
+              // Optionally update displayed info or redirect
+            } else {
+              // Handle API errors
+              alert(result.message || `Error updating profile: ${response.status}`);
+            }
+          } catch (error) {
+            console.error("Fetch error:", error);
+            alert("An error occurred while updating profile.");
+          } finally {
+            // Restore button state
+            const submitButton = editProfileForm.querySelector('button[type="submit"]');
+            submitButton.disabled = false;
+            submitButton.textContent = originalButtonText; // Restore original text
+          }
+        });
       });
 
       // جلب الطلبات من API
@@ -608,7 +698,7 @@
                             <button onclick="openEditModal('${
                               request._id
                             }')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
-                                <i class="fas fa-edit mr-1"></i> Edit
+                                <i class="fas fa-edit mr-1"></i> Message
                             </button>
                             <button onclick="openViewModal('${
                               request._id
@@ -680,8 +770,6 @@
         const request = allRequests.find((req) => req._id === requestId);
         if (request) {
           document.getElementById("editRequestId").value = requestId;
-          document.getElementById("editRequestStatus").value =
-            request.status || "pending";
           document.getElementById("editRequestNotes").value =
             request.adminNotes || "";
 
@@ -727,7 +815,7 @@
           ? new Date(request.updatedAt).toLocaleString()
           : "N/A";
 
-        // تحديد لون الحالة
+        // تحديد لون الحالة للعرض
         let statusClass = "bg-gray-100 text-gray-800";
         if (request.status === "approved" || request.status === "accepted") {
           statusClass = "bg-green-100 text-green-800";
@@ -737,91 +825,193 @@
           statusClass = "bg-yellow-100 text-yellow-800";
         }
 
+        // تنسيق تاريخ الميلاد
+        const birthDate = request.birthDate
+          ? `${request.birthDate.day || "?"}/${request.birthDate.month || "?"}/${
+              request.birthDate.year || "?"
+            }`
+          : "N/A";
+
+        // روابط الملفات (بافتراض أن الـ API يوفر مسارات الملفات)
+        const consentFormLink = request.files?.consentForm
+          ? `<a href="${request.files.consentForm}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-file-alt mr-2"></i>Consent Form <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
+          : "N/A";
+        const idCardLink = request.files?.idCard
+          ? `<a href="${request.files.idCard}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-id-card mr-2"></i>ID Card <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
+          : "N/A";
+        const diplomaLink = request.files?.diploma
+          ? `<a href="${request.files.diploma}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-graduation-cap mr-2"></i>Diploma Copy <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
+          : "N/A";
+
+        // تفاصيل الرد (إذا وجدت)
+        const replyMessage = request.reply?.message || "No reply yet.";
+        const replyDate = request.reply?.date
+          ? new Date(request.reply.date).toLocaleString()
+          : "N/A";
+
         detailsContent.innerHTML = `
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- معلومات الطلب الأساسية -->
-                <div class="space-y-4">
-                    <div class="bg-violet-50 rounded-lg p-4">
-                        <h4 class="font-bold text-violet-800 mb-2">Basic Information</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-violet-600">Request ID</p>
-                                <p class="font-medium">${
-                                  request._id || "N/A"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Status</p>
-                                <p class="font-medium">
-                                    <span class="${statusClass} px-3 py-1 rounded-full text-sm">${
-          request.status || "N/A"
-        }</span>
-                                </p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Created At</p>
-                                <p class="font-medium">${requestDate}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Updated At</p>
-                                <p class="font-medium">${updatedDate}</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- معلومات الشخصية -->
-                    <div class="bg-violet-50 rounded-lg p-4">
-                        <h4 class="font-bold text-violet-800 mb-2">Personal Information</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-violet-600">First Name</p>
-                                <p class="font-medium">${
-                                  request.firstName || "N/A"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Last Name</p>
-                                <p class="font-medium">${
-                                  request.lastName || "N/A"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Email</p>
-                                <p class="font-medium">${
-                                  request.email || "N/A"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Phone</p>
-                                <p class="font-medium">${
-                                  request.phone || "N/A"
-                                }</p>
-                            </div>
+                <!-- معلومات أساسية -->
+                <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
+                    <h4 class="font-bold text-violet-800 mb-4 text-lg">Basic Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
+                        <div>
+                            <p class="text-sm text-violet-600">Request ID</p>
+                            <p class="font-medium break-words">${request._id || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Status</p>
+                            <p class="font-medium">
+                                <span class="${statusClass} px-3 py-1 rounded-full text-sm">${
+                                  request.status || "N/A"
+                                }</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Created At</p>
+                            <p class="font-medium">${requestDate}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Updated At</p>
+                            <p class="font-medium">${updatedDate}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- معلومات إضافية -->
-                <div class="space-y-4">
-                    <!-- معلومات إضافية -->
-                    <div class="bg-violet-50 rounded-lg p-4">
-                        <h4 class="font-bold text-violet-800 mb-2">Additional Information</h4>
-                        <div class="grid grid-cols-1 gap-4">
-                            <div>
-                                <p class="text-sm text-violet-600">Type</p>
-                                <p class="font-medium">${
-                                  request.type || "N/A"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Description</p>
-                                <p class="font-medium">${
-                                  request.description || "N/A"
-                                }</p>
-                            </div>
+                <!-- معلومات التعليم -->
+                <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
+                    <h4 class="font-bold text-violet-800 mb-4 text-lg">Education Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
+                        <div>
+                            <p class="text-sm text-violet-600">Establishment</p>
+                            <p class="font-medium">${request.establishment || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Program</p>
+                            <p class="font-medium">${request.program || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Graduation Year</p>
+                            <p class="font-medium">${request.graduationYear || "N/A"}</p>
+                        </div>
+                         <div>
+                            <p class="text-sm text-violet-600">Internal Reference</p>
+                            <p class="font-medium">${request.internalRef || "N/A"}</p>
                         </div>
                     </div>
                 </div>
+
+                <!-- معلومات شخصية -->
+                <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
+                    <h4 class="font-bold text-violet-800 mb-4 text-lg">Personal Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
+                        <div>
+                            <p class="text-sm text-violet-600">First Name</p>
+                            <p class="font-medium">${
+                              request.firstName || "N/A"
+                            }</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Last Name</p>
+                            <p class="font-medium">${
+                              request.lastName || "N/A"
+                            }</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Given Last Name</p>
+                            <p class="font-medium">${request.givenLastName || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Birth Date</p>
+                            <p class="font-medium">${birthDate}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Email</p>
+                            <p class="font-medium break-words">${request.email || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Phone</p>
+                            <p class="font-medium">${request.phone || "N/A"}</p>
+                        </div>
+                         <div>
+                            <p class="text-sm text-violet-600">Address</p>
+                            <p class="font-medium">${request.address || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Country</p>
+                            <p class="font-medium">${request.country || "N/A"}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- معلومات الشركة -->
+                 <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
+                    <h4 class="font-bold text-violet-800 mb-4 text-lg">Company Information</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
+                        <div>
+                            <p class="text-sm text-violet-600">Company Name</p>
+                            <p class="font-medium">${request.company || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Contact Person</p>
+                            <p class="font-medium">${request.contact || "N/A"}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Contact Email</p>
+                            <p class="font-medium break-words">${request.contactEmail || "N/A"}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الملفات المرفقة -->
+                <div class="bg-violet-50 rounded-lg p-5 shadow-sm md:col-span-2">
+                    <h4 class="font-bold text-violet-800 mb-4 text-lg">Attached Files</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-violet-900">
+                        <div>
+                            <p class="text-sm text-violet-600">Consent Form</p>
+                            <p class="font-medium">${consentFormLink}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">ID Card</p>
+                            <p class="font-medium">${idCardLink}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Diploma Copy</p>
+                            <p class="font-medium">${diplomaLink}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الردود والملاحظات (إذا وجدت) -->
+                <div class="bg-violet-50 rounded-lg p-5 shadow-sm md:col-span-2">
+                    <h4 class="font-bold text-violet-800 mb-4 text-lg">Admin Reply / Notes</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
+                        <div>
+                            <p class="text-sm text-violet-600">Reply Message</p>
+                            <p class="font-medium">${replyMessage}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Reply Date</p>
+                            <p class="font-medium">${replyDate}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-violet-600">Admin Notes</p>
+                            <p class="font-medium">${request.adminNotes || "N/A"}</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- قسم التعليق (إذا كان موجوداً في البيانات وتحتاجه) -->
+                  ${request.comment ? `
+                  <div class="bg-violet-50 rounded-lg p-5 shadow-sm md:col-span-2">
+                      <h4 class="font-bold text-violet-800 mb-4 text-lg">Comment</h4>
+                      <div class="text-violet-900">
+                          <p class="font-medium">${request.comment}</p>
+                      </div>
+                  </div>
+                  ` : ''}
+
             </div>
         `;
       }
@@ -829,41 +1019,23 @@
       // حفظ التغييرات
       function saveRequestChanges() {
         const requestId = document.getElementById("editRequestId").value;
-        const newStatus = document.getElementById("editRequestStatus").value;
         const notes = document.getElementById("editRequestNotes").value;
 
         const requestIndex = allRequests.findIndex(
           (req) => req._id === requestId
         );
         if (requestIndex !== -1) {
-          // تحديث البيانات المحلية
-          allRequests[requestIndex].status = newStatus;
+          // تحديث البيانات المحلية - فقط الملاحظات
           allRequests[requestIndex].adminNotes = notes;
 
-          // تحديث الصف في الجدول
-          const row = document.querySelector(
-            `tr[data-request-id="${requestId}"]`
-          );
-          if (row) {
-            const statusCell = row.querySelector("td:nth-child(5) span");
-            statusCell.textContent =
-              newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-
-            // تحديث لون الحالة
-            statusCell.className = `px-4 py-2 rounded-full text-base font-bold shadow capitalize ${
-              newStatus === "approved"
-                ? "bg-green-100 text-green-800"
-                : newStatus === "rejected"
-                ? "bg-red-100 text-red-800"
-                : "bg-yellow-100 text-yellow-800"
-            }`;
-          }
+          // تحديث الصف في الجدول - لا نعدل عمود الحالة من هذه الدالة
+          // لأن هذه المودال لا تعدل الحالة
 
           // إغلاق المودال
           closeModal("editModal");
 
           // عرض رسالة نجاح
-          alert("Request updated successfully!");
+          alert("تم تحديث الملاحظات بنجاح!");
         }
       }
 
@@ -903,6 +1075,7 @@
         document.getElementById("profile-section").classList.add("hidden");
         document.getElementById("requests-section").classList.add("hidden");
         document.getElementById("contact-section").classList.add("hidden");
+        document.getElementById("add-verification-section").classList.add("hidden");
         document.getElementById(section + "-section").classList.remove("hidden");
       }
 
@@ -910,7 +1083,8 @@
       const sidebarButtons = [
         document.getElementById("sidebar-profile"),
         document.getElementById("sidebar-requests"),
-        document.getElementById("sidebar-contact")
+        document.getElementById("sidebar-contact"),
+        document.getElementById("sidebar-add-verification")
       ];
 
       sidebarButtons.forEach(btn => {
