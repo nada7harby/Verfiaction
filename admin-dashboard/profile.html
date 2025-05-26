@@ -1,467 +1,567 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Profile - SPATRAK</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        violet: {
-                            200: '#ddd6fe',
-                            400: '#a78bfa',
-                            900: '#4c1d95',
-                        }
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              violet: {
+                200: "#ddd6fe",
+                400: "#a78bfa",
+                900: "#4c1d95",
+              },
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400">
-<div class="flex h-full min-h-screen">
-    <!-- Sidebar -->
-    <aside class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg z-50 flex flex-col">
+  </head>
+  <body
+    class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
+  >
+    <div class="flex h-full min-h-screen">
+      <!-- Sidebar -->
+      <aside
+        class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg z-50 flex flex-col"
+      >
         <div class="p-6">
-            <nav class="space-y-2">
-                <button onclick="showSection('profile')" id="sidebar-profile" class="w-full text-left flex items-center space-x-3 p-3 rounded-lg bg-violet-100 text-violet-900 font-bold focus:outline-none">
-                    <i class="fas fa-user"></i>
-                    <span>User Profile</span>
-                </button>
-                <button onclick="showSection('requests')" id="sidebar-requests" class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300 focus:outline-none">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Requests</span>
-                </button>
-                <button onclick="showSection('contact')" id="sidebar-contact" class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300 focus:outline-none">
-                    <i class="fas fa-envelope"></i>
-                    <span>Contact Us</span>
-                </button>
-            </nav>
+          <nav class="space-y-2">
+            <button
+              onclick="showSection('profile')"
+              id="sidebar-profile"
+              class="w-full text-left flex items-center space-x-3 p-3 rounded-lg bg-violet-100 text-violet-900 font-bold focus:outline-none"
+            >
+              <i class="fas fa-user"></i>
+              <span>User Profile</span>
+            </button>
+            <button
+              onclick="showSection('requests')"
+              id="sidebar-requests"
+              class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300 focus:outline-none"
+            >
+              <i class="fas fa-file-alt"></i>
+              <span>Requests</span>
+            </button>
+            <button
+              onclick="showSection('contact')"
+              id="sidebar-contact"
+              class="w-full text-left flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300 focus:outline-none"
+            >
+              <i class="fas fa-envelope"></i>
+              <span>Contact Us</span>
+            </button>
+          </nav>
         </div>
         <div class="mt-auto p-6">
-            <a href="#" class="flex items-center space-x-3 p-3 rounded-lg text-red-500 hover:bg-red-50 font-bold">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Sign out</span>
-            </a>
+          <a
+            href="#"
+            class="flex items-center space-x-3 p-3 rounded-lg text-red-500 hover:bg-red-50 font-bold"
+          >
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Sign out</span>
+          </a>
         </div>
-    </aside>
-    <!-- Main Content -->
-    <div class="flex-1 lg:ml-64 p-8">
-        <div class="max-w-3xl mx-auto" id="profile-section">
-            <div class="flex flex-col md:flex-row bg-white/95 rounded-2xl shadow-2xl overflow-hidden">
-                <!-- Left: Avatar & Info -->
-                <div class="md:w-1/3 bg-gradient-to-br from-violet-400 to-violet-700 flex flex-col items-center justify-center p-8 text-white">
-                    <img src="images/solar_user-bold-duotone.png" alt="Avatar" class="w-24 h-24 mb-4 object-contain" />
-                    <div class="font-bold text-xl mb-1">Faraz Akhtar</div>
-                    <div class="text-violet-100 mb-2">User</div>
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" class="hover:text-blue-400"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="hover:text-blue-500"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="hover:text-pink-500"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <!-- Right: Details -->
-                <div class="md:w-2/3 p-8 flex flex-col justify-between">
-                    <div class="mb-6">
-                        <div class="grid grid-cols-1 gap-6">
-                            <div>
-                                <div class="text-sm text-gray-500 font-semibold mb-1">Email</div>
-                                <div class="px-4 py-2 rounded-lg border border-violet-100 bg-gray-50 text-violet-900">address@email.com</div>
-                            </div>
-                            <div>
-                                <div class="text-sm text-gray-500 font-semibold mb-1">Password</div>
-                                <div class="px-4 py-2 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 tracking-widest">********</div>
-                            </div>
-                        </div>
-                    </div>
-                    <button onclick="openEditModal()" class="w-full bg-violet-700 text-white font-bold py-3 rounded-lg hover:bg-violet-900 transition text-lg mt-4">Edit Profile</button>
-                </div>
-            </div>
+      </aside>
+      <!-- Main Content -->
+      <div class="flex-1 lg:ml-64 p-8">
+        <div class="w-3/4 mx-auto" id="profile-section">
+          <div class="flex flex-col bg-white/95 rounded-2xl shadow-2xl overflow-hidden items-center py-10 px-6">
+            <!-- Avatar -->
+            <img
+              src="images/solar_user-bold-duotone.png"
+              alt="Avatar"
+              class="w-32 h-32 mb-4 object-cover rounded-full border-4 border-violet-400 shadow-lg"
+            />
+            <!-- Name & Role -->
+            <div class="font-bold text-2xl mb-1 text-violet-800">Faraz Akhtar</div>
+            <div class="text-violet-500 mb-6">User</div>
+            <!-- Inputs -->
+            <form class="w-full flex flex-col gap-5 items-center">
+              <div class="w-full">
+                <label class="block text-sm text-gray-500 font-semibold mb-1" for="firstName">First Name</label>
+                <input
+                  id="firstName"
+                  type="text"
+                  value="Faraz"
+                  class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+                />
+              </div>
+              <div class="w-full">
+                <label class="block text-sm text-gray-500 font-semibold mb-1" for="lastName">Last Name</label>
+                <input
+                  id="lastName"
+                  type="text"
+                  value="Akhtar"
+                  class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+                />
+              </div>
+              <div class="w-full">
+                <label class="block text-sm text-gray-500 font-semibold mb-1" for="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  value="address@email.com"
+                  class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+                />
+              </div>
+              <div class="w-full">
+                <label class="block text-sm text-gray-500 font-semibold mb-1" for="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  value="********"
+                  class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 tracking-widest focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+                />
+              </div>
+              <button
+                type="submit"
+                class="w-full bg-violet-700 text-white font-bold py-3 rounded-lg hover:bg-violet-900 transition text-lg mt-4 shadow-md"
+              >
+                Edit Profile
+              </button>
+            </form>
+         
+          </div>
         </div>
         <div class="w-full mx-auto hidden" id="requests-section">
-            <!-- Filters and Search -->
-            <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center space-x-4 w-full md:w-auto">
-                    <select id="statusFilter" class="bg-violet-50 border border-violet-200 rounded-lg px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900 transition-all">
-                        <option value="all">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                    <select id="typeFilter" class="bg-violet-50 border border-violet-200 rounded-lg px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900 transition-all">
-                        <option value="all">All Types</option>
-                        <option value="verification">Verification</option>
-                        <option value="payment">Payment</option>
-                        <option value="support">Support</option>
-                    </select>
-                </div>
-                <div class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0">
-                    <div class="relative w-full md:w-auto">
-                        <input type="text" id="searchInput" placeholder="Search requests..." class="bg-violet-50 border border-violet-200 rounded-lg pl-12 pr-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900 w-full transition-all">
-                        <i class="fas fa-search absolute left-4 top-3.5 text-violet-900 text-lg"></i>
-                    </div>
-                    <button id="applyFilters" class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-6 py-3 rounded-lg text-lg font-semibold shadow transition duration-300 flex items-center">
-                        <i class="fas fa-filter mr-2"></i>Apply Filters
-                    </button>
-                </div>
+          <!-- Filters and Search -->
+          <div
+            class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-8 mb-10 flex flex-col md:flex-row justify-between items-center gap-6"
+          >
+            <div class="flex items-center space-x-4 w-full md:w-auto">
+              <select
+                id="statusFilter"
+                class="bg-violet-50 border border-violet-200 rounded-lg px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900 transition-all"
+              >
+                <option value="all">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+            <div
+              class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0"
+            >
+              <div class="relative w-full md:w-auto">
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="Search requests..."
+                  class="bg-violet-50 border border-violet-200 rounded-lg pl-12 pr-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900 w-full transition-all"
+                />
+                <i
+                  class="fas fa-search absolute left-4 top-3.5 text-violet-900 text-lg"
+                ></i>
+              </div>
+              <button
+                id="applyFilters"
+                class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-6 py-3 rounded-lg text-lg font-semibold shadow transition duration-300 flex items-center"
+              >
+                <i class="fas fa-filter mr-2"></i>Apply Filters
+              </button>
+            </div>
+          </div>
+
+          <!-- Requests Table -->
+          <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-8">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead>
+                  <tr class="bg-violet-50">
+                    <th
+                      class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider"
+                    >
+                      Request ID
+                    </th>
+                    <th
+                      class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider"
+                    >
+                      User
+                    </th>
+                    <th
+                      class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider"
+                    >
+                      Date
+                    </th>
+                    <th
+                      class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider"
+                    >
+                      Status
+                    </th>
+                    <th
+                      class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider"
+                    >
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody
+                  id="requestsTableBody"
+                  class="divide-y divide-violet-100"
+                >
+                  <tr>
+                    <td
+                      colspan="6"
+                      class="px-6 py-4 text-center text-violet-900"
+                    >
+                      Loading requests...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
 
-            <!-- Requests Table -->
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-8">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="bg-violet-50">
-                                <th class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider">Request ID</th>
-                                <th class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider">User</th>
-                                <th class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider">Type</th>
-                                <th class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider">Date</th>
-                                <th class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-4 text-left text-base font-bold text-violet-900 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="requestsTableBody" class="divide-y divide-violet-100">
-                            <!-- سيتم ملؤه بالبيانات من الـ API -->
-                            <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-violet-900">
-                                    Loading requests...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <!-- Pagination -->
+            <div
+              class="flex flex-col md:flex-row justify-between items-center mt-8 gap-4"
+            >
+              <div
+                id="paginationInfo"
+                class="text-base text-violet-600 font-semibold"
+              >
+                Loading...
+              </div>
+              <div class="flex items-center space-x-2">
+                <button
+                  id="prevPage"
+                  class="bg-violet-50 text-violet-900 px-4 py-2 rounded-lg hover:bg-violet-100 transition duration-300 font-bold"
+                >
+                  Previous
+                </button>
+                <div id="pageNumbers" class="flex items-center space-x-2">
+                  <!-- سيتم ملؤه بالبيانات -->
                 </div>
-
-                <!-- Pagination -->
-                <div class="flex flex-col md:flex-row justify-between items-center mt-8 gap-4">
-                    <div id="paginationInfo" class="text-base text-violet-600 font-semibold">
-                        Loading...
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <button id="prevPage" class="bg-violet-50 text-violet-900 px-4 py-2 rounded-lg hover:bg-violet-100 transition duration-300 font-bold">Previous</button>
-                        <div id="pageNumbers" class="flex items-center space-x-2">
-                            <!-- سيتم ملؤه بالبيانات -->
-                        </div>
-                        <button id="nextPage" class="bg-violet-50 text-violet-900 px-4 py-2 rounded-lg hover:bg-violet-100 transition duration-300 font-bold">Next</button>
-                    </div>
-                </div>
+                <button
+                  id="nextPage"
+                  class="bg-violet-50 text-violet-900 px-4 py-2 rounded-lg hover:bg-violet-100 transition duration-300 font-bold"
+                >
+                  Next
+                </button>
+              </div>
             </div>
+          </div>
         </div>
-        <div class="max-w-2xl mx-auto hidden" id="contact-section">
-            <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-10">
-                <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">Contact Us</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <!-- Contact Form -->
-                    <form id="contact-form" class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6" novalidate>
-                        <label class="block">
-                            <span class="text-violet-900 font-semibold mb-1 block">Name</span>
-                            <input type="text" name="name" required placeholder="Your name" class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400" />
-                        </label>
-                        <label class="block">
-                            <span class="text-violet-900 font-semibold mb-1 block">Email</span>
-                            <input type="email" name="email" required placeholder="Your email" class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400" />
-                        </label>
-                        <label class="block">
-                            <span class="text-violet-900 font-semibold mb-1 block">Message</span>
-                            <textarea name="message" rows="5" required placeholder="Your message" class="w-full border border-violet-300 rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-violet-400"></textarea>
-                        </label>
-                        <button type="submit" class="bg-violet-700 hover:bg-violet-800 rounded-xl text-white py-3 font-semibold transition shadow-lg">Send Message</button>
-                    </form>
+        <div class="w-3/4 mx-auto hidden" id="contact-section">
+          <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-10">
+            <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">
+              Contact Us
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <!-- Contact Form -->
+              <form
+                id="contact-form"
+                class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6"
+                novalidate
+              >
+                <label class="block">
+                  <span class="text-violet-900 font-semibold mb-1 block"
+                    >Name</span
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    placeholder="Your name"
+                    class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
+                  />
+                </label>
+                <label class="block">
+                  <span class="text-violet-900 font-semibold mb-1 block"
+                    >Email</span
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="Your email"
+                    class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
+                  />
+                </label>
+                <label class="block">
+                  <span class="text-violet-900 font-semibold mb-1 block"
+                    >Message</span
+                  >
+                  <textarea
+                    name="message"
+                    rows="5"
+                    required
+                    placeholder="Your message"
+                    class="w-full border border-violet-300 rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-violet-400"
+                  ></textarea>
+                </label>
+                <button
+                  type="submit"
+                  class="bg-violet-700 hover:bg-violet-800 rounded-xl text-white py-3 font-semibold transition shadow-lg"
+                >
+                  Send Message
+                </button>
+              </form>
 
-                    <!-- Contact Information & Map -->
-                    <div class="space-y-6 text-violet-900">
-                        <div>
-                            <h3 class="text-2xl font-bold mb-2">Our Address</h3>
-                            <p>123 Verification St., Trust City, Country</p>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold mb-2">Phone</h3>
-                            <p>+123 456 7890</p>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold mb-2">Email</h3>
-                            <p>contact@spatrak.com</p>
-                        </div>
-                        <div class="rounded-xl overflow-hidden shadow-lg border border-violet-300">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799149533!2d-74.25986668729262!3d40.69767006346656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c250b6c30aa0f1%3A0x7e48ef6164c085b1!2sNew%20York%20City%2C%20NY%2010022%2C%20USA!5e0!3m2!1sen!2ses!4v1685611397707!5m2!1sen!2ses"
-                                width="100%"
-                                height="300"
-                                style="border:0;"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"
-                                aria-label="Google Maps"
-                            ></iframe>
-                        </div>
-                    </div>
+              <!-- Contact Information & Map -->
+              <div class="space-y-6 text-violet-900">
+                <div>
+                  <h3 class="text-2xl font-bold mb-2">Our Address</h3>
+                  <p>123 Verification St., Trust City, Country</p>
                 </div>
+                <div>
+                  <h3 class="text-2xl font-bold mb-2">Phone</h3>
+                  <p>+123 456 7890</p>
+                </div>
+                <div>
+                  <h3 class="text-2xl font-bold mb-2">Email</h3>
+                  <p>contact@spatrak.com</p>
+                </div>
+                <div
+                  class="rounded-xl overflow-hidden shadow-lg border border-violet-300"
+                >
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799149533!2d-74.25986668729262!3d40.69767006346656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c250b6c30aa0f1%3A0x7e48ef6164c085b1!2sNew%20York%20City%2C%20NY%2010022%2C%20USA!5e0!3m2!1sen!2ses!4v1685611397707!5m2!1sen!2ses"
+                    width="100%"
+                    height="300"
+                    style="border: 0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    aria-label="Google Maps"
+                  ></iframe>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- Edit Modal -->
-    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+      <!-- Edit Modal -->
+      <div
+        id="editModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4"
+      >
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-md">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-bold text-violet-900">Edit Request</h3>
-                    <button onclick="closeModal('editModal')" class="text-violet-400 hover:text-violet-600">
-                        <i class="fas fa-times text-2xl"></i>
-                    </button>
-                </div>
-
-                <div class="space-y-4">
-                    <input type="hidden" id="editRequestId" />
-
-                    <div>
-                        <label class="block text-sm font-medium text-violet-700 mb-1">Status</label>
-                        <select id="editRequestStatus" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400">
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approved</option>
-                            <option value="rejected">Rejected</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-violet-700 mb-1">Notes</label>
-                        <textarea id="editRequestNotes" rows="3" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400"></textarea>
-                    </div>
-                </div>
-
-                <div class="flex justify-end space-x-3 mt-6">
-                    <button onclick="closeModal('editModal')" class="px-4 py-2 text-violet-700 bg-violet-100 rounded-lg hover:bg-violet-200 transition">Cancel</button>
-                    <button onclick="saveRequestChanges()" class="px-4 py-2 text-white bg-violet-600 rounded-lg hover:bg-violet-700 transition">Save Changes</button>
-                </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-2xl font-bold text-violet-900">Edit Request</h3>
+              <button
+                onclick="closeModal('editModal')"
+                class="text-violet-400 hover:text-violet-600"
+              >
+                <i class="fas fa-times text-2xl"></i>
+              </button>
             </div>
-        </div>
-    </div>
 
-    <!-- View Request Modal -->
-    <div id="viewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 overflow-y-auto">
+            <div class="space-y-4">
+              <input type="hidden" id="editRequestId" />
+
+              <div>
+                <label class="block text-sm font-medium text-violet-700 mb-1"
+                  >Status</label
+                >
+                <select
+                  id="editRequestStatus"
+                  class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-violet-700 mb-1"
+                  >Notes</label
+                >
+                <textarea
+                  id="editRequestNotes"
+                  rows="3"
+                  class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="flex justify-end space-x-3 mt-6">
+              <button
+                onclick="closeModal('editModal')"
+                class="px-4 py-2 text-violet-700 bg-violet-100 rounded-lg hover:bg-violet-200 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onclick="saveRequestChanges()"
+                class="px-4 py-2 text-white bg-violet-600 rounded-lg hover:bg-violet-700 transition"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Request Modal -->
+      <div
+        id="viewModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 overflow-y-auto"
+      >
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl my-8">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-bold text-violet-900">Request Details</h3>
-                    <button onclick="closeModal('viewModal')" class="text-violet-400 hover:text-violet-600">
-                        <i class="fas fa-times text-2xl"></i>
-                    </button>
-                </div>
-
-                <div id="requestDetailsContent" class="space-y-6">
-                    <!-- سيتم ملؤه بالبيانات ديناميكيًا -->
-                    <div class="flex justify-center items-center py-8">
-                        <i class="fas fa-spinner fa-spin text-3xl text-violet-600"></i>
-                    </div>
-                </div>
-
-                <div class="flex justify-end mt-6">
-                    <button onclick="closeModal('viewModal')" class="px-4 py-2 text-violet-700 bg-violet-100 rounded-lg hover:bg-violet-200 transition">Close</button>
-                </div>
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-2xl font-bold text-violet-900">
+                Request Details
+              </h3>
+              <button
+                onclick="closeModal('viewModal')"
+                class="text-violet-400 hover:text-violet-600"
+              >
+                <i class="fas fa-times text-2xl"></i>
+              </button>
             </div>
-        </div>
-    </div>
-</div>
-<script>
-    function showSection(section) {
-        document.getElementById('profile-section').classList.add('hidden');
-        document.getElementById('requests-section').classList.add('hidden');
-        document.getElementById('contact-section').classList.add('hidden');
-        document.getElementById('sidebar-profile').classList.remove('bg-violet-100', 'font-bold');
-        document.getElementById('sidebar-requests').classList.remove('bg-violet-100', 'font-bold');
-        document.getElementById('sidebar-contact').classList.remove('bg-violet-100', 'font-bold');
-        if (section === 'profile') {
-            document.getElementById('profile-section').classList.remove('hidden');
-            document.getElementById('sidebar-profile').classList.add('bg-violet-100', 'font-bold');
-        } else if (section === 'requests') {
-            document.getElementById('requests-section').classList.remove('hidden');
-            document.getElementById('sidebar-requests').classList.add('bg-violet-100', 'font-bold');
-        } else if (section === 'contact') {
-            const contactSection = document.getElementById('contact-section');
-            contactSection.classList.remove('hidden');
-            document.getElementById('sidebar-contact').classList.add('bg-violet-100', 'font-bold');
-            
-            // Center the contact section vertically
-            const mainContent = document.querySelector('.flex-1.lg\\:ml-64');
-            const contactCard = contactSection.querySelector('div');
-            
-            // Add margin to center vertically
-            contactSection.style.marginTop = '5rem';
-            contactSection.style.marginBottom = '5rem';
-            
-            // Update max width for better layout
-            contactSection.classList.remove('max-w-2xl');
-            contactSection.classList.add('max-w-4xl');
-        }
-    }
-    // Show profile section by default
-    showSection('profile');
-    function openEditModal() {
-        document.getElementById('editModal').classList.remove('hidden');
-        document.getElementById('editModal').classList.add('flex');
-    }
-    function closeEditModal() {
-        document.getElementById('editModal').classList.add('hidden');
-        document.getElementById('editModal').classList.remove('flex');
-    }
-    document.getElementById('editProfileForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        closeEditModal();
-    });
-    document.getElementById('editModal').addEventListener('click', function(e) {
-        if (e.target === this) closeEditModal();
-    });
-    function openViewModal(requestId) {
-        // بيانات تجريبية فقط
-        let data = {
-            'REQ-001': {
-                id: '#REQ-001',
-                user: 'John Doe',
-                type: 'Verification',
-                date: '2024-03-15',
-                status: 'Pending',
-            },
-            'REQ-002': {
-                id: '#REQ-002',
-                user: 'Jane Smith',
-                type: 'Payment',
-                date: '2024-03-14',
-                status: 'Approved',
-            }
-        };
-        let req = data[requestId];
-        let html = `<div><strong>Request ID:</strong> ${req.id}</div>
-                    <div><strong>User:</strong> ${req.user}</div>
-                    <div><strong>Type:</strong> ${req.type}</div>
-                    <div><strong>Date:</strong> ${req.date}</div>
-                    <div><strong>Status:</strong> ${req.status}</div>`;
-        document.getElementById('viewModalContent').innerHTML = html;
-        document.getElementById('viewModal').classList.remove('hidden');
-        document.getElementById('viewModal').classList.add('flex');
-    }
-    function closeViewModal() {
-        document.getElementById('viewModal').classList.add('hidden');
-        document.getElementById('viewModal').classList.remove('flex');
-    }
 
-    // المتغيرات العامة
-    let allRequests = [];
-    let currentPage = 1;
-    const itemsPerPage = 10;
-    let currentFilters = {
+            <div id="requestDetailsContent" class="space-y-6">
+              <div class="flex justify-center items-center py-8">
+                <i class="fas fa-spinner fa-spin text-3xl text-violet-600"></i>
+              </div>
+            </div>
+
+            <div class="flex justify-end mt-6">
+              <button
+                onclick="closeModal('viewModal')"
+                class="px-4 py-2 text-violet-700 bg-violet-100 rounded-lg hover:bg-violet-200 transition"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // المتغيرات العامة
+      let allRequests = [];
+      let currentPage = 1;
+      const itemsPerPage = 10;
+      let currentFilters = {
         status: "all",
         type: "all",
         search: "",
-    };
+      };
 
-    // تهيئة الصفحة
-    document.addEventListener("DOMContentLoaded", function () {
+      // تهيئة الصفحة
+      document.addEventListener("DOMContentLoaded", function () {
         fetchRequests();
 
         // إعداد معالجات الأحداث
-        document.getElementById("applyFilters").addEventListener("click", applyFilters);
-        document.getElementById("searchInput").addEventListener("keyup", function (e) {
-            if (e.key === "Enter") applyFilters();
-        });
-        document.getElementById("prevPage").addEventListener("click", goToPrevPage);
-        document.getElementById("nextPage").addEventListener("click", goToNextPage);
+        document
+          .getElementById("applyFilters")
+          .addEventListener("click", applyFilters);
+        document
+          .getElementById("searchInput")
+          .addEventListener("keyup", function (e) {
+            applyFilters();
+          });
+        document
+          .getElementById("prevPage")
+          .addEventListener("click", goToPrevPage);
+        document
+          .getElementById("nextPage")
+          .addEventListener("click", goToNextPage);
 
         // إغلاق المودال عند النقر خارجها
-        document.getElementById("editModal").addEventListener("click", function (e) {
+        document
+          .getElementById("editModal")
+          .addEventListener("click", function (e) {
             if (e.target === e.currentTarget) closeModal("editModal");
-        });
-        document.getElementById("viewModal").addEventListener("click", function (e) {
+          });
+        document
+          .getElementById("viewModal")
+          .addEventListener("click", function (e) {
             if (e.target === e.currentTarget) closeModal("viewModal");
-        });
-    });
+          });
+      });
 
-    // جلب الطلبات من API
-    function fetchRequests() {
+      // جلب الطلبات من API
+      function fetchRequests() {
         fetch("https://backend-production-816c.up.railway.app/api/requests/")
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                // معالجة البيانات المستلمة
-                if (data && Array.isArray(data)) {
-                    allRequests = data;
-                } else if (data && data.requests && Array.isArray(data.requests)) {
-                    allRequests = data.requests;
-                } else {
-                    throw new Error("Invalid data format from API");
-                }
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // معالجة البيانات المستلمة
+            if (data && Array.isArray(data)) {
+              allRequests = data;
+            } else if (data && data.requests && Array.isArray(data.requests)) {
+              allRequests = data.requests;
+            } else {
+              throw new Error("Invalid data format from API");
+            }
 
-                // عرض الطلبات
-                applyFilters();
-            })
-            .catch((error) => {
-                console.error("Error fetching requests:", error);
-                document.getElementById("requestsTableBody").innerHTML = `
+            // عرض الطلبات
+            applyFilters();
+          })
+          .catch((error) => {
+            console.error("Error fetching requests:", error);
+            document.getElementById("requestsTableBody").innerHTML = `
                     <tr>
                         <td colspan="6" class="px-6 py-4 text-center text-violet-900">
                             Error loading requests. Please try again later.
                         </td>
                     </tr>
                 `;
-            });
-    }
+          });
+      }
 
-    // تطبيق الفلاتر
-    function applyFilters() {
+      // تطبيق الفلاتر
+      function applyFilters() {
         currentFilters = {
-            status: document.getElementById("statusFilter").value,
-            type: document.getElementById("typeFilter").value,
-            search: document.getElementById("searchInput").value.toLowerCase(),
+          status: document.getElementById("statusFilter").value,
+          search: document.getElementById("searchInput").value.toLowerCase(),
         };
 
-        currentPage = 1; // العودة للصفحة الأولى عند تطبيق فلاتر جديدة
-        renderRequests();
-    }
-
-    // عرض الطلبات مع التصفية والترتيب
-    function renderRequests() {
         let filteredRequests = allRequests.filter((request) => {
-            // تصفية حسب الحالة
-            if (currentFilters.status !== "all" && request.status !== currentFilters.status) {
-                return false;
-            }
+          // تصفية حسب الحالة
+          if (
+            currentFilters.status !== "all" &&
+            request.status !== currentFilters.status
+          ) {
+            return false;
+          }
 
-            // تصفية حسب النوع (إذا كان موجودًا في البيانات)
-            if (currentFilters.type !== "all" && request.type && request.type !== currentFilters.type) {
-                return false;
+          // تصفية حسب البحث
+          if (currentFilters.search) {
+            // البحث في Request ID واسم المستخدم والتاريخ
+            const requestDate = request.createdAt ? new Date(request.createdAt).toLocaleDateString() : "";
+            const searchStr = `${request._id || ""} ${request.firstName || request.user?.name || ""} ${requestDate}`.toLowerCase();
+            if (!searchStr.includes(currentFilters.search)) {
+              return false;
             }
+          }
 
-            // تصفية حسب البحث
-            if (currentFilters.search) {
-                const searchStr = `${request.id || ""} ${request.userName || ""} ${request.user?.name || ""} ${request.type || ""}`.toLowerCase();
-                if (!searchStr.includes(currentFilters.search)) {
-                    return false;
-                }
-            }
-
-            return true;
+          return true;
         });
-
-        // ترتيب الطلبات حسب التاريخ (الأحدث أولاً)
-        filteredRequests.sort((a, b) => new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date));
 
         // التقسيم إلى صفحات
         const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
         const startIndex = (currentPage - 1) * itemsPerPage;
-        const paginatedRequests = filteredRequests.slice(startIndex, startIndex + itemsPerPage);
+        const paginatedRequests = filteredRequests.slice(
+          startIndex,
+          startIndex + itemsPerPage
+        );
 
         // عرض الطلبات في الجدول
         const tableBody = document.getElementById("requestsTableBody");
         tableBody.innerHTML = "";
 
         if (paginatedRequests.length === 0) {
-            tableBody.innerHTML = `
+          tableBody.innerHTML = `
                 <tr>
                     <td colspan="6" class="px-6 py-4 text-center text-violet-900">
                         No requests found matching your criteria
@@ -469,151 +569,172 @@
                 </tr>
             `;
         } else {
-            paginatedRequests.forEach((request) => {
-                const requestDate = request.createdAt ? new Date(request.createdAt).toLocaleDateString() : "N/A";
-                const userName = request.userName || request.user?.name || "N/A";
-                const requestType = request.type || "N/A";
+          paginatedRequests.forEach((request) => {
+            const requestDate = request.createdAt
+              ? new Date(request.createdAt).toLocaleDateString()
+              : "N/A";
+            const userName = request.firstName || request.user?.name || "N/A";
 
-                // تحديد لون الحالة
-                let statusClass = "bg-gray-100 text-gray-800";
-                if (request.status === "accepted") {
-                    statusClass = "bg-green-100 text-green-800";
-                } else if (request.status === "rejected") {
-                    statusClass = "bg-red-100 text-red-800";
-                } else if (request.status === "pending") {
-                    statusClass = "bg-yellow-100 text-yellow-800";
-                }
+            // تحديد لون الحالة
+            let statusClass = "bg-gray-100 text-gray-800";
+            if (request.status === "approved" || request.status === "accepted") {
+              statusClass = "bg-green-100 text-green-800";
+            } else if (request.status === "rejected") {
+              statusClass = "bg-red-100 text-red-800";
+            } else if (request.status === "pending") {
+              statusClass = "bg-yellow-100 text-yellow-800";
+            }
 
-                const row = document.createElement("tr");
-                row.className = "hover:bg-violet-50 transition-all";
-                row.dataset.requestId = request._id;
-                row.innerHTML = `
-                    <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg font-semibold">${request._id || "N/A"}</td>
+            const row = document.createElement("tr");
+            row.className = "hover:bg-violet-50 transition-all";
+            row.dataset.requestId = request._id;
+            row.innerHTML = `
+                    <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg font-semibold">${
+                      request._id || "N/A"
+                    }</td>
                     <td class="px-6 py-5 whitespace-nowrap">
                         <div class="flex items-center space-x-3">
-                            <span class="text-violet-900 text-lg font-semibold">${request.lastName}</span>
+                            <span class="text-violet-900 text-lg font-semibold">${userName}</span>
                         </div>
                     </td>
-                    <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg">${request.address}</td>
                     <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg">${requestDate}</td>
                     <td class="px-6 py-5 whitespace-nowrap">
-                        <span class="${statusClass} px-4 py-2 rounded-full text-base font-bold shadow capitalize">${request.status || "unknown"}</span>
+                        <span class="${statusClass} px-4 py-2 rounded-full text-base font-bold shadow capitalize">${
+              request.status || "unknown"
+            }</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center space-x-2">
-                            <button onclick="openEditModal('${request._id}')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
+                            <button onclick="openEditModal('${
+                              request._id
+                            }')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-edit mr-1"></i> Edit
                             </button>
-                            <button onclick="openViewModal('${request._id}')" class="text-violet-700 bg-violet-100 hover:bg-violet-200 px-3 py-1 rounded-lg transition flex items-center">
+                            <button onclick="openViewModal('${
+                              request._id
+                            }')" class="text-violet-700 bg-violet-100 hover:bg-violet-200 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-eye mr-1"></i> View
                             </button>
                         </div>
                     </td>
                 `;
-                tableBody.appendChild(row);
-            });
+            tableBody.appendChild(row);
+          });
         }
 
         // تحديث معلومات الترقيم
         updatePaginationInfo(filteredRequests.length, totalPages);
-    }
+      }
 
-    // تحديث معلومات الترقيم
-    function updatePaginationInfo(totalItems, totalPages) {
+      // تحديث معلومات الترقيم
+      function updatePaginationInfo(totalItems, totalPages) {
         const startItem = (currentPage - 1) * itemsPerPage + 1;
         const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
-        document.getElementById("paginationInfo").textContent = `Showing ${startItem} to ${endItem} of ${totalItems} entries`;
+        document.getElementById(
+          "paginationInfo"
+        ).textContent = `Showing ${startItem} to ${endItem} of ${totalItems} entries`;
 
         const pageNumbersContainer = document.getElementById("pageNumbers");
         pageNumbersContainer.innerHTML = "";
 
         for (let i = 1; i <= totalPages; i++) {
-            const pageBtn = document.createElement("button");
-            pageBtn.textContent = i;
-            pageBtn.className = `bg-${i === currentPage ? "violet-100" : "violet-50"} text-violet-900 px-4 py-2 rounded-lg hover:bg-violet-100 transition duration-300 font-bold`;
-            pageBtn.addEventListener("click", () => goToPage(i));
-            pageNumbersContainer.appendChild(pageBtn);
+          const pageBtn = document.createElement("button");
+          pageBtn.textContent = i;
+          pageBtn.className = `bg-${
+            i === currentPage ? "violet-100" : "violet-50"
+          } text-violet-900 px-4 py-2 rounded-lg hover:bg-violet-100 transition duration-300 font-bold`;
+          pageBtn.addEventListener("click", () => goToPage(i));
+          pageNumbersContainer.appendChild(pageBtn);
         }
 
         // تحديث حالة أزرار الصفحة السابقة/التالية
         document.getElementById("prevPage").disabled = currentPage === 1;
-        document.getElementById("nextPage").disabled = currentPage === totalPages;
-    }
+        document.getElementById("nextPage").disabled =
+          currentPage === totalPages;
+      }
 
-    // التنقل بين الصفحات
-    function goToPage(page) {
+      // التنقل بين الصفحات
+      function goToPage(page) {
         currentPage = page;
         renderRequests();
-    }
+      }
 
-    function goToPrevPage() {
+      function goToPrevPage() {
         if (currentPage > 1) {
-            currentPage--;
-            renderRequests();
+          currentPage--;
+          renderRequests();
         }
-    }
+      }
 
-    function goToNextPage() {
+      function goToNextPage() {
         const totalPages = Math.ceil(allRequests.length / itemsPerPage);
         if (currentPage < totalPages) {
-            currentPage++;
-            renderRequests();
+          currentPage++;
+          renderRequests();
         }
-    }
+      }
 
-    // فتح مودال التعديل
-    function openEditModal(requestId) {
+      // فتح مودال التعديل
+      function openEditModal(requestId) {
         const request = allRequests.find((req) => req._id === requestId);
         if (request) {
-            document.getElementById("editRequestId").value = requestId;
-            document.getElementById("editRequestStatus").value = request.status || "pending";
-            document.getElementById("editRequestNotes").value = request.adminNotes || "";
+          document.getElementById("editRequestId").value = requestId;
+          document.getElementById("editRequestStatus").value =
+            request.status || "pending";
+          document.getElementById("editRequestNotes").value =
+            request.adminNotes || "";
 
-            // عرض المودال
-            document.getElementById("editModal").classList.remove("hidden");
-            document.getElementById("editModal").classList.add("flex");
-            document.body.style.overflow = "hidden";
+          // عرض المودال
+          document.getElementById("editModal").classList.remove("hidden");
+          document.getElementById("editModal").classList.add("flex");
+          document.body.style.overflow = "hidden";
         }
-    }
+      }
 
-    // فتح مودال العرض
-    function openViewModal(requestId) {
+      // فتح مودال العرض
+      function openViewModal(requestId) {
         const request = allRequests.find((req) => req._id === requestId);
         if (request) {
-            const detailsContent = document.getElementById("requestDetailsContent");
+          const detailsContent = document.getElementById(
+            "requestDetailsContent"
+          );
 
-            // عرض مؤشر التحميل
-            detailsContent.innerHTML = `
+          // عرض مؤشر التحميل
+          detailsContent.innerHTML = `
                 <div class="flex justify-center items-center py-8">
                     <i class="fas fa-spinner fa-spin text-3xl text-violet-600"></i>
                 </div>
             `;
 
-            // عرض المودال
-            document.getElementById("viewModal").classList.remove("hidden");
-            document.getElementById("viewModal").classList.add("flex");
-            document.body.style.overflow = "hidden";
+          // عرض المودال
+          document.getElementById("viewModal").classList.remove("hidden");
+          document.getElementById("viewModal").classList.add("flex");
+          document.body.style.overflow = "hidden";
 
-            // عرض البيانات مباشرة
-            renderRequestDetails(request);
+          // عرض البيانات مباشرة
+          renderRequestDetails(request);
         }
-    }
+      }
 
-    // عرض تفاصيل الطلب
-    function renderRequestDetails(request) {
+      // عرض تفاصيل الطلب
+      function renderRequestDetails(request) {
         const detailsContent = document.getElementById("requestDetailsContent");
-        const requestDate = request.createdAt ? new Date(request.createdAt).toLocaleString() : "N/A";
-        const updatedDate = request.updatedAt ? new Date(request.updatedAt).toLocaleString() : "N/A";
+        const requestDate = request.createdAt
+          ? new Date(request.createdAt).toLocaleString()
+          : "N/A";
+        const updatedDate = request.updatedAt
+          ? new Date(request.updatedAt).toLocaleString()
+          : "N/A";
 
         // تحديد لون الحالة
         let statusClass = "bg-gray-100 text-gray-800";
-        if (request.status === "approved") {
-            statusClass = "bg-green-100 text-green-800";
+        if (request.status === "approved" || request.status === "accepted") {
+          statusClass = "bg-green-100 text-green-800";
         } else if (request.status === "rejected") {
-            statusClass = "bg-red-100 text-red-800";
+          statusClass = "bg-red-100 text-red-800";
         } else if (request.status === "pending") {
-            statusClass = "bg-yellow-100 text-yellow-800";
+          statusClass = "bg-yellow-100 text-yellow-800";
         }
 
         detailsContent.innerHTML = `
@@ -625,12 +746,16 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <p class="text-sm text-violet-600">Request ID</p>
-                                <p class="font-medium">${request._id || "N/A"}</p>
+                                <p class="font-medium">${
+                                  request._id || "N/A"
+                                }</p>
                             </div>
                             <div>
                                 <p class="text-sm text-violet-600">Status</p>
                                 <p class="font-medium">
-                                    <span class="${statusClass} px-3 py-1 rounded-full text-sm">${request.status || "N/A"}</span>
+                                    <span class="${statusClass} px-3 py-1 rounded-full text-sm">${
+          request.status || "N/A"
+        }</span>
                                 </p>
                             </div>
                             <div>
@@ -650,181 +775,150 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <p class="text-sm text-violet-600">First Name</p>
-                                <p class="font-medium">${request.firstName || "N/A"}</p>
+                                <p class="font-medium">${
+                                  request.firstName || "N/A"
+                                }</p>
                             </div>
                             <div>
                                 <p class="text-sm text-violet-600">Last Name</p>
-                                <p class="font-medium">${request.lastName || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Given Last Name</p>
-                                <p class="font-medium">${request.givenLastName || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Birth Date</p>
-                                <p class="font-medium">${request.birthDate ? `${request.birthDate.day}/${request.birthDate.month}/${request.birthDate.year}` : "N/A"}</p>
+                                <p class="font-medium">${
+                                  request.lastName || "N/A"
+                                }</p>
                             </div>
                             <div>
                                 <p class="text-sm text-violet-600">Email</p>
-                                <p class="font-medium">${request.email || "N/A"}</p>
+                                <p class="font-medium">${
+                                  request.email || "N/A"
+                                }</p>
                             </div>
                             <div>
                                 <p class="text-sm text-violet-600">Phone</p>
-                                <p class="font-medium">${request.phone || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Address</p>
-                                <p class="font-medium">${request.address || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Country</p>
-                                <p class="font-medium">${request.country || "N/A"}</p>
+                                <p class="font-medium">${
+                                  request.phone || "N/A"
+                                }</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- معلومات التعليم والشركة -->
+                <!-- معلومات إضافية -->
                 <div class="space-y-4">
-                    <!-- معلومات التعليم -->
+                    <!-- معلومات إضافية -->
                     <div class="bg-violet-50 rounded-lg p-4">
-                        <h4 class="font-bold text-violet-800 mb-2">Education Information</h4>
-                        <div class="grid grid-cols-2 gap-4">
+                        <h4 class="font-bold text-violet-800 mb-2">Additional Information</h4>
+                        <div class="grid grid-cols-1 gap-4">
                             <div>
-                                <p class="text-sm text-violet-600">Establishment</p>
-                                <p class="font-medium">${request.establishment || "N/A"}</p>
+                                <p class="text-sm text-violet-600">Type</p>
+                                <p class="font-medium">${
+                                  request.type || "N/A"
+                                }</p>
                             </div>
                             <div>
-                                <p class="text-sm text-violet-600">Program</p>
-                                <p class="font-medium">${request.program || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Graduation Year</p>
-                                <p class="font-medium">${request.graduationYear || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Internal Reference</p>
-                                <p class="font-medium">${request.internalRef || "N/A"}</p>
+                                <p class="text-sm text-violet-600">Description</p>
+                                <p class="font-medium">${
+                                  request.description || "N/A"
+                                }</p>
                             </div>
                         </div>
                     </div>
-
-                    <!-- معلومات الشركة -->
-                    <div class="bg-violet-50 rounded-lg p-4">
-                        <h4 class="font-bold text-violet-800 mb-2">Company Information</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <p class="text-sm text-violet-600">Company Name</p>
-                                <p class="font-medium">${request.company || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Contact Person</p>
-                                <p class="font-medium">${request.contact || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-violet-600">Contact Email</p>
-                                <p class="font-medium">${request.contactEmail || "N/A"}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- الملفات المرفقة -->
-                    <div class="bg-violet-50 rounded-lg p-4">
-                        <h4 class="font-bold text-violet-800 mb-2">Attached Files</h4>
-                        <div class="space-y-2">
-                            ${request.files ? `
-                                <div class="grid grid-cols-1 gap-2">
-                                    <a href="${request.files.consentForm}" target="_blank" class="flex items-center space-x-2 text-violet-600 hover:text-violet-800">
-                                        <i class="fas fa-file-alt"></i>
-                                        <span>Consent Form</span>
-                                    </a>
-                                    <a href="${request.files.idCard}" target="_blank" class="flex items-center space-x-2 text-violet-600 hover:text-violet-800">
-                                        <i class="fas fa-id-card"></i>
-                                        <span>ID Card</span>
-                                    </a>
-                                    <a href="${request.files.diploma}" target="_blank" class="flex items-center space-x-2 text-violet-600 hover:text-violet-800">
-                                        <i class="fas fa-graduation-cap"></i>
-                                        <span>Diploma</span>
-                                    </a>
-                                </div>
-                            ` : "No files attached"}
-                        </div>
-                    </div>
-
-                    <!-- التعليقات -->
-                    ${request.comment ? `
-                        <div class="bg-amber-50 rounded-lg p-4">
-                            <h4 class="font-bold text-amber-800 mb-2">Comments</h4>
-                            <p class="text-amber-700">${request.comment}</p>
-                        </div>
-                    ` : ""}
                 </div>
             </div>
         `;
-    }
+      }
 
-    // حفظ التغييرات
-    function saveRequestChanges() {
+      // حفظ التغييرات
+      function saveRequestChanges() {
         const requestId = document.getElementById("editRequestId").value;
         const newStatus = document.getElementById("editRequestStatus").value;
         const notes = document.getElementById("editRequestNotes").value;
 
-        const requestIndex = allRequests.findIndex((req) => req._id === requestId);
+        const requestIndex = allRequests.findIndex(
+          (req) => req._id === requestId
+        );
         if (requestIndex !== -1) {
-            // تحديث البيانات المحلية
-            allRequests[requestIndex].status = newStatus;
-            allRequests[requestIndex].adminNotes = notes;
+          // تحديث البيانات المحلية
+          allRequests[requestIndex].status = newStatus;
+          allRequests[requestIndex].adminNotes = notes;
 
-            // تحديث الصف في الجدول
-            const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
-            if (row) {
-                const statusCell = row.querySelector("td:nth-child(5) span");
-                statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+          // تحديث الصف في الجدول
+          const row = document.querySelector(
+            `tr[data-request-id="${requestId}"]`
+          );
+          if (row) {
+            const statusCell = row.querySelector("td:nth-child(5) span");
+            statusCell.textContent =
+              newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
 
-                // تحديث لون الحالة
-                statusCell.className = `px-4 py-2 rounded-full text-base font-bold shadow capitalize ${
-                    newStatus === "approved" ? "bg-green-100 text-green-800" :
-                    newStatus === "rejected" ? "bg-red-100 text-red-800" :
-                    "bg-yellow-100 text-yellow-800"
-                }`;
-            }
+            // تحديث لون الحالة
+            statusCell.className = `px-4 py-2 rounded-full text-base font-bold shadow capitalize ${
+              newStatus === "approved"
+                ? "bg-green-100 text-green-800"
+                : newStatus === "rejected"
+                ? "bg-red-100 text-red-800"
+                : "bg-yellow-100 text-yellow-800"
+            }`;
+          }
 
-            // إغلاق المودال
-            closeModal("editModal");
+          // إغلاق المودال
+          closeModal("editModal");
 
-            // عرض رسالة نجاح
-            alert("Request updated successfully!");
+          // عرض رسالة نجاح
+          alert("Request updated successfully!");
         }
-    }
+      }
 
-    // إغلاق المودال
-    function closeModal(modalId) {
+      // إغلاق المودال
+      function closeModal(modalId) {
         document.getElementById(modalId).classList.add("hidden");
         document.getElementById(modalId).classList.remove("flex");
         document.body.style.overflow = "auto";
-    }
+      }
 
-    // Add contact form handling
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const data = {
-            name: formData.get('name'),
-            email: formData.get('email'),
-            message: formData.get('message')
-        };
+      // Add contact form handling
+      document
+        .getElementById("contact-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-        // Here you would typically send the data to your backend
-        console.log('Contact form submitted:', data);
-        
-        // Show success message
-        alert('Thank you for your message! We will get back to you soon.');
-        
-        // Reset form
-        this.reset();
-    });
-</script>
-</body>
-</html> 
+          // Get form data
+          const formData = new FormData(this);
+          const data = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            message: formData.get("message"),
+          };
+
+          // Here you would typically send the data to your backend
+          console.log("Contact form submitted:", data);
+
+          // Show success message
+          alert("Thank you for your message! We will get back to you soon.");
+
+          // Reset form
+          this.reset();
+        });
+
+      // Function to show/hide sections
+      function showSection(section) {
+        document.getElementById("profile-section").classList.add("hidden");
+        document.getElementById("requests-section").classList.add("hidden");
+        document.getElementById("contact-section").classList.add("hidden");
+        document.getElementById(section + "-section").classList.remove("hidden");
+      }
+
+      // تفعيل تظليل الزر النشط في السايدبار
+      const sidebarButtons = [
+        document.getElementById("sidebar-profile"),
+        document.getElementById("sidebar-requests"),
+        document.getElementById("sidebar-contact")
+      ];
+
+      sidebarButtons.forEach(btn => {
+        btn.addEventListener("click", function() {
+          sidebarButtons.forEach(b => b.classList.remove("bg-violet-100", "font-bold"));
+          this.classList.add("bg-violet-100", "font-bold");
+        });
+      });
+    </script>
+  </body>
+</html>
