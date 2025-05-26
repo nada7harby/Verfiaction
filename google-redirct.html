@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Redirect</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <script>
+    // استقبال التوكن من URL
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+
+    if (token) {
+      // إرسال التوكن إلى النافذة الأم
+      if (window.opener) {
+        window.opener.postMessage({
+          type: 'google-auth-success',
+          token: token
+        }, window.location.origin);
+      }
+      
+      // حفظ التوكن محلياً
+      localStorage.setItem('token', token);
+      
+      // إغلاق النافذة بعد تأخير بسيط
+      setTimeout(() => {
+        window.close();
+      }, 500);
+    } else {
+      Swal.fire({
+        title: 'Error!',
+        text: 'No token received from Google',
+        icon: 'error'
+      }).then(() => {
+        window.location.href = 'login.html';
+      });
+    }
+
+    // استقبال أي رسائل (اختياري)
+    window.addEventListener('message', (event) => {
+      if (event.origin !== window.location.origin) return;
+      // يمكنك معالجة رسائل إضافية هنا إذا لزم الأمر
+    });
+  </script>
+</body>
+</html>

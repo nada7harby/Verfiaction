@@ -153,3 +153,53 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+document.getElementById('googleSignIn').addEventListener('click', function() {
+    // افتح نافذة جديدة لعملية تسجيل الدخول بجوجل
+    const width = 500, height = 600;
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+    
+    const googleAuthWindow = window.open(
+      'https://backend-production-816c.up.railway.app/api/requests/auth/google',
+      'googleAuth',
+      `width=${width},height=${height},top=${top},left=${left}`
+    );
+
+    // استمع لرسائل من النافذة الفرعية كل 100 مللي ثانية
+    const checkPopup = setInterval(() => {
+      if (googleAuthWindow.closed) {
+        clearInterval(checkPopup);
+        // بعد إغلاق النافذة، تحقق من وجود التوكن
+        if (localStorage.getItem('token')) {
+          fetchUserData();
+        }
+      }
+    }, 100);
+});
+
+function fetchUserData() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  fetch('https://backend-production-816c.up.railway.app/api/requests/me', {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Failed to fetch user data');
+    return response.json();
+  })
+  .then(data => {
+    localStorage.setItem('user', JSON.stringify(data.user));
+    window.location.href = 'index.html';
+  })
+  .catch(err => {
+    console.error('Error:', err);
+    Swal.fire({
+      title: 'Error!',
+      text: 'Failed to fetch user data',
+      icon: 'error'
+    });
+  });
+}
