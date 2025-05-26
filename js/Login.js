@@ -110,6 +110,12 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(result);
           // Handle successful login
           sessionStorage.setItem("authToken", result.token);
+          const token = sessionStorage.getItem("authToken");
+          const payload = JSON.parse(atob(token.split(".")[1]));
+          sessionStorage.setItem("IdUser", payload.id);
+
+          console.log(payload.id);
+
           Swal.fire({
             title: "Success!",
             text: "You have successfully logged in",
@@ -147,9 +153,3 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
-const token = sessionStorage.getItem("authToken")
-const payload = JSON.parse(atob(token.split('.')[1]));
-sessionStorage.setItem("IdUser", payload.id);
-
-console.log(payload.id);

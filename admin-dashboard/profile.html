@@ -535,7 +535,12 @@
           myHeaders.append("Authorization", `Bearer ${authToken}`);
 
           // Define API endpoint (using a hardcoded ID from your example - should be dynamic)
-          const userId = "682903ed7de20c0c8bf898c5"; // IMPORTANT: Replace with actual logged-in user ID
+          const userId = sessionStorage.getItem("IdUser")
+const payload = JSON.parse(atob(token.split('.')[1]));
+sessionStorage.setItem("IdUser", payload.id);
+
+console.log(payload.id);
+// IMPORTANT: Replace with actual logged-in user ID
           const apiUrl = `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`;
 
           const requestOptions = {
@@ -576,40 +581,58 @@
       });
 
       // جلب الطلبات من API
-      function fetchRequests() {
-        fetch("https://backend-production-816c.up.railway.app/api/requests/")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            // معالجة البيانات المستلمة
-            if (data && Array.isArray(data)) {
-              allRequests = data;
-            } else if (data && data.requests && Array.isArray(data.requests)) {
-              allRequests = data.requests;
-            } else {
-              throw new Error("Invalid data format from API");
-            }
+   function fetchRequests() {
+  // الحصول على معرف المستخدم من sessionStorage
+  const userId = sessionStorage.getItem("IdUser");
+  if (!userId) {
+    console.error("User ID not found in session storage");
+    document.getElementById("requestsTableBody").innerHTML = `
+      <tr>
+          <td colspan="6" class="px-6 py-4 text-center text-violet-900">
+              Error: User not authenticated
+          </td>
+      </tr>
+    `;
+    return;
+  }
 
-            // عرض الطلبات
-            applyFilters();
-          })
-          .catch((error) => {
-            console.error("Error fetching requests:", error);
-            document.getElementById("requestsTableBody").innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-violet-900">
-                            Error loading requests. Please try again later.
-                        </td>
-                    </tr>
-                `;
-          });
+  // إعداد طلب API لجلب طلبات المستخدم الحالي
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow"
+  };
+
+  fetch(`https://backend-production-816c.up.railway.app/api/requests/user/${userId}`, requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      // معالجة البيانات المستلمة
+      if (data && Array.isArray(data)) {
+        allRequests = data;
+      } else if (data && data.requests && Array.isArray(data.requests)) {
+        allRequests = data.requests;
+      } else {
+        throw new Error("Invalid data format from API");
       }
 
-      // تطبيق الفلاتر
+      // عرض الطلبات
+      applyFilters();
+    })
+    .catch((error) => {
+      console.error("Error fetching requests:", error);
+      document.getElementById("requestsTableBody").innerHTML = `
+        <tr>
+            <td colspan="6" class="px-6 py-4 text-center text-violet-900">
+                Error loading requests. Please try again later.
+            </td>
+        </tr>
+      `;
+    });
+}     // تطبيق الفلاتر
       function applyFilters() {
         currentFilters = {
           status: document.getElementById("statusFilter").value,
