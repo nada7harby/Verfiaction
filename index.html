@@ -219,12 +219,12 @@
       </div>
       <!-- Desktop User Avatar Dropdown (far right) -->
       <div class="relative group ml-4 hidden md:block">
-        <button class="focus:outline-none flex items-center">
+        <button id="avatar-dropdown-btn" class="focus:outline-none flex items-center">
           <img
             src="images/Sample_User_Icon.png"
             alt="User"
             class="h-10 w-10 rounded-full border-2 border-violet-300 shadow-sm"
-            onerror="this.src='https://ui-avatars.com/api/?name=User&background=violet&color=fff'"
+            onerror="this.src='images/Sample_User_Icon.png'"
           />
           <svg
             class="w-4 h-4 ml-2 text-violet-900"
@@ -242,21 +242,10 @@
           </svg>
         </button>
         <div
-          class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-50 invisible group-hover:visible group-focus:visible"
+          id="avatar-dropdown-menu"
+          class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus:opacity-100 group-focus:visible transition-opacity duration-200 z-50"
         >
-          <a
-            href="Profile.html"
-            class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
-            >Profile</a
-          >
-          <a
-            href="login.html"
-            class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
-            >Sign in</a
-          >
-          <a href="#" class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
-            >Sign out</a
-          >
+          <!-- Menu items will be populated by JavaScript -->
         </div>
       </div>
     </div>
@@ -288,93 +277,155 @@
         >Payment</a
       >
       <div class="border-t border-violet-100 my-2"></div>
-      <div class="flex items-center gap-2 px-3 py-2">
-        <img
-          src="https://ui-avatars.com/api/?name=User&background=violet&color=fff"
-          alt="User"
-          class="h-8 w-8 rounded-full border-2 border-violet-300 shadow-sm"
-        />
-        <span class="text-violet-900 font-semibold">User</span>
+      <div id="mobile-user-section">
+        <!-- Mobile user section will be populated by JavaScript -->
       </div>
-      <a
-        href="login.html"
-        class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
-        >Sign in</a
-      >
-      <a href="#" class="block px-4 py-2 text-violet-900 hover:bg-violet-50"
-        >Sign out</a
-      >
     </div>
   </nav>
 </div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    console.log("DOM fully loaded"); // للتأكد من تحميل الصفحة
+    console.log("DOM fully loaded");
 
+    // Check for token in session storage
+    const token = sessionStorage.getItem('authToken');
+    const isLoggedIn = !!token;
+
+    // Get dropdown elements
+    const avatarDropdownBtn = document.getElementById('avatar-dropdown-btn');
+    const avatarDropdownMenu = document.getElementById('avatar-dropdown-menu');
+    const mobileUserSection = document.getElementById('mobile-user-section');
     const navToggle = document.getElementById("nav-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
 
-    // التحقق من وجود العناصر بشكل صريح
-    if (!navToggle) {
-      console.error("nav-toggle element not found!");
-      return;
-    }
-
-    if (!mobileMenu) {
-      console.error("mobile-menu element not found!");
-      return;
-    }
-
-    console.log("Elements found:", { navToggle, mobileMenu }); // للتأكد من وجود العناصر
-
-    // دالة التبديل
-    function toggleMobileMenu() {
-      console.log("Toggle function called"); // للتأكد من استدعاء الدالة
-      const isHidden = mobileMenu.classList.contains("hidden");
-
-      if (isHidden) {
-        console.log("Showing menu");
-        mobileMenu.classList.remove("hidden");
-        setTimeout(() => {
-          mobileMenu.style.opacity = "1";
-          mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
-        }, 10);
-
-        navToggle.innerHTML = `
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>`;
+    // Function to populate dropdown menu based on login status
+    function updateDropdownMenus() {
+      // Desktop dropdown
+      if (isLoggedIn) {
+        avatarDropdownMenu.innerHTML = `
+          <a href="Profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
+          <a href="dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>
+          <a href="#" id="sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
+        `;
       } else {
-        console.log("Hiding menu");
-        mobileMenu.style.opacity = "0";
-        mobileMenu.style.maxHeight = "0";
-        setTimeout(() => {
-          mobileMenu.classList.add("hidden");
-        }, 300);
+        avatarDropdownMenu.innerHTML = `
+          <a href="login.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Login</a>
+          <a href="register.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Register</a>
+        `;
+      }
 
-        navToggle.innerHTML = `
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>`;
+      // Mobile menu user section
+      if (isLoggedIn) {
+        mobileUserSection.innerHTML = `
+          <div class="flex items-center gap-2 px-3 py-2">
+            <img
+              src="images/Sample_User_Icon.png"
+              alt="User"
+              class="h-8 w-8 rounded-full border-2 border-violet-300 shadow-sm"
+            />
+            <span class="text-violet-900 font-semibold">User</span>
+          </div>
+          <a href="Profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
+          <a href="dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>
+          <a href="#" id="mobile-sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
+        `;
+      } else {
+        mobileUserSection.innerHTML = `
+          <a href="login.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Login</a>
+          <a href="register.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Register</a>
+        `;
+      }
+
+      // Add sign out functionality if logged in
+      if (isLoggedIn) {
+        const signOutBtn = document.getElementById('sign-out-btn');
+        const mobileSignOutBtn = document.getElementById('mobile-sign-out-btn');
+        
+        if (signOutBtn) {
+          signOutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('authToken');
+            window.location.href = 'index.html';
+          });
+        }
+        
+        if (mobileSignOutBtn) {
+          mobileSignOutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('authToken');
+            window.location.href = 'index.html';
+          });
+        }
       }
     }
 
-    // إضافة حدث النقر مع المزيد من التحقق
-    navToggle.addEventListener("click", function (e) {
-      console.log("Button clicked!"); // يجب أن يظهر هذا عند النقر
+    // Initialize dropdown menus
+    updateDropdownMenus();
 
-      e.stopPropagation();
-      e.preventDefault();
-      console.log("uuuuu"); // الآن يجب أن يظهر
+    // Toggle dropdown menu on click (for better mobile UX)
+    if (avatarDropdownBtn && avatarDropdownMenu) {
+      avatarDropdownBtn.addEventListener('click', function() {
+        const isVisible = avatarDropdownMenu.classList.contains('opacity-100');
+        
+        if (isVisible) {
+          avatarDropdownMenu.classList.remove('opacity-100', 'visible');
+          avatarDropdownMenu.classList.add('opacity-0', 'invisible');
+        } else {
+          avatarDropdownMenu.classList.remove('opacity-0', 'invisible');
+          avatarDropdownMenu.classList.add('opacity-100', 'visible');
+        }
+      });
+    }
 
-      toggleMobileMenu();
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (avatarDropdownMenu && avatarDropdownBtn && 
+          !avatarDropdownMenu.contains(e.target) && 
+          !avatarDropdownBtn.contains(e.target)) {
+        avatarDropdownMenu.classList.remove('opacity-100', 'visible');
+        avatarDropdownMenu.classList.add('opacity-0', 'invisible');
+      }
     });
 
-    console.log("Event listener added"); // للتأكد من إضافة المستمع
+    // Mobile menu toggle functionality
+    if (navToggle && mobileMenu) {
+      function toggleMobileMenu() {
+        const isHidden = mobileMenu.classList.contains("hidden");
+
+        if (isHidden) {
+          mobileMenu.classList.remove("hidden");
+          setTimeout(() => {
+            mobileMenu.style.opacity = "1";
+            mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+          }, 10);
+
+          navToggle.innerHTML = `
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>`;
+        } else {
+          mobileMenu.style.opacity = "0";
+          mobileMenu.style.maxHeight = "0";
+          setTimeout(() => {
+            mobileMenu.classList.add("hidden");
+          }, 300);
+
+          navToggle.innerHTML = `
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>`;
+        }
+      }
+
+      navToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        toggleMobileMenu();
+      });
+    }
   });
 </script>
-
     <!-- 1. Auto Slider Section -->
    <section class="relative w-full h-screen overflow-hidden">
   <!-- Animated background elements -->
