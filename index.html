@@ -12,6 +12,8 @@
     />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+      <link href="./output.css" rel="stylesheet">
+
 
     <style>
       body,
@@ -147,9 +149,283 @@
 </script>
 
     <!-- Navbar -->
-    <div id="navbar-container"></div>
+    <!-- <div id="navbar-container"></div> -->
     <!--#include file="navbar.html" -->
+<div
+  class="w-full bg-white shadow-[0_4px_24px_0_rgba(80,80,180,0.10)] fixed top-0 left-0 right-0 z-50"
+  style="margin-top: 0"
+>
+  <nav class="glass py-3 shadow-none w-full max-w-6xl mx-auto bg-white">
+    <div class="flex items-center justify-between w-full">
+      <!-- Logo and Site Name (far left) -->
+      <div class="flex items-center gap-3 min-w-0">
+        <img
+          src="images/logo-removebg-preview.png"
+          alt="SPATRAK Logo"
+          class="h-12 w-12 object-contain"
+          onerror="this.src='https://via.placeholder.com/48'"
+        />
+        <span
+          class="text-2xl font-bold text-violet-900 tracking-wide whitespace-nowrap"
+          >SPATRAK</span
+        >
+      </div>
+      <!-- Desktop Centered Navigation Links -->
+      <div id="nav-menu" class="hidden md:flex gap-6 items-center mx-auto">
+        <a
+          href="index.html"
+          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Home</a
+        >
+        <a
+          href="dashboard.html"
+          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Dashboard</a
+        >
+        <a
+          href="verify.html"
+          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Verify</a
+        >
+        <a
+          href="state_request.html"
+          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Requests</a
+        >
+        <a
+          href="payment.html"
+          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Payment</a
+        >
+      </div>
+      <!-- Hamburger for mobile (far right) -->
+      <div class="md:hidden flex items-center ml-auto">
+        <button id="nav-toggle" class="text-violet-900 focus:outline-none">
+          <svg
+            class="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+      </div>
+      <!-- Desktop User Avatar Dropdown (far right) -->
+      <div class="relative group ml-4 hidden md:block">
+        <button id="avatar-dropdown-btn" class="focus:outline-none flex items-center">
+          <img
+            src="images/Sample_User_Icon.png"
+            alt="User"
+            class="h-10 w-10 rounded-full border-2 border-violet-300 shadow-sm"
+            onerror="this.src='images/Sample_User_Icon.png'"
+          />
+          <svg
+            class="w-4 h-4 ml-2 text-violet-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </button>
+        <div
+          id="avatar-dropdown-menu"
+          class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus:opacity-100 group-focus:visible transition-opacity duration-200 z-50"
+        >
+          <!-- Menu items will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+    <!-- Mobile Menu: links + user dropdown inside -->
+    <div id="mobile-menu" class="hidden flex-col gap-2 mt-4">
+      <a
+        href="index.html"
+        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+        >Home</a
+      >
+      <a
+        href="dashboard.html"
+        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+        >Dashboard</a
+      >
+      <a
+        href="verify.html"
+        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+        >Verify</a
+      >
+      <a
+        href="state_request.html"
+        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+        >Requests</a
+      >
+      <a
+        href="payment.html"
+        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+        >Payment</a
+      >
+      <div class="border-t border-violet-100 my-2"></div>
+      <div id="mobile-user-section">
+        <!-- Mobile user section will be populated by JavaScript -->
+      </div>
+    </div>
+  </nav>
+</div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM fully loaded");
+
+    // Check for token in session storage
+    const token = sessionStorage.getItem('authToken');
+    const isLoggedIn = !!token;
+
+    // Get dropdown elements
+    const avatarDropdownBtn = document.getElementById('avatar-dropdown-btn');
+    const avatarDropdownMenu = document.getElementById('avatar-dropdown-menu');
+    const mobileUserSection = document.getElementById('mobile-user-section');
+    const navToggle = document.getElementById("nav-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    // Function to populate dropdown menu based on login status
+    function updateDropdownMenus() {
+      // Desktop dropdown
+      if (isLoggedIn) {
+        avatarDropdownMenu.innerHTML = `
+          <a href="Profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
+          <a href="dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>
+          <a href="#" id="sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
+        `;
+      } else {
+        avatarDropdownMenu.innerHTML = `
+          <a href="login.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Login</a>
+          <a href="register.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Register</a>
+        `;
+      }
+
+      // Mobile menu user section
+      if (isLoggedIn) {
+        mobileUserSection.innerHTML = `
+          <div class="flex items-center gap-2 px-3 py-2">
+            <img
+              src="images/Sample_User_Icon.png"
+              alt="User"
+              class="h-8 w-8 rounded-full border-2 border-violet-300 shadow-sm"
+            />
+            <span class="text-violet-900 font-semibold">User</span>
+          </div>
+          <a href="Profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
+          <a href="dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>
+          <a href="#" id="mobile-sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
+        `;
+      } else {
+        mobileUserSection.innerHTML = `
+          <a href="login.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Login</a>
+          <a href="register.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Register</a>
+        `;
+      }
+
+      // Add sign out functionality if logged in
+      if (isLoggedIn) {
+        const signOutBtn = document.getElementById('sign-out-btn');
+        const mobileSignOutBtn = document.getElementById('mobile-sign-out-btn');
+        
+        if (signOutBtn) {
+          signOutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('authToken');
+            window.location.href = 'index.html';
+          });
+        }
+        
+        if (mobileSignOutBtn) {
+          mobileSignOutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('authToken');
+            window.location.href = 'index.html';
+          });
+        }
+      }
+    }
+
+    // Initialize dropdown menus
+    updateDropdownMenus();
+
+    // Toggle dropdown menu on click (for better mobile UX)
+    if (avatarDropdownBtn && avatarDropdownMenu) {
+      avatarDropdownBtn.addEventListener('click', function() {
+        const isVisible = avatarDropdownMenu.classList.contains('opacity-100');
+        
+        if (isVisible) {
+          avatarDropdownMenu.classList.remove('opacity-100', 'visible');
+          avatarDropdownMenu.classList.add('opacity-0', 'invisible');
+        } else {
+          avatarDropdownMenu.classList.remove('opacity-0', 'invisible');
+          avatarDropdownMenu.classList.add('opacity-100', 'visible');
+        }
+      });
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (avatarDropdownMenu && avatarDropdownBtn && 
+          !avatarDropdownMenu.contains(e.target) && 
+          !avatarDropdownBtn.contains(e.target)) {
+        avatarDropdownMenu.classList.remove('opacity-100', 'visible');
+        avatarDropdownMenu.classList.add('opacity-0', 'invisible');
+      }
+    });
+
+    // Mobile menu toggle functionality
+    if (navToggle && mobileMenu) {
+      function toggleMobileMenu() {
+        const isHidden = mobileMenu.classList.contains("hidden");
+
+        if (isHidden) {
+          mobileMenu.classList.remove("hidden");
+          setTimeout(() => {
+            mobileMenu.style.opacity = "1";
+            mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+          }, 10);
+
+          navToggle.innerHTML = `
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>`;
+        } else {
+          mobileMenu.style.opacity = "0";
+          mobileMenu.style.maxHeight = "0";
+          setTimeout(() => {
+            mobileMenu.classList.add("hidden");
+          }, 300);
+
+          navToggle.innerHTML = `
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>`;
+        }
+      }
+
+      navToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        toggleMobileMenu();
+      });
+    }
+  });
+</script>
     <!-- 1. Auto Slider Section -->
    <section class="relative w-full h-screen overflow-hidden">
   <!-- Animated background elements -->
@@ -293,7 +569,7 @@
   <div class="max-w-6xl mx-auto px-6 relative z-10">
     <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
       <!-- Image with creative frame -->
-      <div class="flex-1 order-1 lg:order-1 relative" data-aos="fade-up" data-aos-duration="600">
+      <div class="flex-1 order-1 lg:order-1 relative" data-aos="flip-left" data-aos-duration="2000">
         <div class="relative z-10 overflow-hidden rounded-[1.75rem] shadow-xl transform hover:scale-[1.02] transition duration-500">
           <img 
             src="images/verfication1.png" 
@@ -781,8 +1057,8 @@
       </form>
 
       <!-- Contact Information & Map -->
-      <div class="space-y-6 text-violet-900">
-        <div>
+      <div class="space-y-6 text-violet-900 ">
+        <div class="">
           <h3 class="text-2xl font-bold mb-2">Our Address</h3>
           <p>123 Verification St., Trust City, Country</p>
         </div>
@@ -856,7 +1132,7 @@
         .then((data) => {
           document.getElementById("navbar-container").innerHTML = data;
           // Initialize navbar functionality
-          loadNavbar();
+         
         });
          fetch('footer.html')
     .then(response => response.text())
