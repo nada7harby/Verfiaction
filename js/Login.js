@@ -148,6 +148,8 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// const token = sessionStorage.getItem("authToken")
-// const payload = JSON.parse(atob(token.split('.')[1]));
-// console.log(payload);
+const token = sessionStorage.getItem("authToken")
+const payload = JSON.parse(atob(token.split('.')[1]));
+sessionStorage.setItem("IdUser", payload.id);
+
+console.log(payload.id);

@@ -74,52 +74,6 @@ document.addEventListener("click", (e) => {
 });
 
 // Donut chart configs for each card
-const donutConfigs = [
-  {
-    id: "donut-total",
-    data: [800, 300, 134],
-    colors: ["#f9a8d4", "#6ee7b7", "#93c5fd"],
-  },
-  {
-    id: "donut-pending",
-    data: [30, 10, 2],
-    colors: ["#f9a8d4", "#6ee7b7", "#93c5fd"],
-  },
-  {
-    id: "donut-rejected",
-    data: [10, 3, 2],
-    colors: ["#f9a8d4", "#6ee7b7", "#93c5fd"],
-  },
-  {
-    id: "donut-new",
-    data: [60, 20, 9],
-    colors: ["#f9a8d4", "#6ee7b7", "#93c5fd"],
-  },
-];
-donutConfigs.forEach((cfg) => {
-  const ctx = document.getElementById(cfg.id).getContext("2d");
-  new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: ["ON HOLD", "In progress", "Candidate Action Required"],
-      datasets: [
-        {
-          data: cfg.data,
-          backgroundColor: cfg.colors,
-          borderWidth: 0,
-        },
-      ],
-    },
-    options: {
-      cutout: "70%",
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: true },
-      },
-      responsive: false,
-    },
-  });
-});
 
 // Scroll Animation
 const observer = new IntersectionObserver(
@@ -334,6 +288,7 @@ function processDataForChart(data) {
 }
 
 // Function to update chart
+// Modify the existing updateChart function to work with real data
 function updateChart(data, period) {
   const filteredData = filterDataByTimePeriod(data, period);
   const chartData = processDataForChart(filteredData);
@@ -413,7 +368,6 @@ function updateChart(data, period) {
     });
   }
 }
-
 // Fetch data from API
 function fetchRecentRequests() {
   fetch("https://backend-production-816c.up.railway.app/api/requests/")
@@ -508,6 +462,8 @@ document.addEventListener("DOMContentLoaded", fetchRecentRequests);
 fetch("https://backend-production-816c.up.railway.app/api/requests/")
   .then((response) => response.json())
   .then((responseData) => {
+    
+    
     // Check if responseData is an array, if not, try to parse it
     let data;
     try {
@@ -545,3 +501,123 @@ fetch("./Sidebar.html")
     // Initialize navbar functionality
     loadNavbar();
   });
+
+// Function to fetch and process data for charts
+async function fetchDataForCharts() {
+  try {
+    const response = await fetch("https://backend-production-816c.up.railway.app/api/requests");
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    let data = await response.json();
+    
+    // Check if data has a requests property
+    if (data && data.requests) {
+      data = data.requests;
+    }
+    
+    // Make sure data is an array
+    if (!Array.isArray(data)) {
+      throw new Error('Invalid data format');
+    }
+    
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
+}
+
+// Function to initialize charts with API data
+async function initializeCharts() {
+  const data = await fetchDataForCharts();
+  
+  // Calculate counts from API data
+  const totalRequests = data.length;
+  const pendingRequests = data.filter(req => req.status === 'pending').length;
+  const acceptedRequests = data.filter(req => req.status === 'accepted').length;
+  const rejectedRequests = data.filter(req => req.status === 'rejected').length;
+  
+  // Get current month data
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  
+  const newThisMonth = data.filter(req => {
+    if (!req.createdAt) return false;
+    const reqDate = new Date(req.createdAt);
+    return reqDate.getMonth() === currentMonth && reqDate.getFullYear() === currentYear;
+  }).length;
+
+  const donutConfigs = [
+    {
+      id: "donut-total",
+      data: [pendingRequests, acceptedRequests, rejectedRequests],
+      colors: ["#fbbf24", "#34d399", "#f3f4f6"],
+      labels: ["Pending", "Accepted", "Rejected"]
+    },
+    {
+      id: "donut-pending",
+      data: [pendingRequests, totalRequests - pendingRequests],
+      colors: ["#fbbf24", "#f3f4f6"],
+      labels: ["Pending", "Others"]
+    },
+    {
+      id: "donut-rejected",
+      data: [acceptedRequests, totalRequests - acceptedRequests],
+      colors: ["#34d399", "#f3f4f6"],
+      labels: ["Accepted", "Others"]
+    },
+    {
+      id: "donut-new",
+      data: [
+        data.filter(req => req.status === 'pending' && new Date(req.createdAt).getMonth() === currentMonth).length,
+        data.filter(req => req.status === 'accepted' && new Date(req.createdAt).getMonth() === currentMonth).length,
+        data.filter(req => req.status === 'rejected' && new Date(req.createdAt).getMonth() === currentMonth).length
+      ],
+      colors: ["#fbbf24", "#34d399", "#f3f4f6"],
+      labels: ["Pending", "Accepted", "Rejected"]
+    },
+  ];
+
+  // Update the numbers displayed in the center of each donut chart
+  document.querySelector('#donut-total + div span').textContent = totalRequests;
+  document.querySelector('#donut-pending + div span').textContent = pendingRequests;
+  document.querySelector('#donut-rejected + div span').textContent = acceptedRequests;
+  document.querySelector('#donut-new + div span').textContent = newThisMonth;
+
+  donutConfigs.forEach((cfg) => {
+    const ctx = document.getElementById(cfg.id).getContext("2d");
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: cfg.labels,
+        datasets: [
+          {
+            data: cfg.data,
+            backgroundColor: cfg.colors,
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        cutout: "70%",
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: true },
+        },
+        responsive: false,
+      },
+    });
+  });
+}
+
+// Call the function when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  initializeCharts();
+  fetchRecentRequests();
+  
+  // Refresh data every 5 minutes
+  setInterval(initializeCharts, 300000);
+});
