@@ -76,7 +76,7 @@
                 <option value="accepted">accepted</option>
                 <option value="rejected">Rejected</option>
               </select>
-              <select
+              <!-- <select
                 id="typeFilter"
                 class="bg-violet-50 border border-violet-200 rounded-lg px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900 transition-all"
               >
@@ -84,7 +84,7 @@
                 <option value="verification">Verification</option>
                 <option value="payment">Payment</option>
                 <option value="support">Support</option>
-              </select>
+              </select> -->
             </div>
             <div
               class="flex items-center space-x-4 w-full md:w-auto mt-4 md:mt-0"
@@ -667,7 +667,6 @@
       function applyFilters() {
         currentFilters = {
           status: document.getElementById("statusFilter").value,
-          type: document.getElementById("typeFilter").value,
           search: document.getElementById("searchInput").value.toLowerCase(),
         };
 
@@ -762,7 +761,7 @@
                         <td class="px-6 py-5 whitespace-nowrap">
                             <div class="flex items-center space-x-3">
                                 <span class="text-violet-900 text-lg font-semibold">${
-                                  request.lastName
+                                  request.firstName
                                 }</span>
                             </div>
                         </td>
@@ -1098,29 +1097,29 @@
             ? `
             <div class="grid grid-cols-1 gap-2">
                 <a href="https://backend-production-816c.up.railway.app/${request.files.consentForm}" 
-                   target="_blank"
+                   download="consent-form-${request._id || 'unknown'}.${request.files.consentForm.split('.').pop()}"
                    class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
                     <i class="fas fa-file-alt text-xl"></i>
                     <span>Consent Form</span>
-                    <i class="fas fa-external-link-alt ml-auto"></i>
+                    <i class="fas fa-download ml-auto"></i>
                 </a>
                 <a href="https://backend-production-816c.up.railway.app/${request.files.idCard}" 
-                   target="_blank"
+                   download="id-card-${request._id || 'unknown'}.${request.files.idCard.split('.').pop()}"
                    class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
                     <i class="fas fa-id-card text-xl"></i>
                     <span>ID Card</span>
-                    <i class="fas fa-external-link-alt ml-auto"></i>
+                    <i class="fas fa-download ml-auto"></i>
                 </a>
                 <a href="https://backend-production-816c.up.railway.app/${request.files.diploma}" 
-                   target="_blank"
+                   download="diploma-${request._id || 'unknown'}.${request.files.diploma.split('.').pop()}"
                    class="flex items-center space-x-2 text-violet-600 hover:text-violet-800 bg-white p-3 rounded-lg hover:bg-violet-100 transition-all cursor-pointer w-full text-left">
                     <i class="fas fa-graduation-cap text-xl"></i>
                     <span>Diploma</span>
-                    <i class="fas fa-external-link-alt ml-auto"></i>
+                    <i class="fas fa-download ml-auto"></i>
                 </a>
             </div>
             `
-            : "No files attached"
+            : "<p class='text-violet-700'>No files attached</p>"
         }
     </div>
 </div>

@@ -472,10 +472,31 @@
       function validateFile(file, maxSize = 5 * 1024 * 1024) {
         if (!file) return true; // Optional files
         const validTypes = [
-          "application/docx",
+          // مستندات
+          "application/pdf",
+          "application/msword",
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "application/vnd.ms-excel",
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "application/vnd.ms-powerpoint",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "text/plain",
+          "text/csv",
+
+          // صور
           "image/jpeg",
           "image/png",
-          "application/pdf",
+          "image/gif",
+          "image/webp",
+          "image/svg+xml",
+
+          // أرشيفات
+          "application/zip",
+          "application/x-rar-compressed",
+          "application/x-7z-compressed",
+
+          // أخرى
+          "application/octet-stream", // للنوع العام
         ];
         return validTypes.includes(file.type) && file.size <= maxSize;
       }

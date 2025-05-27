@@ -39,6 +39,8 @@
       // استخراج التوكن من URL
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
+      console.log(token);
+      
 
       if (token) {
         // تخزين التوكن في sessionStorage بدلاً من localStorage
@@ -48,7 +50,7 @@
           "Token stored in sessionStorage:",
           sessionStorage.getItem("authToken")
         );
-        const token = sessionStorage.getItem("authToken");
+        // const token = sessionStorage.getItem("authToken");
         const payload = JSON.parse(atob(token.split(".")[1]));
         sessionStorage.setItem("IdUser", payload.id);
 
