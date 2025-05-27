@@ -433,15 +433,14 @@ function renderRequestDetails(request) {
                 <!-- معلومات أساسية -->
                 <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
                     <h4 class="font-bold text-violet-800 mb-4 text-lg">Basic Information</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
-                        <div>
+                    <div class="grid grid-cols-3 gap-4 text-violet-900">
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Request ID</p>
                             <p class="font-medium break-words">  ${
                               request._id
                                 ? request._id.substring(0, 6) + "..."
                                 : "N/A"
-                            }
-</p>
+                            }</p>
                         </div>
                         <div>
                             <p class="text-sm text-violet-600">Status</p>
@@ -451,25 +450,21 @@ function renderRequestDetails(request) {
   }</span>
                             </p>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Created At</p>
-                            <p class="font-medium">${new Date(
-                              requestDate
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}</p>
+                            <p class="font-medium">${new Date(requestDate).toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric' 
+  })}</p>
                         </div>
                         <div>
                             <p class="text-sm text-violet-600">Updated At</p>
-                            <p class="font-medium">${new Date(
-                              updatedDate
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}</p>
+                            <p class="font-medium">${new Date(updatedDate).toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric' 
+  })}</p>
                         </div>
                     </div>
                 </div>
@@ -477,8 +472,8 @@ function renderRequestDetails(request) {
                 <!-- معلومات التعليم -->
                 <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
                     <h4 class="font-bold text-violet-800 mb-4 text-lg">Education Information</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
-                        <div>
+                    <div class="grid grid-cols-3 gap-4 text-violet-900">
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Establishment</p>
                             <p class="font-medium">${
                               request.establishment || "N/A"
@@ -490,13 +485,13 @@ function renderRequestDetails(request) {
                               request.program || "N/A"
                             }</p>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Graduation Year</p>
                             <p class="font-medium">${
                               request.graduationYear || "N/A"
                             }</p>
                         </div>
-                         <div>
+                        <div>
                             <p class="text-sm text-violet-600">Internal Reference</p>
                             <p class="font-medium">${
                               request.internalRef || "N/A"
@@ -508,8 +503,8 @@ function renderRequestDetails(request) {
                 <!-- معلومات شخصية -->
                 <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
                     <h4 class="font-bold text-violet-800 mb-4 text-lg">Personal Information</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-violet-900">
-                        <div>
+                    <div class="grid grid-cols-3 gap-4 text-violet-900">
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">First Name</p>
                             <p class="font-medium">${
                               request.firstName || "N/A"
@@ -521,33 +516,27 @@ function renderRequestDetails(request) {
                               request.lastName || "N/A"
                             }</p>
                         </div>
-                        <div>
-                            <p class="text-sm text-violet-600">Given Last Name</p>
-                            <p class="font-medium">${
-                              request.givenLastName || "N/A"
-                            }</p>
-                        </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Birth Date</p>
                             <p class="font-medium">${birthDate}</p>
                         </div>
                         <div>
+                            <p class="text-sm text-violet-600">Phone</p>
+                            <p class="font-medium">${request.phone || "N/A"}</p>
+                        </div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Email</p>
                             <p class="font-medium break-words mr-10">${
                               request.email || "N/A"
                             }</p>
                         </div>
                         <div>
-                            <p class="text-sm text-violet-600">Phone</p>
-                            <p class="font-medium">${request.phone || "N/A"}</p>
-                        </div>
-                         <div>
                             <p class="text-sm text-violet-600">Address</p>
                             <p class="font-medium">${
                               request.address || "N/A"
                             }</p>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Country</p>
                             <p class="font-medium">${
                               request.country || "N/A"
@@ -559,8 +548,8 @@ function renderRequestDetails(request) {
                 <!-- معلومات الشركة -->
                  <div class="bg-violet-50 rounded-lg p-5 shadow-sm">
                     <h4 class="font-bold text-violet-800 mb-4 text-lg">Company Information</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
-                        <div>
+                    <div class="grid grid-cols-3 gap-4 text-violet-900">
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Company Name</p>
                             <p class="font-medium">${
                               request.company || "N/A"
@@ -572,7 +561,7 @@ function renderRequestDetails(request) {
                               request.contact || "N/A"
                             }</p>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Contact Email</p>
                             <p class="font-medium break-words">${
                               request.contactEmail || "N/A"
@@ -584,8 +573,8 @@ function renderRequestDetails(request) {
                 <!-- الملفات المرفقة -->
                 <div class="bg-violet-50 rounded-lg p-5 shadow-sm md:col-span-2">
                     <h4 class="font-bold text-violet-800 mb-4 text-lg">Attached Files</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-violet-900">
-                        <div>
+                    <div class="grid grid-cols-3 gap-4 text-violet-900">
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Consent Form</p>
                             <p class="font-medium">${consentFormLink}</p>
                         </div>
@@ -593,18 +582,18 @@ function renderRequestDetails(request) {
                             <p class="text-sm text-violet-600">ID Card</p>
                             <p class="font-medium">${idCardLink}</p>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Diploma Copy</p>
                             <p class="font-medium">${diplomaLink}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- الردود والملاحظات (إذا وجدت) -->
+                <!-- الردود والملاحظات -->
                 <div class="bg-violet-50 rounded-lg p-5 shadow-sm md:col-span-2">
                     <h4 class="font-bold text-violet-800 mb-4 text-lg">Admin Reply / Notes</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-violet-900">
-                        <div>
+                    <div class="grid grid-cols-3 gap-4 text-violet-900">
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Reply Message</p>
                             <p class="font-medium">${replyMessage}</p>
                         </div>
@@ -612,7 +601,7 @@ function renderRequestDetails(request) {
                             <p class="text-sm text-violet-600">Reply Date</p>
                             <p class="font-medium">${replyDate}</p>
                         </div>
-                        <div>
+                        <div class="col-span-2">
                             <p class="text-sm text-violet-600">Admin Notes</p>
                             <p class="font-medium">${
                               request.adminNotes || "N/A"
