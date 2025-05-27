@@ -11,16 +11,13 @@ let currentFilters = {
 // تهيئة الصفحة
 document.addEventListener("DOMContentLoaded", function () {
   fetchRequests();
+  fetchUserProfile(); // جلب بيانات المستخدم عند التحميل
 
   // إعداد معالجات الأحداث
-  document
-    .getElementById("applyFilters")
-    .addEventListener("click", applyFilters);
-  document
-    .getElementById("searchInput")
-    .addEventListener("keyup", function (e) {
-      applyFilters();
-    });
+  document.getElementById("applyFilters").addEventListener("click", applyFilters);
+  document.getElementById("searchInput").addEventListener("keyup", function (e) {
+    if (e.key === "Enter") applyFilters();
+  });
   document.getElementById("prevPage").addEventListener("click", goToPrevPage);
   document.getElementById("nextPage").addEventListener("click", goToNextPage);
 
@@ -31,6 +28,12 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("viewModal").addEventListener("click", function (e) {
     if (e.target === e.currentTarget) closeModal("viewModal");
   });
+
+  // إعداد حدث تغيير الصورة
+  document.getElementById("avatarInput").addEventListener("change", handleAvatarUpload);
+
+  // إعداد حدث إرسال الفورم
+  document.getElementById("profileForm").addEventListener("submit", updateProfile);
 
   const editProfileForm = document.querySelector("#profile-section form");
 
@@ -186,7 +189,9 @@ function fetchRequests() {
         </tr>
       `;
     });
-} // تطبيق الفلاتر
+}
+
+// تطبيق الفلاتر
 function applyFilters() {
   currentFilters = {
     status: document.getElementById("statusFilter").value,
@@ -692,142 +697,196 @@ document
     this.reset();
   });
 
-// Function to show/hide sections
+// دالة لعرض الأقسام
 function showSection(section) {
   document.getElementById("profile-section").classList.add("hidden");
   document.getElementById("requests-section").classList.add("hidden");
   document.getElementById("contact-section").classList.add("hidden");
   document.getElementById("add-verification-section").classList.add("hidden");
-  document.getElementById(section + "-section").classList.remove("hidden");
-}
+  
+  document.getElementById(`${section}-section`).classList.remove("hidden");
 
-// تفعيل تظليل الزر النشط في السايدبار
-const sidebarButtons = [
-  document.getElementById("sidebar-profile"),
-  document.getElementById("sidebar-requests"),
-  document.getElementById("sidebar-contact"),
-  document.getElementById("sidebar-add-verification"),
-];
-
-sidebarButtons.forEach((btn) => {
-  btn.addEventListener("click", function () {
-    sidebarButtons.forEach((b) =>
-      b.classList.remove("bg-violet-100", "font-bold")
-    );
-    this.classList.add("bg-violet-100", "font-bold");
+  // تحديث الأزرار النشطة في السايدبار
+  const sidebarButtons = document.querySelectorAll("aside nav button");
+  sidebarButtons.forEach(btn => {
+    btn.classList.remove("bg-violet-100", "font-bold");
+    if (btn.id === `sidebar-${section}`) {
+      btn.classList.add("bg-violet-100", "font-bold");
+    }
   });
-});
-// أضف هذا الكود في نهاية ملف profile.html قبل </script>
+}
 
 // دالة لجلب بيانات المستخدم
 async function fetchUserProfile() {
   try {
-    // 1. الحصول على التوكن من sessionStorage
-    const token = sessionStorage.getItem("authToken");
-    if (!token) {
-      throw new Error("No authentication token found");
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) {
+      throw new Error("Authentication token not found");
     }
 
-    // 2. استخراج userId من التوكن
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    const payload = JSON.parse(atob(authToken.split(".")[1]));
     const userId = payload.id;
-    sessionStorage.setItem("IdUser", userId);
 
-    // 3. إعداد طلب Fetch
-    const requestOptions = {
+    const response = await fetch(`https://backend-production-816c.up.railway.app/api/requests/users/${userId}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      redirect: "follow",
-    };
-
-    // 4. إجراء الطلب إلى API
-    const response = await fetch(
-      `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
-      requestOptions
-    );
+        "Authorization": `Bearer ${authToken}`
+      }
+    });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error("Failed to fetch user data");
     }
 
     const userData = await response.json();
 
-    // 5. ملء الحقول ببيانات المستخدم
-    if (userData) {
-      document.getElementById("firstName").value = userData.firstname || "";
-      document.getElementById("lastName").value = userData.lastname || "";
-      document.getElementById("email").value = userData.email || "";
-      // في دالة fetchUserProfile بعد الحصول على userData
-      const avatarImg = document.querySelector("img[alt='Avatar']");
-      if (avatarImg) {
-        avatarImg.src =
-          userData.profileImage || "../../images/solar_user-bold-duotone.png"; // مسار الصورة الافتراضية
-        avatarImg.alt = `${userData.firstname} ${userData.lastname}`;
-      }
-      const nameElement = document.getElementById("fullname");
-      if (nameElement && userData) {
-        nameElement.textContent = `${userData.firstname} ${userData.lastname}`;
-      }
-      // يمكنك إضافة المزيد من الحقول حسب احتياجاتك
-      console.log("User data loaded successfully:", userData);
+    // تحديث واجهة المستخدم
+    document.getElementById("firstName").value = userData.firstname || "";
+    document.getElementById("lastName").value = userData.lastname || "";
+    document.getElementById("email").value = userData.email || "";
+    document.getElementById("userFullName").textContent = 
+      `${userData.firstname || ""} ${userData.lastname || ""}`.trim() || "User";
+
+    // تحديث الصورة إذا كانت موجودة
+    const avatarImg = document.getElementById("userAvatar");
+    if (userData.img && userData.img.trim() !== "") {
+      avatarImg.src = userData.img;
+    } else {
+      avatarImg.src = "../../images/solar_user-bold-duotone.png";
     }
+
   } catch (error) {
     console.error("Error fetching user profile:", error);
     Swal.fire({
-      title: "Error!",
-      text: "Failed to load user profile. Please try again later.",
       icon: "error",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#ef4444",
+      title: "Error",
+      text: "Failed to load user profile data",
     });
   }
 }
-function Update() {
-  const profileForm = document.querySelector("#profile-section form");
-  if (!profileForm) {
-    console.error("Profile form not found");
 
+// دالة للتعامل مع رفع الصورة
+async function handleAvatarUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const authToken = sessionStorage.getItem("authToken");
+  if (!authToken) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Authentication token not found",
+    });
     return;
   }
 
-  profileForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
+  const payload = JSON.parse(atob(authToken.split(".")[1]));
+  const userId = payload.id;
 
-    // Get form elements
-    const firstName = document.getElementById("firstName");
-    const lastName = document.getElementById("lastName");
-    const email = document.getElementById("email");
-    const submitButton = this.querySelector('button[type="submit"]');
+  try {
+    // عرض معاينة الصورة
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById("userAvatar").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
 
-    // Null checks
-    if (!firstName || !lastName || !email || !submitButton) {
-      console.error("Required form elements not found");
-      return;
+    // رفع الصورة إلى السيرفر
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    const response = await fetch(`https://backend-production-816c.up.railway.app/api/users/${userId}/avatar`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${authToken}`
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to upload avatar");
     }
 
-    const originalText = submitButton.textContent;
+    const result = await response.json();
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: "Profile picture updated successfully!",
+    });
 
-    try {
-      const formData = {
-        firstname: firstName.value,
-        lastname: lastName.value,
-        email: email.value,
-      };
-
-      // Rest of your code...
-    } catch (error) {
-      // Error handling
-    } finally {
-      submitButton.textContent = originalText;
-      submitButton.disabled = false;
-    }
-  });
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Failed to update profile picture",
+    });
+  }
 }
 
-// استدعاء الدالة عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", function () {
-  fetchUserProfile();
-  Update();
-});
+// دالة لتحديث بيانات البروفايل
+async function updateProfile(event) {
+  event.preventDefault();
+
+  const authToken = sessionStorage.getItem("authToken");
+  if (!authToken) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Authentication token not found",
+    });
+    return;
+  }
+
+  const payload = JSON.parse(atob(authToken.split(".")[1]));
+  const userId = payload.id;
+
+  const submitButton = event.target.querySelector('button[type="submit"]');
+  const originalText = submitButton.textContent;
+
+  try {
+    submitButton.disabled = true;
+    submitButton.textContent = "Updating...";
+
+    const profileData = {
+      firstname: document.getElementById("firstName").value,
+      lastname: document.getElementById("lastName").value,
+      email: document.getElementById("email").value
+    };
+
+    const response = await fetch(`https://backend-production-816c.up.railway.app/api/requests/users/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${authToken}`
+      },
+      body: JSON.stringify(profileData)
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to update profile");
+    }
+
+    const result = await response.json();
+    Swal.fire({
+      icon: "success",
+      title: "Success",
+      text: "Profile updated successfully!",
+    });
+
+    // تحديث الاسم المعروض
+    document.getElementById("userFullName").textContent = 
+      `${profileData.firstname || ""} ${profileData.lastname || ""}`.trim() || "User";
+
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Failed to update profile",
+    });
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalText;
+  }
+}
