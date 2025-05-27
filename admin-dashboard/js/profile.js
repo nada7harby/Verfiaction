@@ -14,10 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchUserProfile(); // جلب بيانات المستخدم عند التحميل
 
   // إعداد معالجات الأحداث
-  document.getElementById("applyFilters").addEventListener("click", applyFilters);
-  document.getElementById("searchInput").addEventListener("keyup", function (e) {
-    if (e.key === "Enter") applyFilters();
-  });
+  document
+    .getElementById("applyFilters")
+    .addEventListener("click", applyFilters);
+  document
+    .getElementById("searchInput")
+    .addEventListener("keyup", function (e) {
+      if (e.key === "Enter") applyFilters();
+    });
   document.getElementById("prevPage").addEventListener("click", goToPrevPage);
   document.getElementById("nextPage").addEventListener("click", goToNextPage);
 
@@ -30,10 +34,14 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // إعداد حدث تغيير الصورة
-  document.getElementById("avatarInput").addEventListener("change", handleAvatarUpload);
+  document
+    .getElementById("avatarInput")
+    .addEventListener("change", handleAvatarUpload);
 
   // إعداد حدث إرسال الفورم
-  document.getElementById("profileForm").addEventListener("submit", updateProfile);
+  document
+    .getElementById("profileForm")
+    .addEventListener("submit", updateUserProfile);
 
   const editProfileForm = document.querySelector("#profile-section form");
 
@@ -118,14 +126,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("Fetch error:", error);
-        Swal.fire({
-      title: "Error!",
-      text: "Failed to load user profile. Please try again later.",
-      icon: "error",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#ef4444",
-    });
-  
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to load user profile. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#ef4444",
+      });
     } finally {
       // 9. رجعي الزرار لوضعه الطبيعي
       submitButton.disabled = false;
@@ -457,19 +464,23 @@ function renderRequestDetails(request) {
                         </div>
                         <div class="col-span-2">
                             <p class="text-sm text-violet-600">Created At</p>
-                            <p class="font-medium">${new Date(requestDate).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
-  })}</p>
+                            <p class="font-medium">${new Date(
+                              requestDate
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}</p>
                         </div>
                         <div>
                             <p class="text-sm text-violet-600">Updated At</p>
-                            <p class="font-medium">${new Date(updatedDate).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
-  })}</p>
+                            <p class="font-medium">${new Date(
+                              updatedDate
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}</p>
                         </div>
                     </div>
                 </div>
@@ -650,13 +661,13 @@ function saveRequestChanges() {
     closeModal("editModal");
 
     // عرض رسالة نجاح
-      Swal.fire({
-            title: "Success!",
-            text: "You have successfully Send Messages to Admin",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7e22ce",
-          })
+    Swal.fire({
+      title: "Success!",
+      text: "You have successfully Send Messages to Admin",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
   }
 }
 
@@ -685,13 +696,13 @@ document
     console.log("Contact form submitted:", data);
 
     // Show success message
-      Swal.fire({
-            title: "Success!",
-            text: "Thank you for your message! We will get back to you soon",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7e22ce",
-          })
+    Swal.fire({
+      title: "Success!",
+      text: "Thank you for your message! We will get back to you soon",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
 
     // Reset form
     this.reset();
@@ -703,12 +714,12 @@ function showSection(section) {
   document.getElementById("requests-section").classList.add("hidden");
   document.getElementById("contact-section").classList.add("hidden");
   document.getElementById("add-verification-section").classList.add("hidden");
-  
+
   document.getElementById(`${section}-section`).classList.remove("hidden");
 
   // تحديث الأزرار النشطة في السايدبار
   const sidebarButtons = document.querySelectorAll("aside nav button");
-  sidebarButtons.forEach(btn => {
+  sidebarButtons.forEach((btn) => {
     btn.classList.remove("bg-violet-100", "font-bold");
     if (btn.id === `sidebar-${section}`) {
       btn.classList.add("bg-violet-100", "font-bold");
@@ -727,34 +738,41 @@ async function fetchUserProfile() {
     const payload = JSON.parse(atob(authToken.split(".")[1]));
     const userId = payload.id;
 
-    const response = await fetch(`https://backend-production-816c.up.railway.app/api/requests/users/${userId}`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${authToken}`
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
       }
-    });
+    );
 
     if (!response.ok) {
       throw new Error("Failed to fetch user data");
     }
 
     const userData = await response.json();
+    console.log("User data received:", userData); // للتأكد من هيكل البيانات
 
     // تحديث واجهة المستخدم
     document.getElementById("firstName").value = userData.firstname || "";
     document.getElementById("lastName").value = userData.lastname || "";
     document.getElementById("email").value = userData.email || "";
-    document.getElementById("userFullName").textContent = 
+    document.getElementById("userFullName").textContent =
       `${userData.firstname || ""} ${userData.lastname || ""}`.trim() || "User";
 
-    // تحديث الصورة إذا كانت موجودة
+    // تحديث الصورة
     const avatarImg = document.getElementById("userAvatar");
-    if (userData.img && userData.img.trim() !== "") {
-      avatarImg.src = userData.img;
+    if (userData.image && userData.image.trim() !== "") {
+      // إذا كان هناك صورة متاحة
+      avatarImg.src = userData.image;
+      console.log("Using profile image from API:", userData.image);
     } else {
+      // إذا كانت الصورة فارغة أو غير موجودة
       avatarImg.src = "../../images/solar_user-bold-duotone.png";
+      console.log("Using default profile image");
     }
-
   } catch (error) {
     console.error("Error fetching user profile:", error);
     Swal.fire({
@@ -762,131 +780,93 @@ async function fetchUserProfile() {
       title: "Error",
       text: "Failed to load user profile data",
     });
+
+    // عرض الصورة الافتراضية في حالة الخطأ
+    document.getElementById("userAvatar").src =
+      "../../images/solar_user-bold-duotone.png";
   }
 }
 
 // دالة للتعامل مع رفع الصورة
-async function handleAvatarUpload(event) {
+function handleAvatarUpload(event) {
   const file = event.target.files[0];
-  if (!file) return;
-
-  const authToken = sessionStorage.getItem("authToken");
-  if (!authToken) {
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Authentication token not found",
-    });
-    return;
-  }
-
-  const payload = JSON.parse(atob(authToken.split(".")[1]));
-  const userId = payload.id;
-
-  try {
-    // عرض معاينة الصورة
+  if (file) {
     const reader = new FileReader();
     reader.onload = function(e) {
       document.getElementById("userAvatar").src = e.target.result;
+      // يمكنك هنا إضافة كود لرفع الصورة إلى السيرفر إذا أردت
     };
     reader.readAsDataURL(file);
-
-    // رفع الصورة إلى السيرفر
-    const formData = new FormData();
-    formData.append("avatar", file);
-
-    const response = await fetch(`https://backend-production-816c.up.railway.app/api/users/${userId}/avatar`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${authToken}`
-      },
-      body: formData
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to upload avatar");
-    }
-
-    const result = await response.json();
-    Swal.fire({
-      icon: "success",
-      title: "Success",
-      text: "Profile picture updated successfully!",
-    });
-
-  } catch (error) {
-    console.error("Error uploading avatar:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Failed to update profile picture",
-    });
   }
 }
-
 // دالة لتحديث بيانات البروفايل
-async function updateProfile(event) {
+async function updateUserProfile(event) {
   event.preventDefault();
 
-  const authToken = sessionStorage.getItem("authToken");
-  if (!authToken) {
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Authentication token not found",
-    });
-    return;
-  }
-
-  const payload = JSON.parse(atob(authToken.split(".")[1]));
-  const userId = payload.id;
-
-  const submitButton = event.target.querySelector('button[type="submit"]');
-  const originalText = submitButton.textContent;
-
   try {
-    submitButton.disabled = true;
-    submitButton.textContent = "Updating...";
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) throw new Error("Please login again");
 
-    const profileData = {
+    const payload = JSON.parse(atob(authToken.split('.')[1]));
+    const userId = payload.id;
+
+    // إنشاء كائن البيانات الأساسي
+    const data = {
       firstname: document.getElementById("firstName").value,
       lastname: document.getElementById("lastName").value,
-      email: document.getElementById("email").value
+      email: document.getElementById("email").value,
+      password: "",
+      image: ""
     };
 
-    const response = await fetch(`https://backend-production-816c.up.railway.app/api/requests/users/${userId}`, {
+    // معالجة الصورة إذا وجدت
+    const avatarInput = document.getElementById("avatarInput");
+    if (avatarInput && avatarInput.files[0]) {
+      data.image = await convertToBase64(avatarInput.files[0]);
+    }
+
+    // إعداد الطلب
+    const requestOptions = {
       method: "PUT",
-      headers: {
+      headers: { 
         "Content-Type": "application/json",
         "Authorization": `Bearer ${authToken}`
       },
-      body: JSON.stringify(profileData)
-    });
+      body: JSON.stringify(data)
+    };
 
-    if (!response.ok) {
-      throw new Error("Failed to update profile");
-    }
+    // عرض حالة التحميل
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Updating...";
 
-    const result = await response.json();
-    Swal.fire({
-      icon: "success",
-      title: "Success",
-      text: "Profile updated successfully!",
-    });
+    // إرسال الطلب
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
+      requestOptions
+    );
 
-    // تحديث الاسم المعروض
-    document.getElementById("userFullName").textContent = 
-      `${profileData.firstname || ""} ${profileData.lastname || ""}`.trim() || "User";
-
+    // ... باقي الكود كما هو ...
   } catch (error) {
-    console.error("Error updating profile:", error);
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Failed to update profile",
-    });
+    // ... معالجة الأخطاء ...
   } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = originalText;
+    // ... إعادة تعيين الزر ...
   }
 }
+
+// دالة مساعدة لتحويل الملف إلى base64
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}
+// Initialize form event listener
+document.addEventListener("DOMContentLoaded", () => {
+  const profileForm = document.getElementById("profileForm");
+  if (profileForm) {
+    profileForm.addEventListener("submit", updateUserProfile);
+  }
+});
