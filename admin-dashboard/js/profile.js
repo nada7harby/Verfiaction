@@ -766,7 +766,7 @@ async function fetchUserProfile() {
     const avatarImg = document.getElementById("userAvatar");
     if (userData.image && userData.image.trim() !== "") {
       // إذا كان هناك صورة متاحة
-      avatarImg.src = `data:image/${userData.image}`;
+      avatarImg.src = `${userData.image}`;
       console.log("Using profile image from API:", userData.image);
     } else {
       // إذا كانت الصورة فارغة أو غير موجودة
