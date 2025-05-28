@@ -77,9 +77,9 @@
             console.log("API Response:", result);
 
             // Check password value and set session accordingly
-            if (result.password === "set") {
+            if (result.user.password === "set") {
               sessionStorage.setItem("password", "yes");
-            } else if (result.password === null) {
+            } else if (result.user.password === null) {
               sessionStorage.setItem("password", "no");
             }
 
