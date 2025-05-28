@@ -43,14 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("profileForm")
     .addEventListener("submit", updateUserProfile);
 
-  // إعداد حدث تبديل رؤية كلمة المرور والتحقق من googleId
   const togglePassword = document.getElementById("togglePassword");
   const passwordInput = document.getElementById("password");
-  const googleId = sessionStorage.getItem("googleId");
+  const passwordValue = sessionStorage.getItem("password");
   
   if (togglePassword && passwordInput) {
-    // التحقق من googleId وتعطيل/تفعيل حقل كلمة المرور
-    if (googleId === "yes") {
+    if (passwordValue === "no") {
       passwordInput.disabled = true;
       passwordInput.placeholder = "Password cannot be changed for Google accounts";
       togglePassword.style.display = "none";
@@ -904,9 +902,9 @@ async function updateUserProfile(event) {
 
     // إذا كان هناك كلمة مرور جديدة وليس حساب Google
     const password = document.getElementById("password").value;
-    const googleId = sessionStorage.getItem("googleId");
+    const passwordValue = sessionStorage.getItem("password");
     
-    if (password && googleId !== "yes") {
+    if (password && passwordValue !== "yes") {
       // إرسال طلب إعادة تعيين كلمة المرور
       const passwordResetOptions = {
         method: "POST",
