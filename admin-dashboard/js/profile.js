@@ -766,7 +766,7 @@ async function fetchUserProfile() {
     const avatarImg = document.getElementById("userAvatar");
     if (userData.image && userData.image.trim() !== "") {
       // إذا كان هناك صورة متاحة
-      avatarImg.src = userData.image;
+      avatarImg.src = `data:image/${userData.image}`;
       console.log("Using profile image from API:", userData.image);
     } else {
       // إذا كانت الصورة فارغة أو غير موجودة
@@ -790,13 +790,25 @@ async function fetchUserProfile() {
 // دالة للتعامل مع رفع الصورة
 function handleAvatarUpload(event) {
   const file = event.target.files[0];
-  if (file) {
+  if (!file) return;
+
+  try {
+    validateFileSize(file, 5); // 5MB كحد أقصى
+    
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       document.getElementById("userAvatar").src = e.target.result;
-      // يمكنك هنا إضافة كود لرفع الصورة إلى السيرفر إذا أردت
     };
     reader.readAsDataURL(file);
+  } catch (error) {
+    Swal.fire({
+      title: "Error!",
+      text: error.message,
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ef4444",
+    });
+    event.target.value = ""; // مسح اختيار الملف
   }
 }
 // دالة لتحديث بيانات البروفايل
@@ -804,10 +816,12 @@ async function updateUserProfile(event) {
   event.preventDefault();
 
   try {
+    // جلب التوكن من sessionStorage
     const authToken = sessionStorage.getItem("authToken");
     if (!authToken) throw new Error("Please login again");
 
-    const payload = JSON.parse(atob(authToken.split('.')[1]));
+    // استخراج userId من التوكن
+    const payload = JSON.parse(atob(authToken.split(".")[1]));
     const userId = payload.id;
 
     // إنشاء كائن البيانات الأساسي
@@ -816,27 +830,35 @@ async function updateUserProfile(event) {
       lastname: document.getElementById("lastName").value,
       email: document.getElementById("email").value,
       password: "",
-      image: ""
+      image: "",
     };
 
     // معالجة الصورة إذا وجدت
     const avatarInput = document.getElementById("avatarInput");
     if (avatarInput && avatarInput.files[0]) {
-      data.image = await convertToBase64(avatarInput.files[0]);
+      data.image = await compressImage(avatarInput.files[0]);
     }
 
-    // إعداد الطلب
+    // إنشاء الهيدرات
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${authToken}`);
+
+    // تحويل البيانات إلى JSON
+    const raw = JSON.stringify(data);
+
+    // إعداد خيارات الطلب
     const requestOptions = {
       method: "PUT",
-      headers: { 
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
-      },
-      body: JSON.stringify(data)
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
     };
+    console.log(data);
 
     // عرض حالة التحميل
     const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = "Updating...";
 
@@ -846,23 +868,94 @@ async function updateUserProfile(event) {
       requestOptions
     );
 
-    // ... باقي الكود كما هو ...
+    // معالجة الاستجابة
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to update profile");
+    }
+
+    const result = await response.json();
+    console.log("Update successful:", result);
+    alert("Profile updated successfully!");
+
+    // إذا كانت هناك صورة جديدة، نقوم بتحديث العرض
+    if (data.image) {
+      document.getElementById("userAvatar").src = data.image;
+    }
   } catch (error) {
-    // ... معالجة الأخطاء ...
+    console.error("Update error:", error);
+    alert("Error updating profile: " + error.message);
   } finally {
-    // ... إعادة تعيين الزر ...
+    // إعادة تعيين الزر
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Update Profile";
+    }
   }
 }
-
-// دالة مساعدة لتحويل الملف إلى base64
-function convertToBase64(file) {
-  return new Promise((resolve, reject) => {
+function validateFileSize(file, maxSizeMB = 5) {
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+  if (file.size > maxSizeBytes) {
+    throw new Error(`File size exceeds ${maxSizeMB}MB limit`);
+  }
+  return true;
+}
+async function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
+  return new Promise((resolve) => {
     const reader = new FileReader();
+    reader.onload = function (event) {
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        
+        // حساب الأبعاد الجديدة مع الحفاظ على التناسب
+        let width = img.width;
+        let height = img.height;
+        
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // تحويل إلى صيغة webp لتحسين الحجم
+        const mimeType = 'image/webp'; // استخدام webp لتحسين الحجم
+        canvas.toBlob(
+          (blob) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          },
+          mimeType,
+          quality
+        );
+      };
+      img.src = event.target.result;
+    };
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
   });
 }
+// تعديل دالة convertToBase64 لاستخدام الضغط
+async function convertToBase64(file) {
+  const compressedFile = await compressImage(file);
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.readAsDataURL(compressedFile);
+  });
+}
+
 // Initialize form event listener
 document.addEventListener("DOMContentLoaded", () => {
   const profileForm = document.getElementById("profileForm");
