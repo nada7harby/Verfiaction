@@ -46,11 +46,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const togglePassword = document.getElementById("togglePassword");
   const passwordInput = document.getElementById("password");
   const passwordValue = sessionStorage.getItem("password");
-  
+
   if (togglePassword && passwordInput) {
     if (passwordValue === "no") {
       passwordInput.disabled = true;
-      passwordInput.placeholder = "Password cannot be changed for Google accounts";
+      passwordInput.placeholder =
+        "Password cannot be changed for Google accounts";
       togglePassword.style.display = "none";
     } else {
       passwordInput.disabled = false;
@@ -59,8 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // إضافة حدث تبديل رؤية كلمة المرور
-    togglePassword.addEventListener("click", function() {
-      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    togglePassword.addEventListener("click", function () {
+      const type =
+        passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
       this.querySelector("i").classList.toggle("fa-eye");
       this.querySelector("i").classList.toggle("fa-eye-slash");
@@ -150,13 +152,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("Fetch error:", error);
-        Swal.fire({
-      title: "Error!",
-      text: "Failed to load user profile. Please try again later.",
-      icon: "error",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#ef4444",
-    });
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to load user profile. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#ef4444",
+      });
     } finally {
       // 9. رجعي الزرار لوضعه الطبيعي
       submitButton.disabled = false;
@@ -173,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         const requestId = document.getElementById("editRequestId").value;
         const authToken = sessionStorage.getItem("authToken");
-        
+
         if (!authToken) {
           throw new Error("Authentication token not found");
         }
@@ -197,8 +199,8 @@ document.addEventListener("DOMContentLoaded", function () {
           birthDate: {
             day: document.getElementById("editBirthDay").value,
             month: document.getElementById("editBirthMonth").value,
-            year: document.getElementById("editBirthYear").value
-          }
+            year: document.getElementById("editBirthYear").value,
+          },
         };
 
         // إعداد خيارات الطلب
@@ -206,9 +208,9 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${authToken}`
+            Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify(updatedData)
+          body: JSON.stringify(updatedData),
         };
 
         // إرسال الطلب
@@ -223,9 +225,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // تحديث البيانات المحلية
         const updatedRequest = await response.json();
-        const requestIndex = allRequests.findIndex(req => req._id === requestId);
+        const requestIndex = allRequests.findIndex(
+          (req) => req._id === requestId
+        );
         if (requestIndex !== -1) {
-          allRequests[requestIndex] = { ...allRequests[requestIndex], ...updatedRequest };
+          allRequests[requestIndex] = {
+            ...allRequests[requestIndex],
+            ...updatedRequest,
+          };
         }
 
         // إغلاق المودال
@@ -240,9 +247,8 @@ document.addEventListener("DOMContentLoaded", function () {
           text: "Request updated successfully",
           icon: "success",
           confirmButtonText: "OK",
-          confirmButtonColor: "#7e22ce"
+          confirmButtonColor: "#7e22ce",
         });
-
       } catch (error) {
         console.error("Error updating request:", error);
         Swal.fire({
@@ -250,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
           text: error.message || "Failed to update request",
           icon: "error",
           confirmButtonText: "OK",
-          confirmButtonColor: "#ef4444"
+          confirmButtonColor: "#ef4444",
         });
       }
     });
@@ -404,13 +410,19 @@ function applyFilters() {
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center space-x-2">
-                            <button onclick="openEditModal('${request._id}')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
+                            <button onclick="openEditModal('${
+                              request._id
+                            }')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-edit mr-1"></i> Message
                             </button>
-                            <button onclick="openViewModal('${request._id}')" class="text-violet-700 bg-violet-100 hover:bg-violet-200 px-3 py-1 rounded-lg transition flex items-center">
+                            <button onclick="openViewModal('${
+                              request._id
+                            }')" class="text-violet-700 bg-violet-100 hover:bg-violet-200 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-eye mr-1"></i> View
                             </button>
-                            <button onclick="openEditRequestModal('${request._id}')" class="text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded-lg transition flex items-center">
+                            <button onclick="openEditRequestModal('${
+                              request._id
+                            }')" class="text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-pencil-alt mr-1"></i> Edit
                             </button>
                         </div>
@@ -585,7 +597,7 @@ function renderRequestDetails(request) {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
-  })}</p>
+                            })}</p>
                         </div>
                         <div>
                             <p class="text-sm text-violet-600">Updated At</p>
@@ -595,7 +607,7 @@ function renderRequestDetails(request) {
                               year: "numeric",
                               month: "short",
                               day: "numeric",
-  })}</p>
+                            })}</p>
                         </div>
                     </div>
                 </div>
@@ -776,12 +788,12 @@ function saveRequestChanges() {
     closeModal("editModal");
 
     // عرض رسالة نجاح
-      Swal.fire({
-            title: "Success!",
-            text: "You have successfully Send Messages to Admin",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7e22ce",
+    Swal.fire({
+      title: "Success!",
+      text: "You have successfully Send Messages to Admin",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
     });
   }
 }
@@ -811,12 +823,12 @@ document
     console.log("Contact form submitted:", data);
 
     // Show success message
-      Swal.fire({
-            title: "Success!",
-            text: "Thank you for your message! We will get back to you soon",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7e22ce",
+    Swal.fire({
+      title: "Success!",
+      text: "Thank you for your message! We will get back to you soon",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
     });
 
     // Reset form
@@ -834,7 +846,7 @@ function showSection(section) {
 
   // تحديث الأزرار النشطة في السايدبار
   const sidebarButtons = document.querySelectorAll("aside nav button");
-sidebarButtons.forEach((btn) => {
+  sidebarButtons.forEach((btn) => {
     btn.classList.remove("bg-violet-100", "font-bold");
     if (btn.id === `sidebar-${section}`) {
       btn.classList.add("bg-violet-100", "font-bold");
@@ -856,8 +868,8 @@ async function fetchUserProfile() {
     const response = await fetch(
       `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
       {
-      method: "GET",
-      headers: {
+        method: "GET",
+        headers: {
           Authorization: `Bearer ${authToken}`,
         },
       }
@@ -871,9 +883,9 @@ async function fetchUserProfile() {
     console.log("User data received:", userData); // للتأكد من هيكل البيانات
 
     // تحديث واجهة المستخدم
-      document.getElementById("firstName").value = userData.firstname || "";
-      document.getElementById("lastName").value = userData.lastname || "";
-      document.getElementById("email").value = userData.email || "";
+    document.getElementById("firstName").value = userData.firstname || "";
+    document.getElementById("lastName").value = userData.lastname || "";
+    document.getElementById("email").value = userData.email || "";
     document.getElementById("userFullName").textContent =
       `${userData.firstname || ""} ${userData.lastname || ""}`.trim() || "User";
 
@@ -882,7 +894,6 @@ async function fetchUserProfile() {
     if (userData.image && userData.image.trim() !== "") {
       // إذا كان هناك صورة متاحة
       avatarImg.src = `${userData.image}`;
-      console.log("Using profile image from API:", userData.image);
     } else {
       // إذا كانت الصورة فارغة أو غير موجودة
       avatarImg.src = "../../images/solar_user-bold-duotone.png";
@@ -909,7 +920,7 @@ function handleAvatarUpload(event) {
 
   try {
     validateFileSize(file, 5); // 5MB كحد أقصى
-    
+
     const reader = new FileReader();
     reader.onload = function (e) {
       document.getElementById("userAvatar").src = e.target.result;
@@ -953,7 +964,15 @@ async function updateUserProfile(event) {
     if (avatarInput && avatarInput.files[0]) {
       data.image = await compressImage(avatarInput.files[0]);
     }
+    const password = document.getElementById("password").value;
+    const passwordValue = sessionStorage.getItem("password");
 
+
+    if (password && passwordValue == "yes") {
+      data.password=password
+      console.log("kkk");
+      
+    }
     // إنشاء الهيدرات
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -969,6 +988,8 @@ async function updateUserProfile(event) {
       body: raw,
       redirect: "follow",
     };
+    console.log(data);
+    
 
     // عرض حالة التحميل
     const submitBtn = event.target.querySelector('button[type="submit"]');
@@ -992,33 +1013,31 @@ async function updateUserProfile(event) {
     console.log("Update successful:", result);
 
     // إذا كان هناك كلمة مرور جديدة وليس حساب Google
-    const password = document.getElementById("password").value;
-    const passwordValue = sessionStorage.getItem("password");
-    
-    if (password && passwordValue !== "yes") {
-      // إرسال طلب إعادة تعيين كلمة المرور
-      const passwordResetOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password: password }),
-        redirect: "follow"
-      };
 
-      try {
-        const passwordResponse = await fetch(
-          "https://backend-production-816c.up.railway.app/api/requests/forgot-password",
-          passwordResetOptions
-        );
-        
-        if (!passwordResponse.ok) {
-          console.warn("Password reset request failed");
-        }
-    } catch (error) {
-        console.error("Error in password reset:", error);
-      }
-    }
+    // if (password && passwordValue !== "yes") {
+    //   // إرسال طلب إعادة تعيين كلمة المرور
+    //   const passwordResetOptions = {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ password: password }),
+    //     redirect: "follow"
+    //   };
+
+    //   try {
+    //     const passwordResponse = await fetch(
+    //       "https://backend-production-816c.up.railway.app/api/requests/forgot-password",
+    //       passwordResetOptions
+    //     );
+
+    //     if (!passwordResponse.ok) {
+    //       console.warn("Password reset request failed");
+    //     }
+    // } catch (error) {
+    //     console.error("Error in password reset:", error);
+    //   }
+    // }
 
     // عرض رسالة نجاح
     Swal.fire({
@@ -1042,7 +1061,7 @@ async function updateUserProfile(event) {
       confirmButtonText: "OK",
       confirmButtonColor: "#ef4444",
     });
-    } finally {
+  } finally {
     // إعادة تعيين الزر
     const submitBtn = event.target.querySelector('button[type="submit"]');
     if (submitBtn) {
@@ -1058,28 +1077,33 @@ function validateFileSize(file, maxSizeMB = 5) {
   }
   return true;
 }
-async function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
+async function compressImage(
+  file,
+  maxWidth = 800,
+  maxHeight = 800,
+  quality = 0.7
+) {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = function (event) {
       const img = new Image();
       img.onload = function () {
         const canvas = document.createElement("canvas");
-        
+
         // حساب الأبعاد الجديدة مع الحفاظ على التناسب
         let width = img.width;
         let height = img.height;
-        
+
         if (width > maxWidth) {
           height = Math.round((height * maxWidth) / width);
           width = maxWidth;
         }
-        
+
         if (height > maxHeight) {
           width = Math.round((width * maxHeight) / height);
           height = maxHeight;
         }
-        
+
         canvas.width = width;
         canvas.height = height;
 
@@ -1087,7 +1111,7 @@ async function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.
         ctx.drawImage(img, 0, 0, width, height);
 
         // تحويل إلى صيغة webp لتحسين الحجم
-        const mimeType = 'image/webp'; // استخدام webp لتحسين الحجم
+        const mimeType = "image/webp"; // استخدام webp لتحسين الحجم
         canvas.toBlob(
           (blob) => {
             const reader = new FileReader();
@@ -1139,7 +1163,7 @@ async function openEditRequestModal(requestId) {
     const requestOptions = {
       method: "GET",
       headers: myHeaders,
-      redirect: "follow"
+      redirect: "follow",
     };
 
     // جلب بيانات الطلب من API
@@ -1161,56 +1185,71 @@ async function openEditRequestModal(requestId) {
     document.getElementById("editLastName").value = request.lastName || "";
     document.getElementById("editEmail").value = request.email || "";
     document.getElementById("editPhone").value = request.phone || "";
-    document.getElementById("editEstablishment").value = request.establishment || "";
+    document.getElementById("editEstablishment").value =
+      request.establishment || "";
     document.getElementById("editProgram").value = request.program || "";
-    document.getElementById("editGraduationYear").value = request.graduationYear || "";
-    document.getElementById("editInternalRef").value = request.internalRef || "";
+    document.getElementById("editGraduationYear").value =
+      request.graduationYear || "";
+    document.getElementById("editInternalRef").value =
+      request.internalRef || "";
     document.getElementById("editCompany").value = request.company || "";
     document.getElementById("editContact").value = request.contact || "";
-    document.getElementById("editContactEmail").value = request.contactEmail || "";
+    document.getElementById("editContactEmail").value =
+      request.contactEmail || "";
     document.getElementById("editAddress").value = request.address || "";
     document.getElementById("editCountry").value = request.country || "";
     document.getElementById("editComment").value = request.comment || "";
 
     // تعبئة تاريخ الميلاد
     if (request.birthDate) {
-      document.getElementById("editBirthDay").value = request.birthDate.day || "";
-      document.getElementById("editBirthMonth").value = request.birthDate.month || "";
-      document.getElementById("editBirthYear").value = request.birthDate.year || "";
+      document.getElementById("editBirthDay").value =
+        request.birthDate.day || "";
+      document.getElementById("editBirthMonth").value =
+        request.birthDate.month || "";
+      document.getElementById("editBirthYear").value =
+        request.birthDate.year || "";
     }
 
     // تعبئة روابط الملفات
     if (request.files) {
       const baseUrl = "https://backend-production-816c.up.railway.app/";
-      
+
       // Consent Form
-      const consentFormContainer = document.getElementById("editConsentFormContainer");
+      const consentFormContainer = document.getElementById(
+        "editConsentFormContainer"
+      );
       if (request.files.consentForm) {
         const consentFormLink = document.getElementById("editConsentForm");
         consentFormLink.href = baseUrl + request.files.consentForm;
-        consentFormLink.querySelector("span").textContent = request.files.consentForm.split("/").pop();
+        consentFormLink.querySelector(
+          "span"
+        ).textContent = request.files.consentForm.split("/").pop();
         consentFormContainer.style.display = "block";
       } else {
         consentFormContainer.style.display = "none";
       }
-      
+
       // ID Card
       const idCardContainer = document.getElementById("editIdCardContainer");
       if (request.files.idCard) {
         const idCardLink = document.getElementById("editIdCard");
         idCardLink.href = baseUrl + request.files.idCard;
-        idCardLink.querySelector("span").textContent = request.files.idCard.split("/").pop();
+        idCardLink.querySelector(
+          "span"
+        ).textContent = request.files.idCard.split("/").pop();
         idCardContainer.style.display = "block";
       } else {
         idCardContainer.style.display = "none";
       }
-      
+
       // Diploma
       const diplomaContainer = document.getElementById("editDiplomaContainer");
       if (request.files.diploma) {
         const diplomaLink = document.getElementById("editDiploma");
         diplomaLink.href = baseUrl + request.files.diploma;
-        diplomaLink.querySelector("span").textContent = request.files.diploma.split("/").pop();
+        diplomaLink.querySelector(
+          "span"
+        ).textContent = request.files.diploma.split("/").pop();
         diplomaContainer.style.display = "block";
       } else {
         diplomaContainer.style.display = "none";
@@ -1219,8 +1258,8 @@ async function openEditRequestModal(requestId) {
 
     // إضافة معالجات الأحداث للملفات الجديدة
     const fileInputs = document.querySelectorAll('input[type="file"]');
-    fileInputs.forEach(input => {
-      input.addEventListener('change', function(e) {
+    fileInputs.forEach((input) => {
+      input.addEventListener("change", function (e) {
         const file = e.target.files[0];
         if (file) {
           try {
@@ -1231,7 +1270,7 @@ async function openEditRequestModal(requestId) {
               text: error.message,
               icon: "error",
               confirmButtonText: "OK",
-              confirmButtonColor: "#ef4444"
+              confirmButtonColor: "#ef4444",
             });
             e.target.value = ""; // مسح اختيار الملف
           }
@@ -1243,7 +1282,6 @@ async function openEditRequestModal(requestId) {
     document.getElementById("editRequestModal").classList.remove("hidden");
     document.getElementById("editRequestModal").classList.add("flex");
     document.body.style.overflow = "hidden";
-
   } catch (error) {
     console.error("Error fetching request data:", error);
     Swal.fire({
@@ -1251,7 +1289,7 @@ async function openEditRequestModal(requestId) {
       text: error.message || "Failed to load request data",
       icon: "error",
       confirmButtonText: "OK",
-      confirmButtonColor: "#ef4444"
+      confirmButtonColor: "#ef4444",
     });
   }
 }
@@ -1266,24 +1304,46 @@ async function saveRequestChanges() {
   formData.append("lastName", document.getElementById("editLastName").value);
   formData.append("email", document.getElementById("editEmail").value);
   formData.append("phone", document.getElementById("editPhone").value);
-  formData.append("establishment", document.getElementById("editEstablishment").value);
+  formData.append(
+    "establishment",
+    document.getElementById("editEstablishment").value
+  );
   formData.append("program", document.getElementById("editProgram").value);
-  formData.append("graduationYear", document.getElementById("editGraduationYear").value);
-  formData.append("internalRef", document.getElementById("editInternalRef").value);
+  formData.append(
+    "graduationYear",
+    document.getElementById("editGraduationYear").value
+  );
+  formData.append(
+    "internalRef",
+    document.getElementById("editInternalRef").value
+  );
   formData.append("company", document.getElementById("editCompany").value);
   formData.append("contact", document.getElementById("editContact").value);
-  formData.append("contactEmail", document.getElementById("editContactEmail").value);
+  formData.append(
+    "contactEmail",
+    document.getElementById("editContactEmail").value
+  );
   formData.append("address", document.getElementById("editAddress").value);
   formData.append("country", document.getElementById("editCountry").value);
   formData.append("comment", document.getElementById("editComment").value);
 
   // إضافة تاريخ الميلاد
-  formData.append("birthDate[day]", document.getElementById("editBirthDay").value);
-  formData.append("birthDate[month]", document.getElementById("editBirthMonth").value);
-  formData.append("birthDate[year]", document.getElementById("editBirthYear").value);
+  formData.append(
+    "birthDate[day]",
+    document.getElementById("editBirthDay").value
+  );
+  formData.append(
+    "birthDate[month]",
+    document.getElementById("editBirthMonth").value
+  );
+  formData.append(
+    "birthDate[year]",
+    document.getElementById("editBirthYear").value
+  );
 
   // إضافة الملفات الجديدة إذا تم اختيارها
-  const consentFormFile = document.querySelector('input[name="consentForm"]').files[0];
+  const consentFormFile = document.querySelector('input[name="consentForm"]')
+    .files[0];
   const idCardFile = document.querySelector('input[name="idCard"]').files[0];
   const diplomaFile = document.querySelector('input[name="diploma"]').files[0];
 
@@ -1302,9 +1362,9 @@ async function saveRequestChanges() {
       {
         method: "PUT",
         headers: {
-          "Authorization": `Bearer ${authToken}`
+          Authorization: `Bearer ${authToken}`,
         },
-        body: formData
+        body: formData,
       }
     );
 
@@ -1314,9 +1374,12 @@ async function saveRequestChanges() {
 
     // تحديث البيانات المحلية
     const updatedRequest = await response.json();
-    const requestIndex = allRequests.findIndex(req => req._id === requestId);
+    const requestIndex = allRequests.findIndex((req) => req._id === requestId);
     if (requestIndex !== -1) {
-      allRequests[requestIndex] = { ...allRequests[requestIndex], ...updatedRequest };
+      allRequests[requestIndex] = {
+        ...allRequests[requestIndex],
+        ...updatedRequest,
+      };
     }
 
     // إغلاق المودال
@@ -1331,9 +1394,8 @@ async function saveRequestChanges() {
       text: "Request updated successfully",
       icon: "success",
       confirmButtonText: "OK",
-      confirmButtonColor: "#7e22ce"
+      confirmButtonColor: "#7e22ce",
     });
-
   } catch (error) {
     console.error("Error updating request:", error);
     Swal.fire({
@@ -1341,7 +1403,7 @@ async function saveRequestChanges() {
       text: error.message || "Failed to update request",
       icon: "error",
       confirmButtonText: "OK",
-      confirmButtonColor: "#ef4444"
+      confirmButtonColor: "#ef4444",
     });
   }
 }
