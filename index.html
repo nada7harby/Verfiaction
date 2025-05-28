@@ -346,6 +346,7 @@
           signOutBtn.addEventListener('click', function(e) {
             e.preventDefault();
             sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('IdUser');
             window.location.href = 'index.html';
           });
         }
