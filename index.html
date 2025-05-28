@@ -137,15 +137,16 @@
 </style>
 
 <script>
-  window.addEventListener('load', function() {
-    const loadingScreen = document.getElementById('loading-screen');
+window.addEventListener('DOMContentLoaded', function() {
+  const loadingScreen = document.getElementById('loading-screen');
+  // قلل الوقت إلى 1000 مللي ثانية أو أقل إذا كان الموقع يتحمّل بسرعة
+  setTimeout(() => {
+    loadingScreen.style.opacity = '0';
     setTimeout(() => {
-      loadingScreen.style.opacity = '0';
-      setTimeout(() => {
-        loadingScreen.style.display = 'none';
-      }, 1000);
-    }, 2000);
-  });
+      loadingScreen.style.display = 'none';
+    }, 500); // وقت أقل للإخفاء النهائي
+  }, 1000); // وقت أقل قبل بدء الإخفاء
+});
 </script>
 
     <!-- Navbar -->
