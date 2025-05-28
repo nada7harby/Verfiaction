@@ -43,6 +43,32 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("profileForm")
     .addEventListener("submit", updateUserProfile);
 
+  // إعداد حدث تبديل رؤية كلمة المرور والتحقق من googleId
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+  const googleId = sessionStorage.getItem("googleId");
+  
+  if (togglePassword && passwordInput) {
+    // التحقق من googleId وتعطيل/تفعيل حقل كلمة المرور
+    if (googleId === "yes") {
+      passwordInput.disabled = true;
+      passwordInput.placeholder = "Password cannot be changed for Google accounts";
+      togglePassword.style.display = "none";
+    } else {
+      passwordInput.disabled = false;
+      passwordInput.placeholder = "Enter new password";
+      togglePassword.style.display = "block";
+    }
+
+    // إضافة حدث تبديل رؤية كلمة المرور
+    togglePassword.addEventListener("click", function() {
+      const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      this.querySelector("i").classList.toggle("fa-eye");
+      this.querySelector("i").classList.toggle("fa-eye-slash");
+    });
+  }
+
   const editProfileForm = document.querySelector("#profile-section form");
 
   editProfileForm.addEventListener("submit", async function (event) {
@@ -854,7 +880,6 @@ async function updateUserProfile(event) {
       body: raw,
       redirect: "follow",
     };
-    console.log(data);
 
     // عرض حالة التحميل
     const submitBtn = event.target.querySelector('button[type="submit"]');
@@ -862,7 +887,7 @@ async function updateUserProfile(event) {
     submitBtn.disabled = true;
     submitBtn.textContent = "Updating...";
 
-    // إرسال الطلب
+    // إرسال طلب تحديث البروفايل
     const response = await fetch(
       `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
       requestOptions
@@ -876,7 +901,44 @@ async function updateUserProfile(event) {
 
     const result = await response.json();
     console.log("Update successful:", result);
-    alert("Profile updated successfully!");
+
+    // إذا كان هناك كلمة مرور جديدة وليس حساب Google
+    const password = document.getElementById("password").value;
+    const googleId = sessionStorage.getItem("googleId");
+    
+    if (password && googleId !== "yes") {
+      // إرسال طلب إعادة تعيين كلمة المرور
+      const passwordResetOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: password }),
+        redirect: "follow"
+      };
+
+      try {
+        const passwordResponse = await fetch(
+          "https://backend-production-816c.up.railway.app/api/requests/forgot-password",
+          passwordResetOptions
+        );
+        
+        if (!passwordResponse.ok) {
+          console.warn("Password reset request failed");
+        }
+      } catch (error) {
+        console.error("Error in password reset:", error);
+      }
+    }
+
+    // عرض رسالة نجاح
+    Swal.fire({
+      title: "Success!",
+      text: "Profile updated successfully!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
 
     // إذا كانت هناك صورة جديدة، نقوم بتحديث العرض
     if (data.image) {
@@ -884,13 +946,19 @@ async function updateUserProfile(event) {
     }
   } catch (error) {
     console.error("Update error:", error);
-    alert("Error updating profile: " + error.message);
+    Swal.fire({
+      title: "Error!",
+      text: error.message || "Failed to update profile",
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ef4444",
+    });
   } finally {
     // إعادة تعيين الزر
     const submitBtn = event.target.querySelector('button[type="submit"]');
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.textContent = "Update Profile";
+      submitBtn.textContent = originalText;
     }
   }
 }

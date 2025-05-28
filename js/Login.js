@@ -112,9 +112,33 @@ document.addEventListener("DOMContentLoaded", function () {
           sessionStorage.setItem("authToken", result.token);
           const token = sessionStorage.getItem("authToken");
           const payload = JSON.parse(atob(token.split(".")[1]));
-          sessionStorage.setItem("IdUser", payload.id);
+          const userId = payload.id;
+          sessionStorage.setItem("IdUser", userId);
 
-          console.log(payload.id);
+          console.log(userId);
+
+          // إذا كان معه ID نقوم بعمل fetch للـ API
+          if (userId) {
+            const requestOptions = {
+              method: "GET",
+              redirect: "follow",
+            };
+
+            fetch(
+              `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
+              requestOptions
+            )
+              .then((response) => response.json()) // تغيير من text() إلى json() لتحويل الرد إلى object
+              .then((result) => {
+                // البحث عن googleId في الـ object
+                if (result.googleId) {
+                  sessionStorage.setItem("googleId", "yes");
+                } else {
+                  sessionStorage.setItem("googleId", "no");
+                }
+              })
+              .catch((error) => console.error(error));
+          }
 
           Swal.fire({
             title: "Success!",
@@ -154,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 document.getElementById("googleSignIn").addEventListener("click", function () {
- 
   const googleAuthWindow = (window.location.href =
     "https://backend-production-816c.up.railway.app/api/requests/auth/google");
 
