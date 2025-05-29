@@ -592,7 +592,13 @@
           const result = await response.json();
 
           if (response.ok) {
-            alert("تم إرسال طلب التحقق بنجاح!");
+            Swal.fire({
+            title: "Success!",
+            text: "Your Request is Sented successfully ",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7e22ce",
+          })
             form.reset(); // إعادة تعيين النموذج بعد الإرسال الناجح
           } else {
             alert(
@@ -600,8 +606,13 @@
             );
           }
         } catch (error) {
-          console.error("Error:", error);
-          alert("خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.");
+           Swal.fire({
+            title: "Error!",
+            text: error,
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#ef4444",
+          });
         } finally {
           // Re-enable button and restore text
           const submitButton = document.querySelector('button[type="submit"]');

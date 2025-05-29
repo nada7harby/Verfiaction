@@ -428,6 +428,65 @@ window.addEventListener('DOMContentLoaded', function() {
         toggleMobileMenu();
       });
     }
+
+    // Contact Form Submission
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const name = document.querySelector('#contact-form input[name="name"]').value;
+        const email = document.querySelector('#contact-form input[name="email"]').value;
+        const messageText = document.querySelector('#contact-form textarea[name="message"]').value;
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+          "name": name,
+          "email": email,
+          "messageText": messageText
+        });
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+
+        // Basic UI feedback: Disable button and show loading
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        try {
+          const response = await fetch("https://backend-production-816c.up.railway.app/api/requests/contact", requestOptions);
+          const result = await response.text(); // Or response.json() if your API returns JSON
+          console.log(result);
+
+          if (response.ok) {
+             // Success feedback
+             alert('Message sent successfully!');
+             contactForm.reset(); // Clear the form
+          } else {
+             // Error feedback based on response status
+             alert(`Failed to send message. Status: ${response.status}. Response: ${result}`);
+          }
+
+        } catch (error) {
+          console.error(error);
+          // Network error feedback
+          alert('An error occurred while sending your message. Please try again.');
+        } finally {
+           // Restore button state
+           submitButton.disabled = false;
+           submitButton.textContent = originalButtonText;
+        }
+      });
+    }
+
   });
 </script>
     <!-- 1. Auto Slider Section -->
@@ -1044,7 +1103,7 @@ window.addEventListener('DOMContentLoaded', function() {
     <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">Contact Us</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
       <!-- Contact Form -->
-      <form id="contact-form" class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6" novalidate>
+      <form id="contact-form" class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6" >
         <label class="block">
           <span class="text-violet-900 font-semibold mb-1 block">Name</span>
           <input type="text" name="name" required placeholder="Your name" class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400" />

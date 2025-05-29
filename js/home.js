@@ -93,7 +93,13 @@ planCards.forEach((card) => observer.observe(card));
 const contactForm = document.getElementById("contact-form");
 contactForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  alert("Thank you for contacting SPATRAK! We will get back to you soon.");
+  Swal.fire({
+            title: "Success!",
+            text: "Thank you for contacting SPATRAK! We will get back to you soon.",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7e22ce",
+          })
   contactForm.reset();
 });
 
@@ -239,4 +245,66 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleMobileMenu();
     });
   }
+});
+
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Get form data
+  const name = this.elements['name'].value;
+  const email = this.elements['email'].value;
+  const message = this.elements['message'].value;
+  
+  // Prepare headers
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  
+  // Prepare request body
+  const raw = JSON.stringify({
+    "name": name,
+    "email": email,
+    "messageText": message
+  });
+  
+  // Set request options
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow"
+  };
+  
+  // Send the request
+  fetch("https://backend-production-816c.up.railway.app/api/requests/contact", requestOptions)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then((result) => {
+      console.log(result);
+      // Show success message to user
+      Swal.fire({
+            title: "Success!",
+            text: "'Message sent successfully",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7e22ce",
+          })
+
+      // Reset the form
+      this.reset();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Show error message to user
+       Swal.fire({
+            title: "Error!",
+            text: "There was an error sending your message. Please try again",
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#ef4444",
+          });
+    });
 });
