@@ -8,6 +8,10 @@ let currentFilters = {
   search: "",
 };
 
+// Chat functionality
+let currentChatRequestId = null;
+let chatMessages = [];
+
 // تهيئة الصفحة
 document.addEventListener("DOMContentLoaded", function () {
   fetchRequests();
@@ -410,15 +414,15 @@ function applyFilters() {
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center space-x-2">
-                            <button onclick="openEditModal('${
-                              request._id
-                            }')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
-                                <i class="fas fa-edit mr-1"></i> Message
-                            </button>
                             <button onclick="openViewModal('${
                               request._id
                             }')" class="text-violet-700 bg-violet-100 hover:bg-violet-200 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button onclick="openChatModal('${
+                              request._id
+                            }')" class="text-blue-700 bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-lg transition flex items-center">
+                                <i class="fas fa-comments mr-1"></i> Chat
                             </button>
                             <button onclick="openEditRequestModal('${
                               request._id
@@ -967,11 +971,9 @@ async function updateUserProfile(event) {
     const password = document.getElementById("password").value;
     const passwordValue = sessionStorage.getItem("password");
 
-
     if (password && passwordValue == "yes") {
-      data.password=password
+      data.password = password;
       console.log("kkk");
-      
     }
     // إنشاء الهيدرات
     const myHeaders = new Headers();
@@ -989,7 +991,6 @@ async function updateUserProfile(event) {
       redirect: "follow",
     };
     console.log(data);
-    
 
     // عرض حالة التحميل
     const submitBtn = event.target.querySelector('button[type="submit"]');
@@ -1407,3 +1408,265 @@ async function saveRequestChanges() {
     });
   }
 }
+
+// متغيرات عامة
+let currentConversationId = null;
+let currentRequestId = null;
+var currentUserId = sessionStorage.getItem("IdUser");
+
+// فتح نافذة المحادثة
+async function openChatModal(requestId, userId = null) {
+  currentRequestId = requestId;
+
+  // إذا لم يتم تمرير userId، حاول استخراجه من الـ token
+  if (!userId) {
+    try {
+      const authToken = sessionStorage.getItem("authToken");
+      if (authToken) {
+        const payload = JSON.parse(atob(authToken.split(".")[1]));
+        userId = payload.id || payload.userId;
+        console.log("Extracted userId from token:", userId);
+      }
+    } catch (error) {
+      console.error("Error extracting userId from token:", error);
+    }
+  }
+  if (!userId || !requestId) {
+    displaySystemMessage("بيانات غير كاملة لفتح المحادثة");
+    return;
+  }
+
+  currentUserId = userId;
+  console.log("Final currentUserId:", currentUserId); // للتتبع
+
+  if (!currentUserId) {
+    console.error("No userId available");
+    displaySystemMessage("Unable to identify user. Please login again.");
+    return;
+  }
+
+  // إظهار النافذة
+  chatModal.classList.remove("hidden");
+  chatModal.classList.add("flex");
+  document.body.style.overflow = "hidden";
+
+  // تحميل المحادثة
+  await loadConversation(requestId, userId);
+
+  // التركيز على حقل الإدخال
+  document.getElementById("chatInput").focus();
+}
+
+// تحميل المحادثة والرسائل
+async function loadConversation(requestId, userId) {
+  try {
+    // 1. الحصول على جميع المحادثات (بدون فلترة مسبقة من السيرفر)
+    const conversations = await getAllConversations();
+
+    // 2. البحث عن المحادثة المطابقة تماماً لـ requestId و userId
+    const conversation = conversations.find((conv) => {
+      // تحقق من وجود requestId و userId في المحادثة
+      const requestMatch = conv.requestId?._id === requestId;
+      const userMatch = conv.userId?._id === userId;
+
+      return requestMatch && userMatch;
+    });
+
+    console.log("Found conversation:", conversation);
+
+    if (conversation) {
+      currentConversationId = conversation._id;
+      await loadMessages(conversation._id);
+    } else {
+      currentConversationId = null;
+      displaySystemMessage("ابدأ محادثة جديدة");
+    }
+  } catch (error) {
+    console.error("Error loading conversation:", error);
+    displaySystemMessage("فشل تحميل المحادثة");
+  }
+}
+// الحصول على جميع المحادثات
+async function getAllConversations(userId, requestId) {
+  const authToken = sessionStorage.getItem("authToken");
+  if (!authToken) throw new Error("Authentication token not found");
+
+  // إضافة بارامترات الفلترة إلى URL
+  const url = new URL(
+    "https://backend-production-816c.up.railway.app/api/requests/conversations"
+  );
+  if (userId) url.searchParams.append("userId", userId);
+  if (requestId) url.searchParams.append("requestId", requestId);
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to load conversations");
+
+  const data = await response.json();
+
+  return data.conversations;
+}
+
+async function loadMessages(conversationId) {
+  try {
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/conversation/${conversationId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error("Failed to load messages");
+
+    const data = await response.json();
+
+    // فلترة إضافية للتأكد (يمكن حذفها إذا كان السيرفر يضمن الفلترة)
+    const filteredMessages = data.messages.filter(
+      (message) =>
+        message.senderRole === "user" ||
+        message.conversationId === conversationId
+    );
+
+    displayMessages(filteredMessages);
+  } catch (error) {
+    console.error("Error loading messages:", error);
+    displaySystemMessage("فشل تحميل الرسائل");
+  }
+}
+// عرض الرسائل
+function displayMessages(messages) {
+  const chatMessagesContainer = document.getElementById("chatMessages");
+  chatMessagesContainer.innerHTML = "";
+
+  if (messages.length === 0) {
+    displaySystemMessage("No messages yet");
+    return;
+  }
+
+  messages.forEach((message) => {
+    const messageElement = createMessageElement(message);
+    chatMessagesContainer.appendChild(messageElement);
+  });
+
+  // التمرير إلى الأسفل
+  chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+}
+
+// إنشاء عنصر رسالة
+function createMessageElement(message) {
+  const messageDiv = document.createElement("div");
+  const isUser = message.senderRole === "user";
+
+  messageDiv.className = `flex ${isUser ? "justify-start" : "justify-end"}`;
+
+  const messageBubble = document.createElement("div");
+  messageBubble.className = `max-w-[70%] rounded-lg p-3 ${
+    isUser ? "bg-violet-100 text-violet-900" : "bg-violet-600 text-white"
+  }`;
+
+  const messageContent = document.createElement("p");
+  messageContent.className = "text-sm";
+  messageContent.textContent = message.messageText;
+
+  const messageFooter = document.createElement("div");
+  messageFooter.className = "flex items-center justify-end mt-1 space-x-1";
+
+  const messageTime = document.createElement("span");
+  messageTime.className = `text-xs ${
+    isUser ? "text-violet-600" : "text-violet-200"
+  }`;
+  messageTime.textContent = new Date(message.createdAt).toLocaleTimeString();
+
+  messageFooter.appendChild(messageTime);
+  messageBubble.appendChild(messageContent);
+  messageBubble.appendChild(messageFooter);
+  messageDiv.appendChild(messageBubble);
+
+  return messageDiv;
+}
+
+// عرض رسالة النظام
+function displaySystemMessage(text) {
+  const chatMessagesContainer = document.getElementById("chatMessages");
+  const messageDiv = document.createElement("div");
+  messageDiv.className = "flex justify-center";
+
+  const messageBubble = document.createElement("div");
+  messageBubble.className =
+    "bg-gray-200 text-gray-700 rounded-lg px-3 py-1 text-sm";
+  messageBubble.textContent = text;
+
+  messageDiv.appendChild(messageBubble);
+  chatMessagesContainer.appendChild(messageDiv);
+}
+
+// إرسال رسالة جديدة
+async function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const messageText = input.value.trim();
+  console.log(currentUserId);
+
+  if (!messageText || !currentRequestId || !currentUserId) return;
+
+  console.log("iiii");
+  try {
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) throw new Error("Authentication token not found");
+
+    // تحضير بيانات الرسالة
+    const messageData = {
+      requestId: currentRequestId,
+      userId: currentUserId,
+      messageText: messageText,
+      senderRole: "user",
+    };
+
+    if (messageData) {
+      console.log(":;;;");
+    } else {
+      console.log("iiii");
+    }
+
+    // إرسال الرسالة
+    const response = await fetch(
+      "https://backend-production-816c.up.railway.app/api/requests/messages",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(messageData),
+      }
+    );
+
+    console.log("ll");
+    if (!response.ok) throw new Error("Failed to send message");
+
+    console.log(response);
+    input.value = "";
+
+    // إعادة تحميل الرسائل
+    if (currentConversationId) {
+      await loadMessages(currentConversationId);
+    } else {
+      // إذا كانت محادثة جديدة، نعيد تحميل المحادثات
+      await loadConversation(currentRequestId, currentUserId);
+    }
+  } catch (error) {
+    console.error("Error sending message:", error);
+    displaySystemMessage("Failed to send message");
+  }
+}
+
+// إضافة مستمع لزر الإرسال
+document.getElementById("chatForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  sendMessage();
+});
