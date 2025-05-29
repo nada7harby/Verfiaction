@@ -52,6 +52,7 @@
             </div>
             <div class="flex items-center space-x-4">
               <button
+                id="sign-out-btn"
                 class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
               >
                 <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -441,6 +442,26 @@
         fileField: null,
         saveBtn: null,
       };
+
+      // Logout Functionality
+      function initLogout() {
+        const signOutBtn = document.getElementById('sign-out-btn');
+        
+        if (signOutBtn) {
+            signOutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sessionStorage.removeItem('authToken');
+                sessionStorage.removeItem('IdUser');
+                sessionStorage.removeItem('password');
+                window.location.href = '../index.html';
+            });
+        }
+      }
+
+      // Initialize logout when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        initLogout();
+      });
 
       // تهيئة عناصر المودال عند تحميل الصفحة
       function initEditModal() {
