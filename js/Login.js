@@ -111,11 +111,11 @@ document.addEventListener("DOMContentLoaded", function () {
           // Handle successful login
           sessionStorage.setItem("authToken", result.token);
           const token = sessionStorage.getItem("authToken");
-            if (result.user.password === "set") {
-              sessionStorage.setItem("password", "yes");
-            } else if (result.password === null) {
-              sessionStorage.setItem("password", "no");
-            }
+          if (result.user.password === "set") {
+            sessionStorage.setItem("password", "yes");
+          } else if (result.password === null) {
+            sessionStorage.setItem("password", "no");
+          }
           const payload = JSON.parse(atob(token.split(".")[1]));
           sessionStorage.setItem("IdUser", payload.id);
 
@@ -159,7 +159,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 document.getElementById("googleSignIn").addEventListener("click", function () {
- 
   const googleAuthWindow = (window.location.href =
     "https://backend-production-816c.up.railway.app/api/requests/auth/google");
 
@@ -190,6 +189,7 @@ function fetchUserData() {
     })
     .then((data) => {
       localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userRole", JSON.stringify(data.user));
       window.location.href = "index.html";
     })
     .catch((err) => {
