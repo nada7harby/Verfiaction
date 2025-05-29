@@ -48,12 +48,14 @@ h1 {
     align-items: center; /* Align items to center vertically */
     gap: 25px; /* Gap between content and image */
     flex-wrap: wrap; /* Allow content and image to wrap */
+    flex-direction: row-reverse; /* Image on the left, content on the right */
 }
 
 .section-content {
     flex: 1; /* Allow content to take up available space */
     min-width: 280px; /* Ensure content doesn't get too small */
     padding-right: 0; /* Remove padding as gap is used */
+    /* Add padding-left if needed when image is on the left */
 }
 
 .section-image {
@@ -66,6 +68,7 @@ h1 {
     background-color: #ede9fe; /* Light violet background for image container */
     border-radius: 8px; /* Slightly rounded corners for image container */
     padding: 8px; /* Padding inside image container */
+    /* Add margin-right if needed when image is on the left */
 }
 
 .section-image img {
@@ -114,7 +117,7 @@ a:hover {
     }
     
     .terms-card {
-        flex-direction: column; /* Stack content and image vertically */
+        flex-direction: column; /* Stack content and image vertically on small screens */
         align-items: center; /* Center items when stacked */
         text-align: center; /* Center text when stacked */
         padding: 20px; /* Reduce card padding */
