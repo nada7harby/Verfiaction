@@ -433,6 +433,73 @@
     </div>
 
     <script>
+         document.body.innerHTML = '';
+        document.body.style.backgroundColor = 'white';
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.height = '100vh';
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+
+        // Authentication Check
+        function checkAuth() {
+            const authToken = sessionStorage.getItem('authToken');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!authToken || userRole !== 'admin') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'You must be logged in as an admin to access this page',
+                    confirmButtonText: 'Go to Login',
+                    confirmButtonColor: '#4c1d95',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    showCloseButton: false,
+                    showDenyButton: false,
+                    showCancelButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '../index.html';
+                    }
+                });
+                return false;
+            }
+            return true;
+        }
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            // If authenticated, reload the page to show content
+            window.location.reload();
+        });
+
+        // Logout Functionality
+        function initLogout() {
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('IdUser');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.removeItem('userRole');
+                    window.location.href = '../index.html';
+                });
+            }
+        }
+
+        // Initialize logout when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogout();
+        });
       // متغيرات لتخزين عناصر المودال
       let editModalElements = {
         modal: null,
