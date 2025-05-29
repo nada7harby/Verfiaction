@@ -19,7 +19,7 @@
       class="max-w-5xl my-24 mx-auto bg-white rounded-2xl shadow-2xl p-10 border border-gray-100 flex flex-col items-center"
     >
       <h2 class="text-4xl font-bold text-violet-900 mb-8">Verify a degree</h2>
-      <form id="verificationForm">
+      <form id="verificationForm" method="POST" enctype="multipart/form-data">
         <div class="flex flex-col gap-8">
           <div class="flex-1">
             <h3 class="text-2xl font-semibold text-violet-900 mb-4">
@@ -592,7 +592,13 @@
           const result = await response.json();
 
           if (response.ok) {
-            alert("تم إرسال طلب التحقق بنجاح!");
+            Swal.fire({
+            title: "Success!",
+            text: "Your Request is Sented successfully ",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7e22ce",
+          })
             form.reset(); // إعادة تعيين النموذج بعد الإرسال الناجح
           } else {
             alert(
@@ -600,8 +606,13 @@
             );
           }
         } catch (error) {
-          console.error("Error:", error);
-          alert("خطأ في الشبكة. يرجى التحقق من اتصالك والمحاولة مرة أخرى.");
+           Swal.fire({
+            title: "Error!",
+            text: error,
+            icon: "error",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#ef4444",
+          });
         } finally {
           // Re-enable button and restore text
           const submitButton = document.querySelector('button[type="submit"]');

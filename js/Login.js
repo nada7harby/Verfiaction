@@ -111,6 +111,11 @@ document.addEventListener("DOMContentLoaded", function () {
           // Handle successful login
           sessionStorage.setItem("authToken", result.token);
           const token = sessionStorage.getItem("authToken");
+          if (result.user.password === "set") {
+            sessionStorage.setItem("password", "yes");
+          } else if (result.password === null) {
+            sessionStorage.setItem("password", "no");
+          }
           const payload = JSON.parse(atob(token.split(".")[1]));
           sessionStorage.setItem("IdUser", payload.id);
 
@@ -153,53 +158,46 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-document.getElementById('googleSignIn').addEventListener('click', function() {
-    // افتح نافذة جديدة لعملية تسجيل الدخول بجوجل
-    const width = 500, height = 600;
-    const left = (screen.width - width) / 2;
-    const top = (screen.height - height) / 2;
-    
-    const googleAuthWindow = window.open(
-      'https://backend-production-816c.up.railway.app/api/requests/auth/google',
-      'googleAuth',
-      `width=${width},height=${height},top=${top},left=${left}`
-    );
+document.getElementById("googleSignIn").addEventListener("click", function () {
+  const googleAuthWindow = (window.location.href =
+    "https://backend-production-816c.up.railway.app/api/requests/auth/google");
 
-    // استمع لرسائل من النافذة الفرعية كل 100 مللي ثانية
-    const checkPopup = setInterval(() => {
-      if (googleAuthWindow.closed) {
-        clearInterval(checkPopup);
-        // بعد إغلاق النافذة، تحقق من وجود التوكن
-        if (localStorage.getItem('token')) {
-          fetchUserData();
-        }
+  // استمع لرسائل من النافذة الفرعية كل 100 مللي ثانية
+  const checkPopup = setInterval(() => {
+    if (googleAuthWindow.closed) {
+      clearInterval(checkPopup);
+      // بعد إغلاق النافذة، تحقق من وجود التوكن
+      if (localStorage.getItem("token")) {
+        fetchUserData();
       }
-    }, 100);
+    }
+  }, 100);
 });
 
 function fetchUserData() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (!token) return;
 
-  fetch('https://backend-production-816c.up.railway.app/api/requests/me', {
+  fetch("https://backend-production-816c.up.railway.app/api/requests/me", {
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   })
-  .then(response => {
-    if (!response.ok) throw new Error('Failed to fetch user data');
-    return response.json();
-  })
-  .then(data => {
-    localStorage.setItem('user', JSON.stringify(data.user));
-    window.location.href = 'index.html';
-  })
-  .catch(err => {
-    console.error('Error:', err);
-    Swal.fire({
-      title: 'Error!',
-      text: 'Failed to fetch user data',
-      icon: 'error'
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch user data");
+      return response.json();
+    })
+    .then((data) => {
+      localStorage.setItem("user", JSON.stringify(data.user));
+      localStorage.setItem("userRole", JSON.stringify(data.user));
+      window.location.href = "index.html";
+    })
+    .catch((err) => {
+      console.error("Error:", err);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to fetch user data",
+        icon: "error",
+      });
     });
-  });
 }

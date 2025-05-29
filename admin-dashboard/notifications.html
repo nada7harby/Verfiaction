@@ -1,395 +1,1040 @@
 
 <!DOCTYPE html>
 <html lang="en" class="h-full">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notifications - SPATRAK</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        violet: {
-                            200: '#ddd6fe',
-                            400: '#a78bfa',
-                            900: '#4c1d95',
-                        }
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              violet: {
+                200: "#ddd6fe",
+                400: "#a78bfa",
+                900: "#4c1d95",
+              },
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400">
+    <style>
+      .notification {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-out;
+      }
+
+      .notification.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .notification.animate {
+        animation: slideIn 0.5s ease-out forwards;
+      }
+    </style>
+  </head>
+  <body
+    class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
+  >
     <div class="flex h-full">
-        <!-- Sidebar -->
-        <div id="Sidebar-container"></div>
+      <!-- Sidebar -->
+      <aside
+        class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50"
+      >
+        <div class="flex flex-col h-full">
+          <div class="p-6">
+            <div class="flex items-center space-x-3 mb-8">
+              <img
+                src="../images/logo-removebg-preview.png"
+                alt="SPATRAK Logo"
+                class="h-12 w-12"
+              />
+              <span class="text-xl font-bold">SPATRAK</span>
+            </div>
 
-        <!-- Main Content Area -->
-        <div class="flex-1 lg:ml-64">
-            <!-- Header -->
-            <header class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40">
-                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-                    <div class="flex items-center space-x-4">
-                        <button id="sidebarToggle" class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                        <h1 class="text-2xl font-bold">Notifications</h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <button class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                        </button>
-                    </div>
-                </div>
-            </header>
+            <nav class="space-y-2">
+              <a
+                href="dashboard.html"
+                id="dashboard-link"
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+              >
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+              </a>
 
-            <!-- Main Content -->
-            <main class="container mx-auto px-4 pt-20 pb-8 overflow-y-auto">
-                <!-- Filters -->
-                <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8">
-                    <div class="flex flex-wrap gap-4 items-center">
-                        <div class="flex-1 min-w-[200px]">
-                            <select id="typeFilter" class="w-full bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
-                                <option value="all">All Notifications</option>
-                                <option value="payment">Payment Notifications</option>
-                                <option value="request">Request Notifications</option>
-                                <option value="verification">Verification Notifications</option>
-                                <option value="system">System Notifications</option>
-                            </select>
-                        </div>
-                        <div class="flex-1 min-w-[200px]">
-                            <select id="timeFilter" class="w-full bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900">
-                                <option value="all">All Time</option>
-                                <option value="today">Today</option>
-                                <option value="week">This Week</option>
-                                <option value="month">This Month</option>
-                            </select>
-                        </div>
-                        <button id="applyFilters" class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-6 py-2 rounded-lg transition duration-300">
-                            <i class="fas fa-filter mr-2"></i>Apply Filters
-                        </button>
-                        <button id="markAllRead" class="bg-violet-900 hover:bg-violet-800 text-white px-6 py-2 rounded-lg transition duration-300">
-                            <i class="fas fa-check-double mr-2"></i>Mark All as Read
-                        </button>
-                    </div>
-                </div>
+              <a
+                href="requests.html"
+                id="requests-link"
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+              >
+                <i class="fas fa-file-alt"></i>
+                <span>Requests</span>
+              </a>
+              <a
+                href="contacts.html"
+                id="Contact"
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+              >
+                <i class="fas fa-check-circle"></i>
+                <span>Contact Messages</span>
+              </a>
+              <a
+                href="payments.html"
+                id="payments-link"
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+              >
+                <i class="fas fa-credit-card"></i>
+                <span>Payments</span>
+              </a>
 
-                <!-- Notifications List -->
-                <div id="notificationsContainer" class="space-y-4">
-                    <!-- Payment Notification -->
-                    <div class="notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer" data-type="payment" data-time="2023-05-19T10:30:00">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-green-100 p-3 rounded-full">
-                                <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-violet-900">New Payment Received</h3>
-                                        <p class="text-violet-600">Payment of $1,200.00 received from John Doe</p>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-violet-600">2 minutes ago</span>
-                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm">New</span>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex items-center space-x-4">
-                                    <button class="text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-eye mr-2"></i>View Details
-                                    </button>
-                                    <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-check mr-2"></i>Mark as Read
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <a
+                href="notifications.html"
+                id="notifications-link"
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+              >
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+              </a>
+            </nav>
+          </div>
 
-                    <!-- Request Notification -->
-                    <div class="notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer" data-type="request" data-time="2023-05-19T10:15:00">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-blue-100 p-3 rounded-full">
-                                <i class="fas fa-file-alt text-blue-600 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-violet-900">New Verification Request</h3>
-                                        <p class="text-violet-600">Jane Smith submitted a new verification request</p>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-violet-600">15 minutes ago</span>
-                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">Pending</span>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex items-center space-x-4">
-                                    <button class="text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-eye mr-2"></i>View Request
-                                    </button>
-                                    <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-check mr-2"></i>Mark as Read
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- System Notification -->
-                    <div class="notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer" data-type="system" data-time="2023-05-19T09:30:00">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-yellow-100 p-3 rounded-full">
-                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-violet-900">System Update Required</h3>
-                                        <p class="text-violet-600">New system update available. Please schedule maintenance.</p>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-violet-600">1 hour ago</span>
-                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm">Important</span>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex items-center space-x-4">
-                                    <button class="text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-info-circle mr-2"></i>View Details
-                                    </button>
-                                    <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-check mr-2"></i>Mark as Read
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Verification Notification -->
-                    <div class="notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer" data-type="verification" data-time="2023-05-19T08:30:00">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-purple-100 p-3 rounded-full">
-                                <i class="fas fa-check-circle text-purple-600 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-violet-900">Verification Completed</h3>
-                                        <p class="text-violet-600">Mike Johnson's verification has been completed successfully</p>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-violet-600">2 hours ago</span>
-                                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-sm">Completed</span>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex items-center space-x-4">
-                                    <button class="text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-eye mr-2"></i>View Details
-                                    </button>
-                                    <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-check mr-2"></i>Mark as Read
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Older Payment Notification -->
-                    <div class="notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer" data-type="payment" data-time="2023-05-18T14:30:00">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-green-100 p-3 rounded-full">
-                                <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-violet-900">Payment Processed</h3>
-                                        <p class="text-violet-600">Payment of $850.00 processed for Sarah Williams</p>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-violet-600">Yesterday</span>
-                                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-sm">Read</span>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex items-center space-x-4">
-                                    <button class="text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-eye mr-2"></i>View Details
-                                    </button>
-                                    <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-check mr-2"></i>Mark as Read
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Older System Notification -->
-                    <div class="notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer" data-type="system" data-time="2023-05-15T11:20:00">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-yellow-100 p-3 rounded-full">
-                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-violet-900">Backup Completed</h3>
-                                        <p class="text-violet-600">System backup completed successfully</p>
-                                    </div>
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-violet-600">4 days ago</span>
-                                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-sm">Read</span>
-                                    </div>
-                                </div>
-                                <div class="mt-4 flex items-center space-x-4">
-                                    <button class="text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-info-circle mr-2"></i>View Details
-                                    </button>
-                                    <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
-                                        <i class="fas fa-check mr-2"></i>Mark as Read
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Load More Button -->
-                <div class="mt-8 text-center">
-                    <button id="loadMore" class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-8 py-3 rounded-lg transition duration-300">
-                        <i class="fas fa-sync-alt mr-2"></i>Load More Notifications
-                    </button>
-                </div>
-            </main>
+          <div class="mt-auto p-6">
+            <div
+              class="flex items-center space-x-3 p-3 rounded-lg bg-violet-100"
+            >
+              <img
+                src="https://ui-avatars.com/api/?name=Admin+User&background=random"
+                alt="Admin"
+                class="w-10 h-10 rounded-full"
+              />
+              <div>
+                <p class="font-medium text-violet-900">Admin User</p>
+                <p class="text-sm text-violet-600">Administrator</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </aside>
+
+      <script>
+        // تحديد الصفحة الحالية وتفعيل العنصر المناسب في الـ Sidebar
+        document.addEventListener("DOMContentLoaded", function () {
+          // الحصول على مسار الصفحة الحالية
+          const currentPage =
+            window.location.pathname.split("/").pop() || "dashboard.html";
+
+          // إزالة الفئة النشطة من جميع الروابط
+          document.querySelectorAll("nav a").forEach((link) => {
+            link.classList.remove("bg-violet-100");
+          });
+
+          // إضافة الفئة النشطة للرابط الحالي
+          const activeLink = document.getElementById(
+            currentPage.replace(".html", "-link")
+          );
+          if (activeLink) {
+            activeLink.classList.add("bg-violet-100");
+          }
+        });
+      </script>
+
+      <!-- Main Content Area -->
+      <div class="flex-1 lg:ml-64">
+        <!-- Header -->
+        <header
+          class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40"
+        >
+          <div
+            class="container mx-auto px-4 py-3 flex justify-between items-center"
+          >
+            <div class="flex items-center space-x-4">
+              <button
+                id="sidebarToggle"
+                class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg"
+              >
+                <i class="fas fa-bars"></i>
+              </button>
+              <h1 class="text-2xl font-bold">Notifications</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button
+                id="sign-out-btn"
+                class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+              >
+                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 pt-20 pb-8 overflow-y-auto">
+          <!-- Filters -->
+          <div
+            class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
+          >
+            <div class="flex flex-wrap gap-4 items-center">
+              <div class="flex-1 min-w-[200px]">
+                <select
+                  id="typeFilter"
+                  class="w-full bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900"
+                >
+                  <option value="all">All Notifications</option>
+                  <option value="user">User Registrations</option>
+                  <option value="request">Service Requests</option>
+                  <option value="contact">Contact Messages</option>
+                </select>
+              </div>
+              <div class="flex-1 min-w-[200px]">
+                <select
+                  id="timeFilter"
+                  class="w-full bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900"
+                >
+                  <option value="all">All Time</option>
+                  <option value="today">Today</option>
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
+                </select>
+              </div>
+              <button
+                id="applyFilters"
+                class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-6 py-2 rounded-lg transition duration-300"
+              >
+                <i class="fas fa-filter mr-2"></i>Apply Filters
+              </button>
+              <button
+                id="markAllRead"
+                class="bg-violet-900 hover:bg-violet-800 text-white px-6 py-2 rounded-lg transition duration-300"
+              >
+                <i class="fas fa-check-double mr-2"></i>Mark All as Read
+              </button>
+            </div>
+          </div>
+
+          <!-- Notifications List -->
+          <div id="notificationsContainer" class="space-y-4">
+            <!-- Notifications will be dynamically added here -->
+          </div>
+
+          <!-- Load More Button -->
+          <div class="mt-8 text-center">
+            <button
+              id="loadMore"
+              class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-8 py-3 rounded-lg transition duration-300"
+            >
+              <i class="fas fa-sync-alt mr-2"></i>Load More Notifications
+            </button>
+          </div>
+        </main>
+      </div>
     </div>
 
     <script>
-        // Sidebar Toggle Functionality
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.querySelector('aside');
-        const mainContent = document.querySelector('main');
-        const header = document.querySelector('header');
+      // Check if user is logged in
+      document.body.innerHTML = '';
+        document.body.style.backgroundColor = 'white';
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.height = '100vh';
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
 
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth < 1024) {
-                if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-                    sidebar.classList.add('-translate-x-full');
-                }
+        // Authentication Check
+        function checkAuth() {
+            const authToken = sessionStorage.getItem('authToken');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!authToken || userRole !== 'admin') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'You must be logged in as an admin to access this page',
+                    confirmButtonText: 'Go to Login',
+                    confirmButtonColor: '#4c1d95',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    showCloseButton: false,
+                    showDenyButton: false,
+                    showCancelButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '../index.html';
+                    }
+                });
+                return false;
             }
+            return true;
+        }
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            // If authenticated, reload the page to show content
+            window.location.reload();
         });
 
-        // Notification Animation
-        const notifications = document.querySelectorAll('.notification');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('opacity-100', 'translate-y-0');
-                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+        // Logout Functionality
+        function initLogout() {
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('IdUser');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.removeItem('userRole');
+                    window.location.href = '../index.html';
+                });
+            }
+        }
+
+        // Initialize logout when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogout();
+        });
+
+      // Initialize logout functionality
+      function initLogout() {
+        const signOutBtn = document.getElementById("sign-out-btn");
+
+        if (signOutBtn) {
+          signOutBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem("authToken");
+            sessionStorage.removeItem("IdUser");
+            sessionStorage.removeItem("password");
+            window.location.href = "../index.html";
+          });
+        }
+      }
+
+      // Data storage for comparison
+      let previousData = {
+        users: [],
+        requests: [],
+        contacts: [],
+      };
+
+      // Notification types configuration
+      const notificationTypes = {
+        user: {
+          icon: "fas fa-user-plus",
+          color: "bg-blue-100",
+          textColor: "text-blue-600",
+          badge: "New User",
+        },
+        request: {
+          icon: "fas fa-file-alt",
+          color: "bg-purple-100",
+          textColor: "text-purple-600",
+          badge: "New Request",
+        },
+        contact: {
+          icon: "fas fa-envelope",
+          color: "bg-green-100",
+          textColor: "text-green-600",
+          badge: "New Message",
+        },
+      };
+
+      // Fetch data from APIs
+      async function fetchData() {
+        try {
+          // Use Promise.all to fetch all data in parallel
+          const [usersResponse, requestsResponse, contactsResponse] =
+            await Promise.all([
+              fetch(
+                "https://backend-production-816c.up.railway.app/api/requests/users"
+              ),
+              fetch(
+                "https://backend-production-816c.up.railway.app/api/requests",
+                {
+                  method: "GET",
+                  redirect: "follow",
                 }
-            });
-        }, {
-            threshold: 0.1
+              ),
+              fetch(
+                "https://backend-production-816c.up.railway.app/api/requests/contact",
+                {
+                  method: "GET",
+                  redirect: "follow",
+                }
+              ),
+            ]);
+
+          const [usersData, requestsData, contactsData] = await Promise.all([
+            usersResponse.json(),
+            requestsResponse.json(),
+            contactsResponse.json(),
+          ]);
+
+          return {
+            users: Array.isArray(usersData) ? usersData : [],
+            requests: Array.isArray(requestsData.requests)
+              ? requestsData.requests
+              : [],
+            contacts: Array.isArray(contactsData.messages)
+              ? contactsData.messages
+              : [],
+          };
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          return {
+            users: [],
+            requests: [],
+            contacts: [],
+          };
+        }
+      }
+
+      // Cache for storing fetched data
+      let dataCache = {
+        timestamp: 0,
+        data: null,
+      };
+      const CACHE_DURATION = 60000; // 1 minute cache
+
+      // Get data with caching
+      async function getDataWithCache() {
+        const now = Date.now();
+        if (dataCache.data && now - dataCache.timestamp < CACHE_DURATION) {
+          return dataCache.data;
+        }
+
+        const data = await fetchData();
+        dataCache = {
+          timestamp: now,
+          data: data,
+        };
+        return data;
+      }
+
+      // Compare data and find new items
+      function findNewItems(newData, previousData, dataType) {
+        const newItems = [];
+
+        if (dataType === "contacts") {
+          // For contacts, we use createdAt
+          const previousTimestamps = previousData.map((item) => item.createdAt);
+          newItems.push(
+            ...newData.filter(
+              (item) => !previousTimestamps.includes(item.createdAt)
+            )
+          );
+        } else {
+          // For users and requests, we use updatedAt
+          const previousTimestamps = previousData.map((item) => item.updatedAt);
+          newItems.push(
+            ...newData.filter(
+              (item) => !previousTimestamps.includes(item.updatedAt)
+            )
+          );
+        }
+
+        return newItems;
+      }
+
+      // Create notification element
+      function createNotification(item, type, isNew = true) {
+        const config = notificationTypes[type];
+        const now = new Date();
+        let timestamp, timeText;
+
+        if (type === "contacts") {
+          timestamp = new Date(item.createdAt);
+        } else {
+          timestamp = new Date(item.updatedAt);
+        }
+
+        const diffInMinutes = Math.floor((now - timestamp) / (1000 * 60));
+
+        if (diffInMinutes < 60) {
+          timeText = `${diffInMinutes} minutes ago`;
+        } else if (diffInMinutes < 1440) {
+          const hours = Math.floor(diffInMinutes / 60);
+          timeText = `${hours} hour${hours > 1 ? "s" : ""} ago`;
+        } else {
+          const days = Math.floor(diffInMinutes / 1440);
+          timeText = `${days} day${days > 1 ? "s" : ""} ago`;
+        }
+
+        let title, content;
+
+        switch (type) {
+          case "user":
+            title = isNew ? "New User Registered" : "User Registration";
+            content = `User ${item.name || item.email} has registered`;
+            break;
+          case "request":
+            title = isNew ? "New Service Request" : "Service Request";
+            content = `Request #${item.id} has been submitted for ${
+              item.service || "Unknown Service"
+            }`;
+            if (item.description) {
+              content += `: ${item.description.substring(0, 50)}${
+                item.description.length > 50 ? "..." : ""
+              }`;
+            }
+            break;
+          case "contact":
+            title = isNew ? "New Contact Message" : "Contact Message";
+            content = `Message from ${item.name || "Unknown"}: ${
+              item.message
+                ? item.message.substring(0, 50) + "..."
+                : "No message content"
+            }`;
+            if (item.email) {
+              content += ` (${item.email})`;
+            }
+            break;
+        }
+
+        const notification = document.createElement("div");
+        notification.className =
+          "notification bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 transform transition-all duration-300 hover:scale-[1.02] cursor-pointer";
+        notification.setAttribute("data-type", type);
+        notification.setAttribute("data-time", timestamp.toISOString());
+
+        notification.innerHTML = `
+                <div class="flex items-start space-x-4">
+                    <div class="${config.color} p-3 rounded-full">
+                        <i class="${config.icon} ${
+          config.textColor
+        } text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-lg font-semibold text-violet-900">${title}</h3>
+                                <p class="text-violet-600">${content}</p>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-violet-600">${timeText}</span>
+                                <span class="${
+                                  isNew
+                                    ? config.color + " " + config.textColor
+                                    : "bg-gray-100 text-gray-800"
+                                } px-2 py-1 rounded-full text-sm">
+                                    ${isNew ? config.badge : "Read"}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center space-x-4">
+                            <button class="text-violet-900 hover:text-violet-600 transition duration-300">
+                                <i class="fas fa-eye mr-2"></i>View Details
+                            </button>
+                            <button class="mark-as-read text-violet-900 hover:text-violet-600 transition duration-300">
+                                <i class="fas fa-check mr-2"></i>Mark as Read
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        return notification;
+      }
+
+      // Display all current data as notifications
+      async function displayAllData() {
+        const currentData = await getDataWithCache();
+        const container = document.getElementById("notificationsContainer");
+        container.innerHTML = ""; // Clear existing notifications
+
+        // Create an array to hold all notifications
+        let allNotifications = [];
+
+        // Add all notifications to the array
+        currentData.users.forEach((user) => {
+          allNotifications.push({
+            item: user,
+            type: "user",
+            timestamp: new Date(user.updatedAt),
+          });
         });
 
-        notifications.forEach(notification => {
-            notification.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-500');
-            observer.observe(notification);
+        currentData.requests.forEach((request) => {
+          allNotifications.push({
+            item: request,
+            type: "request",
+            timestamp: new Date(request.updatedAt),
+          });
+        });
+
+        currentData.contacts.forEach((contact) => {
+          allNotifications.push({
+            item: contact,
+            type: "contact",
+            timestamp: new Date(contact.createdAt),
+          });
+        });
+
+        // Sort notifications by timestamp (newest first)
+        allNotifications.sort((a, b) => b.timestamp - a.timestamp);
+
+        // Display sorted notifications with chunking for better performance
+        const chunkSize = 10;
+        for (let i = 0; i < allNotifications.length; i += chunkSize) {
+          const chunk = allNotifications.slice(i, i + chunkSize);
+          chunk.forEach((notification) => {
+            const notificationElement = createNotification(
+              notification.item,
+              notification.type,
+              false
+            );
+            container.appendChild(notificationElement);
+          });
+
+          // Allow UI to update between chunks
+          if (i + chunkSize < allNotifications.length) {
+            await new Promise((resolve) => setTimeout(resolve, 0));
+          }
+        }
+
+        // Store as previous data for comparison
+        previousData = currentData;
+
+        // Initialize notification events
+        initNotificationEvents();
+      }
+
+      // Check for updates and show new notifications
+      async function checkForUpdates() {
+        const currentData = await getDataWithCache();
+
+        if (!currentData) return;
+
+        // Check for new items
+        const newUsers = findNewItems(
+          currentData.users,
+          previousData.users,
+          "users"
+        );
+        const newRequests = findNewItems(
+          currentData.requests,
+          previousData.requests,
+          "requests"
+        );
+        const newContacts = findNewItems(
+          currentData.contacts,
+          previousData.contacts,
+          "contacts"
+        );
+
+        // Only update if there are new items
+        if (
+          newUsers.length > 0 ||
+          newRequests.length > 0 ||
+          newContacts.length > 0
+        ) {
+          const container = document.getElementById("notificationsContainer");
+
+          // Add new notifications in batches
+          const newNotifications = [
+            ...newUsers.map((user) => ({ item: user, type: "user" })),
+            ...newRequests.map((request) => ({
+              item: request,
+              type: "request",
+            })),
+            ...newContacts.map((contact) => ({
+              item: contact,
+              type: "contact",
+            })),
+          ];
+
+          // Sort by timestamp
+          newNotifications.sort((a, b) => {
+            const timeA =
+              a.type === "contact"
+                ? new Date(a.item.createdAt)
+                : new Date(a.item.updatedAt);
+            const timeB =
+              b.type === "contact"
+                ? new Date(b.item.createdAt)
+                : new Date(b.item.updatedAt);
+            return timeB - timeA;
+          });
+
+          // Add new notifications with animation
+          newNotifications.forEach((notification) => {
+            const notificationElement = createNotification(
+              notification.item,
+              notification.type,
+              true
+            );
+            container.insertBefore(notificationElement, container.firstChild);
+
+            // Show alert for new notification
+            const message =
+              notification.type === "user"
+                ? "New user registered: " +
+                  (notification.item.name || notification.item.email)
+                : notification.type === "request"
+                ? "New service request: #" + notification.item.id
+                : "New contact message from: " +
+                  (notification.item.name || "Unknown");
+
+            showNewNotificationAlert(message);
+          });
+
+          // Update previous data
+          previousData = currentData;
+
+          // Reinitialize notification event listeners
+          initNotificationEvents();
+        }
+      }
+
+      // Show alert for new notification
+      function showNewNotificationAlert(message) {
+        // Create a floating alert
+        const alert = document.createElement("div");
+        alert.className =
+          "fixed top-4 right-4 bg-violet-900 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 animate-bounce z-50";
+        alert.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-bell mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+        document.body.appendChild(alert);
+
+        // Remove after 5 seconds
+        setTimeout(() => {
+          alert.classList.add("opacity-0", "translate-x-full");
+          setTimeout(() => alert.remove(), 300);
+        }, 5000);
+      }
+
+      // Initialize notification event listeners
+      function initNotificationEvents() {
+        // Initialize Intersection Observer for scroll animations
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("animate");
+                observer.unobserve(entry.target); // Stop observing once animated
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: "50px",
+          }
+        );
+
+        // Observe all notifications
+        document.querySelectorAll(".notification").forEach((notification) => {
+          observer.observe(notification);
         });
 
         // Mark as Read Functionality
-        document.querySelectorAll('.mark-as-read').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const notification = this.closest('.notification');
-                const statusBadge = notification.querySelector('.rounded-full.text-sm');
-                if (statusBadge) {
-                    statusBadge.classList.remove('bg-green-100', 'text-green-800', 'bg-blue-100', 'text-blue-800', 'bg-yellow-100', 'text-yellow-800', 'bg-purple-100', 'text-purple-800');
-                    statusBadge.classList.add('bg-gray-100', 'text-gray-800');
-                    statusBadge.textContent = 'Read';
-                }
-            });
-        });
-
-        // Filter Functionality
-        document.getElementById('applyFilters').addEventListener('click', function() {
-            const typeFilter = document.getElementById('typeFilter').value;
-            const timeFilter = document.getElementById('timeFilter').value;
-            const now = new Date();
-            
-            document.querySelectorAll('.notification').forEach(notification => {
-                const notificationType = notification.getAttribute('data-type');
-                const notificationTime = new Date(notification.getAttribute('data-time'));
-                let showNotification = true;
-                
-                // Apply type filter
-                if (typeFilter !== 'all' && notificationType !== typeFilter) {
-                    showNotification = false;
-                }
-                
-                // Apply time filter
-                if (timeFilter !== 'all') {
-                    const timeDiff = now - notificationTime;
-                    const dayDiff = timeDiff / (1000 * 60 * 60 * 24);
-                    
-                    if (timeFilter === 'today' && dayDiff >= 1) {
-                        showNotification = false;
-                    } else if (timeFilter === 'week' && dayDiff > 7) {
-                        showNotification = false;
-                    } else if (timeFilter === 'month' && dayDiff > 30) {
-                        showNotification = false;
-                    }
-                }
-                
-                // Show/hide notification based on filters
-                if (showNotification) {
-                    notification.style.display = 'block';
-                } else {
-                    notification.style.display = 'none';
-                }
-            });
-        });
-
-        // Mark All as Read Functionality
-        document.getElementById('markAllRead').addEventListener('click', function() {
-            document.querySelectorAll('.notification').forEach(notification => {
-                const statusBadge = notification.querySelector('.rounded-full.text-sm');
-                if (statusBadge) {
-                    statusBadge.classList.remove('bg-green-100', 'text-green-800', 'bg-blue-100', 'text-blue-800', 'bg-yellow-100', 'text-yellow-800', 'bg-purple-100', 'text-purple-800');
-                    statusBadge.classList.add('bg-gray-100', 'text-gray-800');
-                    statusBadge.textContent = 'Read';
-                }
-            });
-        });
-
-        // Load More Functionality
-        document.getElementById('loadMore').addEventListener('click', function() {
-            // In a real app, this would fetch more notifications from the server
-            // For demo purposes, we'll just show a message
-            alert('Loading more notifications...');
+        document.querySelectorAll(".mark-as-read").forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const notification = this.closest(".notification");
+            const statusBadge = notification.querySelector(
+              ".rounded-full.text-sm"
+            );
+            if (statusBadge) {
+              statusBadge.classList.remove(
+                "bg-blue-100",
+                "text-blue-800",
+                "bg-purple-100",
+                "text-purple-800",
+                "bg-green-100",
+                "text-green-800"
+              );
+              statusBadge.classList.add("bg-gray-100", "text-gray-800");
+              statusBadge.textContent = "Read";
+            }
+          });
         });
 
         // Click on notification to view details
-        document.querySelectorAll('.notification').forEach(notification => {
-            notification.addEventListener('click', function() {
-                // In a real app, this would open the notification details
-                const title = this.querySelector('h3').textContent;
-                alert(`Viewing details for: ${title}`);
+        document.querySelectorAll(".notification").forEach((notification) => {
+          notification.addEventListener("click", function () {
+            const title = this.querySelector("h3").textContent;
+            const content = this.querySelector("p").textContent;
+
+            // Create a modal with more details
+            const modal = document.createElement("div");
+            modal.className =
+              "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4";
+            modal.innerHTML = `
+                        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 transform transition-all duration-300 scale-95 opacity-0">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-semibold text-violet-900">${title}</h3>
+                                <button class="text-violet-900 hover:text-violet-600 close-modal">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="text-violet-600 mb-4">
+                                ${content}
+                            </div>
+                            <div class="flex justify-end">
+                                <button class="bg-violet-900 hover:bg-violet-800 text-white px-4 py-2 rounded-lg transition duration-300 close-modal">
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    `;
+
+            document.body.appendChild(modal);
+
+            // Animate modal in
+            requestAnimationFrame(() => {
+              const modalContent = modal.querySelector(".bg-white");
+              modalContent.classList.remove("scale-95", "opacity-0");
             });
+
+            // Close modal functionality
+            modal.querySelectorAll(".close-modal").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                const modalContent = modal.querySelector(".bg-white");
+                modalContent.classList.add("scale-95", "opacity-0");
+                setTimeout(() => modal.remove(), 300);
+              });
+            });
+          });
         });
-          fetch("./Sidebar.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("Sidebar-container").innerHTML = data;
-          // Initialize navbar functionality
-          loadNavbar();
+      }
+
+      // Filter Functionality
+      document
+        .getElementById("applyFilters")
+        .addEventListener("click", function () {
+          const typeFilter = document.getElementById("typeFilter").value;
+          const timeFilter = document.getElementById("timeFilter").value;
+          const now = new Date();
+
+          document.querySelectorAll(".notification").forEach((notification) => {
+            const notificationType = notification.getAttribute("data-type");
+            const notificationTime = new Date(
+              notification.getAttribute("data-time")
+            );
+            let showNotification = true;
+
+            // Apply type filter
+            if (typeFilter !== "all" && notificationType !== typeFilter) {
+              showNotification = false;
+            }
+
+            // Apply time filter
+            if (timeFilter !== "all") {
+              const timeDiff = now - notificationTime;
+              const dayDiff = timeDiff / (1000 * 60 * 60 * 24);
+
+              if (timeFilter === "today" && dayDiff >= 1) {
+                showNotification = false;
+              } else if (timeFilter === "week" && dayDiff > 7) {
+                showNotification = false;
+              } else if (timeFilter === "month" && dayDiff > 30) {
+                showNotification = false;
+              }
+            }
+
+            // Show/hide notification based on filters
+            notification.style.display = showNotification ? "block" : "none";
+          });
         });
+
+      // Mark All as Read Functionality
+      document
+        .getElementById("markAllRead")
+        .addEventListener("click", function () {
+          document.querySelectorAll(".notification").forEach((notification) => {
+            const statusBadge = notification.querySelector(
+              ".rounded-full.text-sm"
+            );
+            if (statusBadge) {
+              statusBadge.classList.remove(
+                "bg-blue-100",
+                "text-blue-800",
+                "bg-purple-100",
+                "text-purple-800",
+                "bg-green-100",
+                "text-green-800"
+              );
+              statusBadge.classList.add("bg-gray-100", "text-gray-800");
+              statusBadge.textContent = "Read";
+            }
+          });
+        });
+
+      // Load More Functionality
+      let page = 1;
+      document
+        .getElementById("loadMore")
+        .addEventListener("click", async function () {
+          page++;
+          try {
+            // Fetch more data with pagination
+            const usersResponse = await fetch(
+              `https://backend-production-816c.up.railway.app/api/requests/users?page=${page}`
+            );
+            const requestsResponse = await fetch(
+              `https://backend-production-816c.up.railway.app/api/requests?page=${page}`,
+              {
+                method: "GET",
+                redirect: "follow",
+              }
+            );
+            const contactsResponse = await fetch(
+              `https://backend-production-816c.up.railway.app/api/requests/contact?page=${page}`,
+              {
+                method: "GET",
+                redirect: "follow",
+              }
+            );
+
+            const usersData = await usersResponse.json();
+            const requestsData = await requestsResponse.json();
+            const contactsData = await contactsResponse.json();
+
+            const container = document.getElementById("notificationsContainer");
+
+            // Create array for new notifications
+            let newNotifications = [];
+
+            // Add new users
+            if (Array.isArray(usersData) && usersData.length > 0) {
+              usersData.forEach((user) => {
+                newNotifications.push({
+                  item: user,
+                  type: "user",
+                  timestamp: new Date(user.updatedAt),
+                });
+              });
+            }
+
+            // Add new requests
+            if (
+              Array.isArray(requestsData.requests) &&
+              requestsData.requests.length > 0
+            ) {
+              requestsData.requests.forEach((request) => {
+                newNotifications.push({
+                  item: request,
+                  type: "request",
+                  timestamp: new Date(request.updatedAt),
+                });
+              });
+            }
+
+            // Add new contacts
+            if (
+              Array.isArray(contactsData.messages) &&
+              contactsData.messages.length > 0
+            ) {
+              contactsData.messages.forEach((contact) => {
+                newNotifications.push({
+                  item: contact,
+                  type: "contact",
+                  timestamp: new Date(contact.createdAt),
+                });
+              });
+            }
+
+            // Sort new notifications by timestamp (newest first)
+            newNotifications.sort((a, b) => b.timestamp - a.timestamp);
+
+            // Add sorted notifications to container
+            newNotifications.forEach((notification) => {
+              const notificationElement = createNotification(
+                notification.item,
+                notification.type,
+                false
+              );
+              container.appendChild(notificationElement);
+            });
+
+            // Reinitialize notification events for new items
+            initNotificationEvents();
+
+            // If no new data was loaded, disable the button
+            if (newNotifications.length === 0) {
+              this.disabled = true;
+              this.textContent = "No More Notifications";
+            }
+          } catch (error) {
+            console.error("Error loading more notifications:", error);
+            alert("Failed to load more notifications. Please try again.");
+          }
+        });
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", async () => {
+        // Check authentication
+        if (!checkAuth()) return;
+
+        // Initialize logout
+        initLogout();
+
+        // First load - display all existing data
+        await displayAllData();
+
+        // Check for updates every 60 seconds instead of 30
+        setInterval(checkForUpdates, 60000);
+
+        // Load sidebar
+        fetch("./Sidebar.html")
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("Sidebar-container").innerHTML = data;
+            // Initialize navbar functionality
+            if (typeof loadNavbar === "function") {
+              loadNavbar();
+            }
+          });
+      });
+
+      // Sidebar Toggle Functionality
+      const sidebarToggle = document.getElementById("sidebarToggle");
+      const sidebar = document.querySelector("aside");
+
+      sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("-translate-x-full");
+      });
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener("click", (e) => {
+        if (window.innerWidth < 1024) {
+          if (
+            !sidebar.contains(e.target) &&
+            !sidebarToggle.contains(e.target)
+          ) {
+            sidebar.classList.add("-translate-x-full");
+          }
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

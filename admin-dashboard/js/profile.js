@@ -8,9 +8,14 @@ let currentFilters = {
   search: "",
 };
 
+// Chat functionality
+let currentChatRequestId = null;
+let chatMessages = [];
+
 // تهيئة الصفحة
 document.addEventListener("DOMContentLoaded", function () {
   fetchRequests();
+  fetchUserProfile(); // جلب بيانات المستخدم عند التحميل
 
   // إعداد معالجات الأحداث
   document
@@ -19,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("searchInput")
     .addEventListener("keyup", function (e) {
-      applyFilters();
+      if (e.key === "Enter") applyFilters();
     });
   document.getElementById("prevPage").addEventListener("click", goToPrevPage);
   document.getElementById("nextPage").addEventListener("click", goToNextPage);
@@ -31,6 +36,42 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("viewModal").addEventListener("click", function (e) {
     if (e.target === e.currentTarget) closeModal("viewModal");
   });
+
+  // إعداد حدث تغيير الصورة
+  document
+    .getElementById("avatarInput")
+    .addEventListener("change", handleAvatarUpload);
+
+  // إعداد حدث إرسال الفورم
+  document
+    .getElementById("profileForm")
+    .addEventListener("submit", updateUserProfile);
+
+  const togglePassword = document.getElementById("togglePassword");
+  const passwordInput = document.getElementById("password");
+  const passwordValue = sessionStorage.getItem("password");
+
+  if (togglePassword && passwordInput) {
+    if (passwordValue === "no") {
+      passwordInput.disabled = true;
+      passwordInput.placeholder =
+        "Password cannot be changed for Google accounts";
+      togglePassword.style.display = "none";
+    } else {
+      passwordInput.disabled = false;
+      passwordInput.placeholder = "Enter new password";
+      togglePassword.style.display = "block";
+    }
+
+    // إضافة حدث تبديل رؤية كلمة المرور
+    togglePassword.addEventListener("click", function () {
+      const type =
+        passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+      this.querySelector("i").classList.toggle("fa-eye");
+      this.querySelector("i").classList.toggle("fa-eye-slash");
+    });
+  }
 
   const editProfileForm = document.querySelector("#profile-section form");
 
@@ -115,20 +156,115 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     } catch (error) {
       console.error("Fetch error:", error);
-        Swal.fire({
-      title: "Error!",
-      text: "Failed to load user profile. Please try again later.",
-      icon: "error",
-      confirmButtonText: "OK",
-      confirmButtonColor: "#ef4444",
-    });
-  
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to load user profile. Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#ef4444",
+      });
     } finally {
       // 9. رجعي الزرار لوضعه الطبيعي
       submitButton.disabled = false;
       submitButton.textContent = originalButtonText;
     }
   });
+
+  // إضافة معالج حدث لنموذج تعديل الطلب
+  const editRequestForm = document.getElementById("editRequestForm");
+  if (editRequestForm) {
+    editRequestForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      try {
+        const requestId = document.getElementById("editRequestId").value;
+        const authToken = sessionStorage.getItem("authToken");
+
+        if (!authToken) {
+          throw new Error("Authentication token not found");
+        }
+
+        // تجهيز البيانات المحدثة
+        const updatedData = {
+          firstName: document.getElementById("editFirstName").value,
+          lastName: document.getElementById("editLastName").value,
+          email: document.getElementById("editEmail").value,
+          phone: document.getElementById("editPhone").value,
+          establishment: document.getElementById("editEstablishment").value,
+          program: document.getElementById("editProgram").value,
+          graduationYear: document.getElementById("editGraduationYear").value,
+          internalRef: document.getElementById("editInternalRef").value,
+          company: document.getElementById("editCompany").value,
+          contact: document.getElementById("editContact").value,
+          contactEmail: document.getElementById("editContactEmail").value,
+          address: document.getElementById("editAddress").value,
+          country: document.getElementById("editCountry").value,
+          comment: document.getElementById("editComment").value,
+          birthDate: {
+            day: document.getElementById("editBirthDay").value,
+            month: document.getElementById("editBirthMonth").value,
+            year: document.getElementById("editBirthYear").value,
+          },
+        };
+
+        // إعداد خيارات الطلب
+        const requestOptions = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify(updatedData),
+        };
+
+        // إرسال الطلب
+        const response = await fetch(
+          `https://backend-production-816c.up.railway.app/api/requests/${requestId}`,
+          requestOptions
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to update request");
+        }
+
+        // تحديث البيانات المحلية
+        const updatedRequest = await response.json();
+        const requestIndex = allRequests.findIndex(
+          (req) => req._id === requestId
+        );
+        if (requestIndex !== -1) {
+          allRequests[requestIndex] = {
+            ...allRequests[requestIndex],
+            ...updatedRequest,
+          };
+        }
+
+        // إغلاق المودال
+        closeModal("editRequestModal");
+
+        // تحديث عرض الطلبات
+        applyFilters();
+
+        // عرض رسالة نجاح
+        Swal.fire({
+          title: "Success!",
+          text: "Request updated successfully",
+          icon: "success",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#7e22ce",
+        });
+      } catch (error) {
+        console.error("Error updating request:", error);
+        Swal.fire({
+          title: "Error!",
+          text: error.message || "Failed to update request",
+          icon: "error",
+          confirmButtonText: "OK",
+          confirmButtonColor: "#ef4444",
+        });
+      }
+    });
+  }
 });
 
 // جلب الطلبات من API
@@ -186,7 +322,9 @@ function fetchRequests() {
         </tr>
       `;
     });
-} // تطبيق الفلاتر
+}
+
+// تطبيق الفلاتر
 function applyFilters() {
   currentFilters = {
     status: document.getElementById("statusFilter").value,
@@ -276,15 +414,20 @@ function applyFilters() {
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center space-x-2">
-                            <button onclick="openEditModal('${
-                              request._id
-                            }')" class="text-white bg-violet-600 hover:bg-violet-700 px-3 py-1 rounded-lg transition flex items-center">
-                                <i class="fas fa-edit mr-1"></i> Message
-                            </button>
                             <button onclick="openViewModal('${
                               request._id
                             }')" class="text-violet-700 bg-violet-100 hover:bg-violet-200 px-3 py-1 rounded-lg transition flex items-center">
                                 <i class="fas fa-eye mr-1"></i> View
+                            </button>
+                            <button onclick="openChatModal('${
+                              request._id
+                            }')" class="text-blue-700 bg-blue-100 hover:bg-blue-200 px-3 py-1 rounded-lg transition flex items-center">
+                                <i class="fas fa-comments mr-1"></i> Chat
+                            </button>
+                            <button onclick="openEditRequestModal('${
+                              request._id
+                            }')" class="text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded-lg transition flex items-center">
+                                <i class="fas fa-pencil-alt mr-1"></i> Edit
                             </button>
                         </div>
                     </td>
@@ -452,19 +595,23 @@ function renderRequestDetails(request) {
                         </div>
                         <div class="col-span-2">
                             <p class="text-sm text-violet-600">Created At</p>
-                            <p class="font-medium">${new Date(requestDate).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
-  })}</p>
+                            <p class="font-medium">${new Date(
+                              requestDate
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}</p>
                         </div>
                         <div>
                             <p class="text-sm text-violet-600">Updated At</p>
-                            <p class="font-medium">${new Date(updatedDate).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric' 
-  })}</p>
+                            <p class="font-medium">${new Date(
+                              updatedDate
+                            ).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "short",
+                              day: "numeric",
+                            })}</p>
                         </div>
                     </div>
                 </div>
@@ -645,13 +792,13 @@ function saveRequestChanges() {
     closeModal("editModal");
 
     // عرض رسالة نجاح
-      Swal.fire({
-            title: "Success!",
-            text: "You have successfully Send Messages to Admin",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7e22ce",
-          })
+    Swal.fire({
+      title: "Success!",
+      text: "You have successfully Send Messages to Admin",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
   }
 }
 
@@ -680,154 +827,846 @@ document
     console.log("Contact form submitted:", data);
 
     // Show success message
-      Swal.fire({
-            title: "Success!",
-            text: "Thank you for your message! We will get back to you soon",
-            icon: "success",
-            confirmButtonText: "OK",
-            confirmButtonColor: "#7e22ce",
-          })
+    Swal.fire({
+      title: "Success!",
+      text: "Thank you for your message! We will get back to you soon",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
 
     // Reset form
     this.reset();
   });
 
-// Function to show/hide sections
+// دالة لعرض الأقسام
 function showSection(section) {
   document.getElementById("profile-section").classList.add("hidden");
   document.getElementById("requests-section").classList.add("hidden");
   document.getElementById("contact-section").classList.add("hidden");
   document.getElementById("add-verification-section").classList.add("hidden");
-  document.getElementById(section + "-section").classList.remove("hidden");
-}
 
-// تفعيل تظليل الزر النشط في السايدبار
-const sidebarButtons = [
-  document.getElementById("sidebar-profile"),
-  document.getElementById("sidebar-requests"),
-  document.getElementById("sidebar-contact"),
-  document.getElementById("sidebar-add-verification"),
-];
+  document.getElementById(`${section}-section`).classList.remove("hidden");
 
-sidebarButtons.forEach((btn) => {
-  btn.addEventListener("click", function () {
-    sidebarButtons.forEach((b) =>
-      b.classList.remove("bg-violet-100", "font-bold")
-    );
-    this.classList.add("bg-violet-100", "font-bold");
+  // تحديث الأزرار النشطة في السايدبار
+  const sidebarButtons = document.querySelectorAll("aside nav button");
+  sidebarButtons.forEach((btn) => {
+    btn.classList.remove("bg-violet-100", "font-bold");
+    if (btn.id === `sidebar-${section}`) {
+      btn.classList.add("bg-violet-100", "font-bold");
+    }
   });
-});
-// أضف هذا الكود في نهاية ملف profile.html قبل </script>
+}
 
 // دالة لجلب بيانات المستخدم
 async function fetchUserProfile() {
   try {
-    // 1. الحصول على التوكن من sessionStorage
-    const token = sessionStorage.getItem("authToken");
-    if (!token) {
-      throw new Error("No authentication token found");
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) {
+      throw new Error("Authentication token not found");
     }
 
-    // 2. استخراج userId من التوكن
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    const payload = JSON.parse(atob(authToken.split(".")[1]));
     const userId = payload.id;
-    sessionStorage.setItem("IdUser", userId);
 
-    // 3. إعداد طلب Fetch
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      redirect: "follow",
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user data");
+    }
+
+    const userData = await response.json();
+    console.log("User data received:", userData); // للتأكد من هيكل البيانات
+
+    // تحديث واجهة المستخدم
+    document.getElementById("firstName").value = userData.firstname || "";
+    document.getElementById("lastName").value = userData.lastname || "";
+    document.getElementById("email").value = userData.email || "";
+    document.getElementById("userFullName").textContent =
+      `${userData.firstname || ""} ${userData.lastname || ""}`.trim() || "User";
+
+    // تحديث الصورة
+    const avatarImg = document.getElementById("userAvatar");
+    if (userData.image && userData.image.trim() !== "") {
+      // إذا كان هناك صورة متاحة
+      avatarImg.src = `${userData.image}`;
+    } else {
+      // إذا كانت الصورة فارغة أو غير موجودة
+      avatarImg.src = "../../images/solar_user-bold-duotone.png";
+      console.log("Using default profile image");
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Failed to load user profile data",
+    });
+
+    // عرض الصورة الافتراضية في حالة الخطأ
+    document.getElementById("userAvatar").src =
+      "../../images/solar_user-bold-duotone.png";
+  }
+}
+
+// دالة للتعامل مع رفع الصورة
+function handleAvatarUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    validateFileSize(file, 5); // 5MB كحد أقصى
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("userAvatar").src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  } catch (error) {
+    Swal.fire({
+      title: "Error!",
+      text: error.message,
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ef4444",
+    });
+    event.target.value = ""; // مسح اختيار الملف
+  }
+}
+// دالة لتحديث بيانات البروفايل
+async function updateUserProfile(event) {
+  event.preventDefault();
+
+  try {
+    // جلب التوكن من sessionStorage
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) throw new Error("Please login again");
+
+    // استخراج userId من التوكن
+    const payload = JSON.parse(atob(authToken.split(".")[1]));
+    const userId = payload.id;
+
+    // إنشاء كائن البيانات الأساسي
+    const data = {
+      firstname: document.getElementById("firstName").value,
+      lastname: document.getElementById("lastName").value,
+      email: document.getElementById("email").value,
+      password: "",
+      image: "",
     };
 
-    // 4. إجراء الطلب إلى API
+    // معالجة الصورة إذا وجدت
+    const avatarInput = document.getElementById("avatarInput");
+    if (avatarInput && avatarInput.files[0]) {
+      data.image = await compressImage(avatarInput.files[0]);
+    }
+    const password = document.getElementById("password").value;
+    const passwordValue = sessionStorage.getItem("password");
+
+    if (password && passwordValue == "yes") {
+      data.password = password;
+      console.log("kkk");
+    }
+    // إنشاء الهيدرات
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${authToken}`);
+
+    // تحويل البيانات إلى JSON
+    const raw = JSON.stringify(data);
+
+    // إعداد خيارات الطلب
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+    };
+    console.log(data);
+
+    // عرض حالة التحميل
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Updating...";
+
+    // إرسال طلب تحديث البروفايل
     const response = await fetch(
       `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
       requestOptions
     );
 
+    // معالجة الاستجابة
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to update profile");
     }
 
-    const userData = await response.json();
+    const result = await response.json();
+    console.log("Update successful:", result);
 
-    // 5. ملء الحقول ببيانات المستخدم
-    if (userData) {
-      document.getElementById("firstName").value = userData.firstname || "";
-      document.getElementById("lastName").value = userData.lastname || "";
-      document.getElementById("email").value = userData.email || "";
-      // في دالة fetchUserProfile بعد الحصول على userData
-      const avatarImg = document.querySelector("img[alt='Avatar']");
-      if (avatarImg) {
-        avatarImg.src =
-          userData.profileImage || "../../images/solar_user-bold-duotone.png"; // مسار الصورة الافتراضية
-        avatarImg.alt = `${userData.firstname} ${userData.lastname}`;
-      }
-      const nameElement = document.getElementById("fullname");
-      if (nameElement && userData) {
-        nameElement.textContent = `${userData.firstname} ${userData.lastname}`;
-      }
-      // يمكنك إضافة المزيد من الحقول حسب احتياجاتك
-      console.log("User data loaded successfully:", userData);
+    // إذا كان هناك كلمة مرور جديدة وليس حساب Google
+
+    // if (password && passwordValue !== "yes") {
+    //   // إرسال طلب إعادة تعيين كلمة المرور
+    //   const passwordResetOptions = {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ password: password }),
+    //     redirect: "follow"
+    //   };
+
+    //   try {
+    //     const passwordResponse = await fetch(
+    //       "https://backend-production-816c.up.railway.app/api/requests/forgot-password",
+    //       passwordResetOptions
+    //     );
+
+    //     if (!passwordResponse.ok) {
+    //       console.warn("Password reset request failed");
+    //     }
+    // } catch (error) {
+    //     console.error("Error in password reset:", error);
+    //   }
+    // }
+
+    // عرض رسالة نجاح
+    Swal.fire({
+      title: "Success!",
+      text: "Profile updated successfully!",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
+
+    // إذا كانت هناك صورة جديدة، نقوم بتحديث العرض
+    if (data.image) {
+      document.getElementById("userAvatar").src = data.image;
     }
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error("Update error:", error);
     Swal.fire({
       title: "Error!",
-      text: "Failed to load user profile. Please try again later.",
+      text: error.message || "Failed to update profile",
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ef4444",
+    });
+  } finally {
+    // إعادة تعيين الزر
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  }
+}
+function validateFileSize(file, maxSizeMB = 5) {
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+  if (file.size > maxSizeBytes) {
+    throw new Error(`File size exceeds ${maxSizeMB}MB limit`);
+  }
+  return true;
+}
+async function compressImage(
+  file,
+  maxWidth = 800,
+  maxHeight = 800,
+  quality = 0.7
+) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+
+        // حساب الأبعاد الجديدة مع الحفاظ على التناسب
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // تحويل إلى صيغة webp لتحسين الحجم
+        const mimeType = "image/webp"; // استخدام webp لتحسين الحجم
+        canvas.toBlob(
+          (blob) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          },
+          mimeType,
+          quality
+        );
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+// تعديل دالة convertToBase64 لاستخدام الضغط
+async function convertToBase64(file) {
+  const compressedFile = await compressImage(file);
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.readAsDataURL(compressedFile);
+  });
+}
+
+// Initialize form event listener
+document.addEventListener("DOMContentLoaded", () => {
+  const profileForm = document.getElementById("profileForm");
+  if (profileForm) {
+    profileForm.addEventListener("submit", updateUserProfile);
+  }
+});
+
+// فتح مودال تعديل الطلب
+async function openEditRequestModal(requestId) {
+  try {
+    // الحصول على التوكن من sessionStorage
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) {
+      throw new Error("Authentication token not found");
+    }
+
+    // إعداد الهيدرز
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", `Bearer ${authToken}`);
+
+    // إعداد خيارات الطلب
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    // جلب بيانات الطلب من API
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/${requestId}`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch request data");
+    }
+
+    const request = await response.json();
+    console.log("Request data received:", request);
+
+    // تعبئة النموذج ببيانات الطلب
+    document.getElementById("editRequestId").value = request._id;
+    document.getElementById("editFirstName").value = request.firstName || "";
+    document.getElementById("editLastName").value = request.lastName || "";
+    document.getElementById("editEmail").value = request.email || "";
+    document.getElementById("editPhone").value = request.phone || "";
+    document.getElementById("editEstablishment").value =
+      request.establishment || "";
+    document.getElementById("editProgram").value = request.program || "";
+    document.getElementById("editGraduationYear").value =
+      request.graduationYear || "";
+    document.getElementById("editInternalRef").value =
+      request.internalRef || "";
+    document.getElementById("editCompany").value = request.company || "";
+    document.getElementById("editContact").value = request.contact || "";
+    document.getElementById("editContactEmail").value =
+      request.contactEmail || "";
+    document.getElementById("editAddress").value = request.address || "";
+    document.getElementById("editCountry").value = request.country || "";
+    document.getElementById("editComment").value = request.comment || "";
+
+    // تعبئة تاريخ الميلاد
+    if (request.birthDate) {
+      document.getElementById("editBirthDay").value =
+        request.birthDate.day || "";
+      document.getElementById("editBirthMonth").value =
+        request.birthDate.month || "";
+      document.getElementById("editBirthYear").value =
+        request.birthDate.year || "";
+    }
+
+    // تعبئة روابط الملفات
+    if (request.files) {
+      const baseUrl = "https://backend-production-816c.up.railway.app/";
+
+      // Consent Form
+      const consentFormContainer = document.getElementById(
+        "editConsentFormContainer"
+      );
+      if (request.files.consentForm) {
+        const consentFormLink = document.getElementById("editConsentForm");
+        consentFormLink.href = baseUrl + request.files.consentForm;
+        consentFormLink.querySelector(
+          "span"
+        ).textContent = request.files.consentForm.split("/").pop();
+        consentFormContainer.style.display = "block";
+      } else {
+        consentFormContainer.style.display = "none";
+      }
+
+      // ID Card
+      const idCardContainer = document.getElementById("editIdCardContainer");
+      if (request.files.idCard) {
+        const idCardLink = document.getElementById("editIdCard");
+        idCardLink.href = baseUrl + request.files.idCard;
+        idCardLink.querySelector(
+          "span"
+        ).textContent = request.files.idCard.split("/").pop();
+        idCardContainer.style.display = "block";
+      } else {
+        idCardContainer.style.display = "none";
+      }
+
+      // Diploma
+      const diplomaContainer = document.getElementById("editDiplomaContainer");
+      if (request.files.diploma) {
+        const diplomaLink = document.getElementById("editDiploma");
+        diplomaLink.href = baseUrl + request.files.diploma;
+        diplomaLink.querySelector(
+          "span"
+        ).textContent = request.files.diploma.split("/").pop();
+        diplomaContainer.style.display = "block";
+      } else {
+        diplomaContainer.style.display = "none";
+      }
+    }
+
+    // إضافة معالجات الأحداث للملفات الجديدة
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach((input) => {
+      input.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          try {
+            validateFileSize(file, 5); // التحقق من حجم الملف (5MB)
+          } catch (error) {
+            Swal.fire({
+              title: "Error!",
+              text: error.message,
+              icon: "error",
+              confirmButtonText: "OK",
+              confirmButtonColor: "#ef4444",
+            });
+            e.target.value = ""; // مسح اختيار الملف
+          }
+        }
+      });
+    });
+
+    // عرض المودال
+    document.getElementById("editRequestModal").classList.remove("hidden");
+    document.getElementById("editRequestModal").classList.add("flex");
+    document.body.style.overflow = "hidden";
+  } catch (error) {
+    console.error("Error fetching request data:", error);
+    Swal.fire({
+      title: "Error!",
+      text: error.message || "Failed to load request data",
       icon: "error",
       confirmButtonText: "OK",
       confirmButtonColor: "#ef4444",
     });
   }
 }
-function Update() {
-  const profileForm = document.querySelector("#profile-section form");
-  if (!profileForm) {
-    console.error("Profile form not found");
 
+// تحديث دالة حفظ التغييرات لتشمل الملفات الجديدة
+async function saveRequestChanges() {
+  const requestId = document.getElementById("editRequestId").value;
+  const formData = new FormData();
+
+  // إضافة البيانات الأساسية
+  formData.append("firstName", document.getElementById("editFirstName").value);
+  formData.append("lastName", document.getElementById("editLastName").value);
+  formData.append("email", document.getElementById("editEmail").value);
+  formData.append("phone", document.getElementById("editPhone").value);
+  formData.append(
+    "establishment",
+    document.getElementById("editEstablishment").value
+  );
+  formData.append("program", document.getElementById("editProgram").value);
+  formData.append(
+    "graduationYear",
+    document.getElementById("editGraduationYear").value
+  );
+  formData.append(
+    "internalRef",
+    document.getElementById("editInternalRef").value
+  );
+  formData.append("company", document.getElementById("editCompany").value);
+  formData.append("contact", document.getElementById("editContact").value);
+  formData.append(
+    "contactEmail",
+    document.getElementById("editContactEmail").value
+  );
+  formData.append("address", document.getElementById("editAddress").value);
+  formData.append("country", document.getElementById("editCountry").value);
+  formData.append("comment", document.getElementById("editComment").value);
+
+  // إضافة تاريخ الميلاد
+  formData.append(
+    "birthDate[day]",
+    document.getElementById("editBirthDay").value
+  );
+  formData.append(
+    "birthDate[month]",
+    document.getElementById("editBirthMonth").value
+  );
+  formData.append(
+    "birthDate[year]",
+    document.getElementById("editBirthYear").value
+  );
+
+  // إضافة الملفات الجديدة إذا تم اختيارها
+  const consentFormFile = document.querySelector('input[name="consentForm"]')
+    .files[0];
+  const idCardFile = document.querySelector('input[name="idCard"]').files[0];
+  const diplomaFile = document.querySelector('input[name="diploma"]').files[0];
+
+  if (consentFormFile) formData.append("consentForm", consentFormFile);
+  if (idCardFile) formData.append("idCard", idCardFile);
+  if (diplomaFile) formData.append("diploma", diplomaFile);
+
+  try {
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) {
+      throw new Error("Authentication token not found");
+    }
+
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/${requestId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to update request");
+    }
+
+    // تحديث البيانات المحلية
+    const updatedRequest = await response.json();
+    const requestIndex = allRequests.findIndex((req) => req._id === requestId);
+    if (requestIndex !== -1) {
+      allRequests[requestIndex] = {
+        ...allRequests[requestIndex],
+        ...updatedRequest,
+      };
+    }
+
+    // إغلاق المودال
+    closeModal("editRequestModal");
+
+    // تحديث عرض الطلبات
+    applyFilters();
+
+    // عرض رسالة نجاح
+    Swal.fire({
+      title: "Success!",
+      text: "Request updated successfully",
+      icon: "success",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#7e22ce",
+    });
+  } catch (error) {
+    console.error("Error updating request:", error);
+    Swal.fire({
+      title: "Error!",
+      text: error.message || "Failed to update request",
+      icon: "error",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#ef4444",
+    });
+  }
+}
+
+// متغيرات عامة
+let currentConversationId = null;
+let currentRequestId = null;
+var currentUserId = sessionStorage.getItem("IdUser");
+
+// فتح نافذة المحادثة
+async function openChatModal(requestId, userId = null) {
+  currentRequestId = requestId;
+
+  // إذا لم يتم تمرير userId، حاول استخراجه من الـ token
+  if (!userId) {
+    try {
+      const authToken = sessionStorage.getItem("authToken");
+      if (authToken) {
+        const payload = JSON.parse(atob(authToken.split(".")[1]));
+        userId = payload.id || payload.userId;
+        console.log("Extracted userId from token:", userId);
+      }
+    } catch (error) {
+      console.error("Error extracting userId from token:", error);
+    }
+  }
+  if (!userId || !requestId) {
+    displaySystemMessage("بيانات غير كاملة لفتح المحادثة");
     return;
   }
 
-  profileForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
+  currentUserId = userId;
+  console.log("Final currentUserId:", currentUserId); // للتتبع
 
-    // Get form elements
-    const firstName = document.getElementById("firstName");
-    const lastName = document.getElementById("lastName");
-    const email = document.getElementById("email");
-    const submitButton = this.querySelector('button[type="submit"]');
+  if (!currentUserId) {
+    console.error("No userId available");
+    displaySystemMessage("Unable to identify user. Please login again.");
+    return;
+  }
 
-    // Null checks
-    if (!firstName || !lastName || !email || !submitButton) {
-      console.error("Required form elements not found");
-      return;
-    }
+  // إظهار النافذة
+  chatModal.classList.remove("hidden");
+  chatModal.classList.add("flex");
+  document.body.style.overflow = "hidden";
 
-    const originalText = submitButton.textContent;
+  // تحميل المحادثة
+  await loadConversation(requestId, userId);
 
-    try {
-      const formData = {
-        firstname: firstName.value,
-        lastname: lastName.value,
-        email: email.value,
-      };
-
-      // Rest of your code...
-    } catch (error) {
-      // Error handling
-    } finally {
-      submitButton.textContent = originalText;
-      submitButton.disabled = false;
-    }
-  });
+  // التركيز على حقل الإدخال
+  document.getElementById("chatInput").focus();
 }
 
-// استدعاء الدالة عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", function () {
-  fetchUserProfile();
-  Update();
+// تحميل المحادثة والرسائل
+async function loadConversation(requestId, userId) {
+  try {
+    // 1. الحصول على جميع المحادثات (بدون فلترة مسبقة من السيرفر)
+    const conversations = await getAllConversations();
+
+    // 2. البحث عن المحادثة المطابقة تماماً لـ requestId و userId
+    const conversation = conversations.find((conv) => {
+      // تحقق من وجود requestId و userId في المحادثة
+      const requestMatch = conv.requestId?._id === requestId;
+      const userMatch = conv.userId?._id === userId;
+
+      return requestMatch && userMatch;
+    });
+
+    console.log("Found conversation:", conversation);
+
+    if (conversation) {
+      currentConversationId = conversation._id;
+      await loadMessages(conversation._id);
+    } else {
+      currentConversationId = null;
+      displaySystemMessage("ابدأ محادثة جديدة");
+    }
+  } catch (error) {
+    console.error("Error loading conversation:", error);
+    displaySystemMessage("فشل تحميل المحادثة");
+  }
+}
+// الحصول على جميع المحادثات
+async function getAllConversations(userId, requestId) {
+  const authToken = sessionStorage.getItem("authToken");
+  if (!authToken) throw new Error("Authentication token not found");
+
+  // إضافة بارامترات الفلترة إلى URL
+  const url = new URL(
+    "https://backend-production-816c.up.railway.app/api/requests/conversations"
+  );
+  if (userId) url.searchParams.append("userId", userId);
+  if (requestId) url.searchParams.append("requestId", requestId);
+
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${authToken}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Failed to load conversations");
+
+  const data = await response.json();
+
+  return data.conversations;
+}
+
+async function loadMessages(conversationId) {
+  try {
+    const response = await fetch(
+      `https://backend-production-816c.up.railway.app/api/requests/conversation/${conversationId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
+        },
+      }
+    );
+
+    if (!response.ok) throw new Error("Failed to load messages");
+
+    const data = await response.json();
+
+    // فلترة إضافية للتأكد (يمكن حذفها إذا كان السيرفر يضمن الفلترة)
+    const filteredMessages = data.messages.filter(
+      (message) =>
+        message.senderRole === "user" ||
+        message.conversationId === conversationId
+    );
+
+    displayMessages(filteredMessages);
+  } catch (error) {
+    console.error("Error loading messages:", error);
+    displaySystemMessage("فشل تحميل الرسائل");
+  }
+}
+// عرض الرسائل
+function displayMessages(messages) {
+  const chatMessagesContainer = document.getElementById("chatMessages");
+  chatMessagesContainer.innerHTML = "";
+
+  if (messages.length === 0) {
+    displaySystemMessage("No messages yet");
+    return;
+  }
+
+  messages.forEach((message) => {
+    const messageElement = createMessageElement(message);
+    chatMessagesContainer.appendChild(messageElement);
+  });
+
+  // التمرير إلى الأسفل
+  chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+}
+
+// إنشاء عنصر رسالة
+function createMessageElement(message) {
+  const messageDiv = document.createElement("div");
+  const isUser = message.senderRole === "user";
+
+  messageDiv.className = `flex ${isUser ? "justify-start" : "justify-end"}`;
+
+  const messageBubble = document.createElement("div");
+  messageBubble.className = `max-w-[70%] rounded-lg p-3 ${
+    isUser ? "bg-violet-100 text-violet-900" : "bg-violet-600 text-white"
+  }`;
+
+  const messageContent = document.createElement("p");
+  messageContent.className = "text-sm";
+  messageContent.textContent = message.messageText;
+
+  const messageFooter = document.createElement("div");
+  messageFooter.className = "flex items-center justify-end mt-1 space-x-1";
+
+  const messageTime = document.createElement("span");
+  messageTime.className = `text-xs ${
+    isUser ? "text-violet-600" : "text-violet-200"
+  }`;
+  messageTime.textContent = new Date(message.createdAt).toLocaleTimeString();
+
+  messageFooter.appendChild(messageTime);
+  messageBubble.appendChild(messageContent);
+  messageBubble.appendChild(messageFooter);
+  messageDiv.appendChild(messageBubble);
+
+  return messageDiv;
+}
+
+// عرض رسالة النظام
+function displaySystemMessage(text) {
+  const chatMessagesContainer = document.getElementById("chatMessages");
+  const messageDiv = document.createElement("div");
+  messageDiv.className = "flex justify-center";
+
+  const messageBubble = document.createElement("div");
+  messageBubble.className =
+    "bg-gray-200 text-gray-700 rounded-lg px-3 py-1 text-sm";
+  messageBubble.textContent = text;
+
+  messageDiv.appendChild(messageBubble);
+  chatMessagesContainer.appendChild(messageDiv);
+}
+
+// إرسال رسالة جديدة
+async function sendMessage() {
+  const input = document.getElementById("chatInput");
+  const messageText = input.value.trim();
+  console.log(currentUserId);
+
+  if (!messageText || !currentRequestId || !currentUserId) return;
+
+  console.log("iiii");
+  try {
+    const authToken = sessionStorage.getItem("authToken");
+    if (!authToken) throw new Error("Authentication token not found");
+
+    // تحضير بيانات الرسالة
+    const messageData = {
+      requestId: currentRequestId,
+      userId: currentUserId,
+      messageText: messageText,
+      senderRole: "user",
+    };
+
+    if (messageData) {
+      console.log(":;;;");
+    } else {
+      console.log("iiii");
+    }
+
+    // إرسال الرسالة
+    const response = await fetch(
+      "https://backend-production-816c.up.railway.app/api/requests/messages",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(messageData),
+      }
+    );
+
+    console.log("ll");
+    if (!response.ok) throw new Error("Failed to send message");
+
+    console.log(response);
+    input.value = "";
+
+    // إعادة تحميل الرسائل
+    if (currentConversationId) {
+      await loadMessages(currentConversationId);
+    } else {
+      // إذا كانت محادثة جديدة، نعيد تحميل المحادثات
+      await loadConversation(currentRequestId, currentUserId);
+    }
+  } catch (error) {
+    console.error("Error sending message:", error);
+    displaySystemMessage("Failed to send message");
+  }
+}
+
+// إضافة مستمع لزر الإرسال
+document.getElementById("chatForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  sendMessage();
 });

@@ -4,6 +4,12 @@ function saveDraft() {
 
 document.getElementById('verificationForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    alert("Verification submitted!");
+    Swal.fire({
+            title: "Success!",
+            text: "Verification submitted!",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#7e22ce",
+          })
     // يمكنك هنا إضافة كود إرسال البيانات للسيرفر
 }); 

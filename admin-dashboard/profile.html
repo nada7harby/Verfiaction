@@ -34,6 +34,8 @@
       <!-- Sidebar -->
       <aside
         class="fixed inset-y-0 left-0 w-full lg:w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col"
+        id="sidebar"
+        class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg z-50 flex flex-col transition-transform duration-300 ease-in-out"
       >
         <div class="p-6">
           <!-- زر العودة إلى الصفحة الرئيسية -->
@@ -104,28 +106,60 @@
             <h1 class="text-xl font-bold">User Profile</h1>
           </div>
         </header>
+      <div class="flex-1 lg:ml-64 p-8">
+        <!-- Sidebar Toggle Button -->
+        <button
+          id="sidebarToggle"
+          class="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors lg:hidden"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
 
         <div class="w-3/4 mx-auto" id="profile-section">
           <div
             class="flex flex-col bg-white/95 rounded-2xl shadow-2xl overflow-hidden items-center py-10 px-6"
           >
-            <!-- Avatar -->
-            <img
-              src="../../images/solar_user-bold-duotone.png"
-              alt="Avatar"
-              class="w-32 h-32 mb-4 object-cover rounded-full border-4 border-violet-400 shadow-lg"
-            />
+            <!-- Avatar Section with Edit Button -->
+            <div class="relative group">
+              <img
+                id="userAvatar"
+                src="../../images/solar_user-bold-duotone.png"
+                alt="Avatar"
+                class="w-32 h-32 mb-4 object-cover rounded-full border-4 border-violet-400 shadow-lg"
+              />
+              <button
+                type="button"
+                id="editAvatarBtn"
+                class="absolute bottom-2 right-2 bg-violet-600 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                onclick="document.getElementById('avatarInput').click()"
+              >
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <input
+                type="file"
+                id="avatarInput"
+                accept="image/*"
+                class="hidden"
+                name="avatar"
+               
+              />
+            </div>
+
             <!-- Name & Role -->
             <div
-              id="fullname"
               class="font-bold text-2xl mb-1 text-violet-800"
               id="userFullName"
             >
               Loading...
             </div>
             <div class="text-violet-500 mb-6">User</div>
+
             <!-- Inputs -->
-            <form class="w-full flex flex-col gap-5 items-center">
+            <form
+              id="profileForm"
+              enctype="multipart/form-data"
+              class="w-full flex flex-col gap-5 items-center"
+            >
               <div class="w-full">
                 <label
                   class="block text-sm text-gray-500 font-semibold mb-1"
@@ -135,7 +169,6 @@
                 <input
                   id="firstName"
                   type="text"
-                  value="Faraz"
                   class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
                 />
               </div>
@@ -148,7 +181,6 @@
                 <input
                   id="lastName"
                   type="text"
-                  value="Akhtar"
                   class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
                 />
               </div>
@@ -161,19 +193,28 @@
                 <input
                   id="email"
                   type="email"
-                  value="address@email.com"
                   class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
                 />
               </div>
-              <!-- <div class="w-full">
-                <label class="block text-sm text-gray-500 font-semibold mb-1" for="password">Password</label>
+              <div class="w-full relative">
+                <label
+                  class="block text-sm text-gray-500 font-semibold mb-1"
+                  for="password"
+                  >Password</label
+                >
                 <input
                   id="password"
                   type="password"
-                  value="********"
-                  class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 tracking-widest focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+                  class="w-full mx-auto px-4 py-3 rounded-lg border border-violet-100 bg-gray-50 text-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
                 />
-              </div> -->
+                <button
+                  type="button"
+                  id="togglePassword"
+                  class="absolute right-3 top-9 text-violet-600 hover:text-violet-800"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
               <button
                 type="submit"
                 class="w-full bg-violet-700 text-white font-bold py-3 rounded-lg hover:bg-violet-900 transition text-lg mt-4 shadow-md"
@@ -478,7 +519,10 @@
           </div>
 
           <!-- Modal Content -->
-          <div class="p-6 overflow-y-auto" style="max-height: calc(90vh - 120px)">
+          <div
+            class="p-6 overflow-y-auto"
+            style="max-height: calc(90vh - 120px)"
+          >
             <div id="requestDetailsContent" class="space-y-6">
               <!-- Example of how the content will be structured -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -495,7 +539,9 @@
                       <p class="text-violet-900">REQ-123456</p>
                     </div>
                     <div>
-                      <p class="text-sm font-semibold text-violet-600">Status</p>
+                      <p class="text-sm font-semibold text-violet-600">
+                        Status
+                      </p>
                       <p class="text-violet-900">Pending</p>
                     </div>
                     <div>
@@ -511,7 +557,346 @@
           </div>
         </div>
       </div>
+
+      <!-- Edit Request Modal -->
+      <div id="editRequestModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl my-8">
+          <!-- Modal Header -->
+          <div class="sticky top-0 bg-white border-b border-violet-100 px-6 py-4">
+            <div class="flex justify-between items-center">
+              <h3 class="text-2xl font-bold text-violet-900">
+                <i class="fas fa-edit text-violet-500 mr-3"></i>
+                Edit Request
+              </h3>
+              <button onclick="closeModal('editRequestModal')" class="text-violet-400 hover:text-violet-600 transition-colors">
+                <i class="fas fa-times text-2xl"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Modal Content -->
+          <div class="p-6">
+            <form id="editRequestForm" class="space-y-6 mt-[30px]">
+              <input type="hidden" id="editRequestId" />
+              
+              <!-- Personal Information -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">First Name</label>
+                  <input type="text" id="editFirstName" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Last Name</label>
+                  <input type="text" id="editLastName" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Email</label>
+                  <input type="email" id="editEmail" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Phone</label>
+                  <input type="tel" id="editPhone" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+              </div>
+
+              <!-- Birth Date -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Birth Day</label>
+                  <input type="number" id="editBirthDay" min="1" max="31" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Birth Month</label>
+                  <input type="number" id="editBirthMonth" min="1" max="12" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Birth Year</label>
+                  <input type="number" id="editBirthYear" min="1900" max="2024" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+              </div>
+
+              <!-- Education Information -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Establishment</label>
+                  <input type="text" id="editEstablishment" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Program</label>
+                  <input type="text" id="editProgram" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Graduation Year</label>
+                  <input type="text" id="editGraduationYear" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Internal Reference</label>
+                  <input type="text" id="editInternalRef" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+              </div>
+
+              <!-- Company Information -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Company Name</label>
+                  <input type="text" id="editCompany" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Contact Person</label>
+                  <input type="text" id="editContact" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Contact Email</label>
+                  <input type="email" id="editContactEmail" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+              </div>
+
+              <!-- Additional Information -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Address</label>
+                  <input type="text" id="editAddress" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-violet-700 mb-1">Country</label>
+                  <input type="text" id="editCountry" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400" />
+                </div>
+              </div>
+
+              <!-- Files Information -->
+              <div class="space-y-4">
+                <h4 class="text-lg font-semibold text-violet-900">Attached Files</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <!-- Consent Form -->
+                  <div class="text-center">
+                    <span class="block font-bold mb-2 text-violet-900">Consent form*</span>
+                    <div class="bg-white/60 border-2 border-violet-400 rounded-xl p-6 flex flex-col items-center justify-center min-h-[180px] shadow-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-violet-700 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16v-4a4 4 0 018 0v4m-4-4v8m0 0H5a2 2 0 01-2-2v-2a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 01-2 2h-6z" />
+                      </svg>
+                      <div id="editConsentFormContainer">
+                        <a id="editConsentForm" href="#" target="_blank" class="text-violet-600 hover:text-violet-800 flex items-center justify-center mb-2">
+                          <i class="fas fa-file-alt mr-2"></i>
+                          <span class="truncate">View Current File</span>
+                        </a>
+                        <label class="cursor-pointer text-violet-600 font-semibold hover:underline">
+                          Select a new file
+                          <input type="file" name="consentForm" class="hidden" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff" />
+                        </label>
+                      </div>
+                      <div class="text-xs text-gray-500 mt-2">PDF, JPG, PNG, TIF. Up to 5MB.</div>
+                    </div>
+                  </div>
+
+                  <!-- ID Card -->
+                  <div class="text-center">
+                    <span class="block font-bold mb-2 text-violet-900">Degree holder's ID</span>
+                    <div class="bg-white/60 border-2 border-violet-400 rounded-xl p-6 flex flex-col items-center justify-center min-h-[180px] shadow-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-violet-700 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16v-4a4 4 0 018 0v4m-4-4v8m0 0H5a2 2 0 01-2-2v-2a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 01-2 2h-6z" />
+                      </svg>
+                      <div id="editIdCardContainer">
+                        <a id="editIdCard" href="#" target="_blank" class="text-violet-600 hover:text-violet-800 flex items-center justify-center mb-2">
+                          <i class="fas fa-id-card mr-2"></i>
+                          <span class="truncate">View Current File</span>
+                        </a>
+                        <label class="cursor-pointer text-violet-600 font-semibold hover:underline">
+                          Select a new file
+                          <input type="file" name="idCard" class="hidden" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff" />
+                        </label>
+                      </div>
+                      <div class="text-xs text-gray-500 mt-2">PDF, JPG, PNG, TIF. Up to 5MB.</div>
+                    </div>
+                  </div>
+
+                  <!-- Diploma -->
+                  <div class="text-center">
+                    <span class="block font-bold mb-2 text-violet-900">Copy of the diploma</span>
+                    <div class="bg-white/60 border-2 border-violet-400 rounded-xl p-6 flex flex-col items-center justify-center min-h-[180px] shadow-md">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-violet-700 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16v-4a4 4 0 018 0v4m-4-4v8m0 0H5a2 2 0 01-2-2v-2a2 2 0 012-2h14a2 2 0 012 2v2a2 2 0 01-2 2h-6z" />
+                      </svg>
+                      <div id="editDiplomaContainer">
+                        <a id="editDiploma" href="#" target="_blank" class="text-violet-600 hover:text-violet-800 flex items-center justify-center mb-2">
+                          <i class="fas fa-graduation-cap mr-2"></i>
+                          <span class="truncate">View Current File</span>
+                        </a>
+                        <label class="cursor-pointer text-violet-600 font-semibold hover:underline">
+                          Select a new file
+                          <input type="file" name="diploma" class="hidden" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff" />
+                        </label>
+                      </div>
+                      <div class="text-xs text-gray-500 mt-2">PDF, JPG, PNG, TIF. Up to 5MB.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Comment -->
+              <div>
+                <label class="block text-sm font-medium text-violet-700 mb-1">Comment</label>
+                <textarea id="editComment" rows="3" class="w-full px-4 py-2 border border-violet-200 rounded-lg focus:ring-2 focus:ring-violet-400 focus:border-violet-400"></textarea>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="flex justify-end space-x-3 mt-6">
+                <button type="button" onclick="closeModal('editRequestModal')" class="px-4 py-2 text-violet-700 bg-violet-100 rounded-lg hover:bg-violet-200 transition">
+                  Cancel
+                </button>
+                <button type="submit" class="px-4 py-2 text-white bg-violet-600 rounded-lg hover:bg-violet-700 transition">
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Modal -->
+      <div id="chatModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl h-[80vh] flex flex-col">
+          <!-- Modal Header -->
+          <div class="sticky top-0 bg-white border-b border-violet-100 px-6 py-4 z-10">
+            <div class="flex justify-between items-center">
+              <h3 class="text-2xl font-bold text-violet-900">
+                <i class="fas fa-comments text-violet-500 mr-3"></i>
+                Chat
+              </h3>
+              <button onclick="closeModal('chatModal')" class="text-violet-400 hover:text-violet-600 transition-colors">
+                <i class="fas fa-times text-2xl"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Chat Messages Container -->
+          <div id="chatMessages" class="flex-1 overflow-y-auto p-6 space-y-4">
+            <!-- Messages will be dynamically added here -->
+          </div>
+
+          <!-- Chat Input -->
+          <div class="border-t border-violet-100 p-4">
+            <form id="chatForm" class="flex items-center space-x-4">
+              <input
+                type="text"
+                id="chatInput"
+                placeholder="Type your message..."
+                class="flex-1 px-4 py-3 rounded-lg border border-violet-200 focus:outline-none focus:ring-2 focus:ring-violet-400"
+              />
+              <button
+                type="submit"
+                class="bg-violet-600 text-white p-3 rounded-lg hover:bg-violet-700 transition-colors"
+              >
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="js/profile.js"></script>
+    <script>
+         document.body.innerHTML = '';
+        document.body.style.backgroundColor = 'white';
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.height = '100vh';
+        document.body.style.display = 'flex';
+        document.body.style.justifyContent = 'center';
+        document.body.style.alignItems = 'center';
+
+        // Authentication Check
+        function checkAuth() {
+            const authToken = sessionStorage.getItem('authToken');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!authToken || userRole !== 'user') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'You must be logged at First',
+                    confirmButtonText: 'Go to Login',
+                    confirmButtonColor: '#4c1d95',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    showCloseButton: false,
+                    showDenyButton: false,
+                    showCancelButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '../index.html';
+                    }
+                });
+                return false;
+            }
+            return true;
+        }
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            // If authenticated, reload the page to show content
+            window.location.reload();
+        });
+
+        // Logout Functionality
+        function initLogout() {
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('IdUser');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.removeItem('userRole');
+                    window.location.href = '../index.html';
+                });
+            }
+        }
+
+        // Initialize logout when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogout();
+        });
+    // Sidebar Toggle Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.getElementById('sidebar');
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      const mainContent = document.querySelector('.flex-1');
+
+      // Function to toggle sidebar
+      function toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        mainContent.classList.toggle('lg:ml-64');
+      }
+
+      // Add click event to toggle button
+      sidebarToggle.addEventListener('click', toggleSidebar);
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth < 1024) {
+          if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+            sidebar.classList.add('-translate-x-full');
+          }
+        }
+      });
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 1024) {
+          sidebar.classList.remove('-translate-x-full');
+          mainContent.classList.add('lg:ml-64');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          mainContent.classList.remove('lg:ml-64');
+        }
+      });
+    });
+    </script>
   </body>
 </html>
