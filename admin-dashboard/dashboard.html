@@ -27,6 +27,7 @@
   </head>
   <body
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
+    id="BodyHome"
   >
     <div class="flex h-full">
       <!-- Sidebar -->
@@ -117,11 +118,16 @@
                 <div
                   class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
                 >
-                  <canvas id="donut-total" width="120" height="120" class="z-20"></canvas>
+                  <canvas
+                    id="donut-total"
+                    width="120"
+                    height="120"
+                    class="z-20"
+                  ></canvas>
                   <div
                     class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
                   >
-                    <span class="text-3xl font-extrabold text-violet-900  z-0"
+                    <span class="text-3xl font-extrabold text-violet-900 z-0"
                       >1,234</span
                     >
                   </div>
@@ -146,11 +152,16 @@
                 <div
                   class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
                 >
-                  <canvas id="donut-pending" width="120" height="120" class="z-20"></canvas>
+                  <canvas
+                    id="donut-pending"
+                    width="120"
+                    height="120"
+                    class="z-20"
+                  ></canvas>
                   <div
                     class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
                   >
-                    <span class="text-3xl font-extrabold text-violet-900  z-0"
+                    <span class="text-3xl font-extrabold text-violet-900 z-0"
                       >0%</span
                     >
                   </div>
@@ -175,11 +186,16 @@
                 <div
                   class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
                 >
-                  <canvas id="donut-rejected" width="120" height="120" class="z-20" ></canvas>
+                  <canvas
+                    id="donut-rejected"
+                    width="120"
+                    height="120"
+                    class="z-20"
+                  ></canvas>
                   <div
                     class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
                   >
-                    <span class="text-3xl font-extrabold text-violet-900  z-0"
+                    <span class="text-3xl font-extrabold text-violet-900 z-0"
                       >0%</span
                     >
                   </div>
@@ -204,7 +220,12 @@
                 <div
                   class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
                 >
-                  <canvas id="donut-new" width="120" height="120" class="z-20"></canvas>
+                  <canvas
+                    id="donut-new"
+                    width="120"
+                    height="120"
+                    class="z-20"
+                  ></canvas>
                   <div
                     class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
                   >
@@ -489,20 +510,11 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add Chart.js before our custom script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="./js/Dasboard.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Hide all content initially
-        document.body.innerHTML = '';
-        document.body.style.backgroundColor = 'white';
-        document.body.style.margin = '0';
-        document.body.style.padding = '0';
-        document.body.style.height = '100vh';
-        document.body.style.display = 'flex';
-        document.body.style.justifyContent = 'center';
-        document.body.style.alignItems = 'center';
-
         // Authentication Check
         function checkAuth() {
             const authToken = sessionStorage.getItem('authToken');
@@ -537,8 +549,13 @@
             if (!checkAuth()) {
                 return;
             }
-            // If authenticated, reload the page to show content
-            window.location.reload();
+            // Initialize dashboard elements and load data
+            if (typeof initializeCharts === 'function') {
+                initializeCharts();
+            }
+            if (typeof fetchRecentRequests === 'function') {
+                fetchRecentRequests();
+            }
         });
 
         // Logout Functionality
@@ -561,6 +578,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             initLogout();
         });
+    </script>
+    <script>
+        // Hide all content initially
+      
     </script>
   </body>
 </html>

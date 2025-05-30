@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Handle successful login
           sessionStorage.setItem("authToken", result.token);
           const token = sessionStorage.getItem("authToken");
+          const UserRole = sessionStorage.setItem("userRole",result.user.role);
           if (result.user.password === "set") {
             sessionStorage.setItem("password", "yes");
           } else if (result.password === null) {
@@ -167,7 +168,7 @@ document.getElementById("googleSignIn").addEventListener("click", function () {
     if (googleAuthWindow.closed) {
       clearInterval(checkPopup);
       // بعد إغلاق النافذة، تحقق من وجود التوكن
-      if (localStorage.getItem("token")) {
+      if (sessionStorage.getItem("authToken")) {
         fetchUserData();
       }
     }
@@ -175,29 +176,67 @@ document.getElementById("googleSignIn").addEventListener("click", function () {
 });
 
 function fetchUserData() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  fetch("https://backend-production-816c.up.railway.app/api/requests/me", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error("Failed to fetch user data");
-      return response.json();
-    })
-    .then((data) => {
-      localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("userRole", JSON.stringify(data.user));
-      window.location.href = "index.html";
-    })
-    .catch((err) => {
-      console.error("Error:", err);
-      Swal.fire({
-        title: "Error!",
-        text: "Failed to fetch user data",
-        icon: "error",
-      });
+  // جلب التوكن من sessionStorage بدلاً من localStorage
+  const token = sessionStorage.getItem("authToken");
+  if (!token) {
+    console.error("No token found");
+    Swal.fire({
+      title: "Error!",
+      text: "Authentication token not found",
+      icon: "error",
     });
+    return;
+  }
+
+  try {
+    // استخراج الـ payload من التوكن
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    const userId = payload.id; // استخراج الـ userId من الـ payload
+
+    if (!userId) {
+      throw new Error("User ID not found in token");
+    }
+
+    fetch(`https://backend-production-816c.up.railway.app/api/requests/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      redirect: "follow"
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch user data");
+        return response.json();
+      })
+      .then((data) => {
+        console.log("User data fetched:", data);
+        sessionStorage.setItem("user", JSON.stringify(data));
+        sessionStorage.setItem("userRole", data.role || "user");
+        
+        Swal.fire({
+          title: "Success!",
+          text: "User data fetched successfully",
+          icon: "success",
+        });
+        
+        // يمكنك إعادة التوجيه هنا إذا كنت بحاجة لذلك
+        // window.location.href = "index.html";
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to fetch user data: " + err.message,
+          icon: "error",
+        });
+      });
+  } catch (err) {
+    console.error("Error parsing token:", err);
+    Swal.fire({
+      title: "Error!",
+      text: "Invalid token format",
+      icon: "error",
+    });
+  }
 }

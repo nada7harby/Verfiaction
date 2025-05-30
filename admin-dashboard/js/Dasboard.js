@@ -1,26 +1,3 @@
-// Function to fetch and display recent requests
-// Sample data for demonstration
-const requests = [
-  {
-    id: "#1234",
-    userName: "John Doe",
-    date: "2024-03-15",
-    status: "Approved",
-  },
-  {
-    id: "#1235",
-    userName: "Jane Smith",
-    date: "2024-03-14",
-    status: "Pending",
-  },
-  {
-    id: "#1236",
-    userName: "Mike Johnson",
-    date: "2024-03-13",
-    status: "Pending",
-  },
-];
-
 const payments = [
   {
     invoice: "INV-001",
@@ -368,8 +345,71 @@ function updateChart(data, period) {
     });
   }
 }
-// Fetch data from API
+
+// Function to safely get DOM element
+function getElement(id) {
+    const element = document.getElementById(id);
+    if (!element) {
+        console.warn(`Element with id '${id}' not found`);
+        return null;
+    }
+    return element;
+}
+
+// Function to safely get canvas context
+function getCanvasContext(canvasId) {
+    const canvas = getElement(canvasId);
+    if (!canvas) {
+        console.warn(`Canvas with id '${canvasId}' not found`);
+        return null;
+    }
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.warn(`Could not get 2d context for canvas '${canvasId}'`);
+        return null;
+    }
+    return ctx;
+}
+
+// Function to safely create chart
+function createChart(canvasId, config) {
+    const ctx = getCanvasContext(canvasId);
+    if (!ctx) return null;
+
+    try {
+        return new Chart(ctx, config);
+    } catch (error) {
+        console.error(`Error creating chart for canvas '${canvasId}':`, error);
+        return null;
+    }
+}
+
+// Function to safely add event listener
+function addEventListenerSafe(element, event, handler) {
+    if (element) {
+        element.addEventListener(event, handler);
+    }
+}
+
+// Function to safely set innerHTML
+function setInnerHTMLSafe(element, content) {
+    if (element) {
+        element.innerHTML = content;
+    }
+}
+
+// Function to safely set textContent
+function setTextContentSafe(element, content) {
+    if (element) {
+        element.textContent = content;
+    }
+}
+
+// Modify the fetchRecentRequests function
 function fetchRecentRequests() {
+    const tableBody = getElement("requestsTableBody");
+    if (!tableBody) return;
+
   fetch("https://backend-production-816c.up.railway.app/api/requests/")
     .then((response) => {
       if (!response.ok) {
@@ -378,38 +418,27 @@ function fetchRecentRequests() {
       return response.json();
     })
     .then((data) => {
-      // تحقق من بنية البيانات وتعديلها حسب الحاجة
       let requests = data;
-
-      // إذا كانت البيانات تحتوي على خاصية requests
       if (data && data.requests) {
         requests = data.requests;
       }
 
-      // فرز الطلبات حسب التاريخ (الأحدث أولاً)
       requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-      // عرض آخر طلبين فقط
       const recentRequests = requests.slice(0, 2);
 
-      const tableBody = document.getElementById("requestsTableBody");
-      tableBody.innerHTML = "";
-
       if (recentRequests.length === 0) {
-        tableBody.innerHTML = `
+                setInnerHTMLSafe(tableBody, `
           <tr>
             <td colspan="4" class="px-6 py-4 text-center text-violet-900">
               No requests found
             </td>
           </tr>
-        `;
+                `);
         return;
       }
 
+            let tableContent = '';
       recentRequests.forEach((request) => {
-        const row = document.createElement("tr");
-
-        // تحديد لون الحالة بناءً على status
         let statusClass = "bg-gray-100 text-gray-800";
         if (request.status === "approved") {
           statusClass = "bg-green-100 text-green-800";
@@ -419,12 +448,12 @@ function fetchRecentRequests() {
           statusClass = "bg-red-100 text-red-800";
         }
 
-        // تنسيق التاريخ
         const requestDate = request.createdAt
           ? new Date(request.createdAt).toLocaleDateString()
           : "N/A";
 
-        row.innerHTML = `
+                tableContent += `
+                    <tr>
           <td class="px-6 py-4 whitespace-nowrap text-violet-900">
             ${request._id || "N/A"}
           </td>
@@ -439,61 +468,246 @@ function fetchRecentRequests() {
               ${request.status || "unknown"}
             </span>
           </td>
+                    </tr>
         `;
-
-        tableBody.appendChild(row);
       });
+
+            setInnerHTMLSafe(tableBody, tableContent);
     })
     .catch((error) => {
       console.error("Error fetching requests:", error);
-      document.getElementById("requestsTableBody").innerHTML = `
+            setInnerHTMLSafe(tableBody, `
         <tr>
           <td colspan="4" class="px-6 py-4 text-center text-violet-900">
             Error loading requests. Please try again later.
           </td>
         </tr>
-      `;
-    });
+            `);
+        });
 }
 
-// استدعاء الدالة عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", fetchRecentRequests);
-
-fetch("https://backend-production-816c.up.railway.app/api/requests/")
-  .then((response) => response.json())
-  .then((responseData) => {
-    
-    
-    // Check if responseData is an array, if not, try to parse it
-    let data;
+// Modify the initializeCharts function
+async function initializeCharts() {
     try {
-      // If responseData is a string, parse it
-      if (typeof responseData === "string") {
-        data = JSON.parse(responseData);
-      } else {
-        data = responseData;
-      }
-
-      // Check if data has a requests property
-      if (data && data.requests && Array.isArray(data.requests)) {
-        data = data.requests;
-      } else if (!Array.isArray(data)) {
-        console.error("API response is not in expected format:", data);
+        const data = await fetchDataForCharts();
+        if (!data || !Array.isArray(data)) {
+            console.error("Invalid data format received");
         return;
       }
 
-      // Initial chart with yearly data
-      updateChart(data, "year");
+        // Calculate counts from API data
+        const totalRequests = data.length;
+        const pendingRequests = data.filter((req) => req.status === "pending").length;
+        const acceptedRequests = data.filter((req) => req.status === "accepted").length;
+        const rejectedRequests = data.filter((req) => req.status === "rejected").length;
 
-      // Add event listener for time period selection
-      document.querySelector("select").addEventListener("change", function () {
-        updateChart(data, this.value);
-      });
+        // Get current month data
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+
+        const newThisMonth = data.filter((req) => {
+            if (!req.createdAt) return false;
+            const reqDate = new Date(req.createdAt);
+            return reqDate.getMonth() === currentMonth && reqDate.getFullYear() === currentYear;
+        }).length;
+
+        // Update the numbers displayed in the center of each donut chart
+        const totalElement = document.querySelector("#donut-total + div span");
+        const pendingElement = document.querySelector("#donut-pending + div span");
+        const rejectedElement = document.querySelector("#donut-rejected + div span");
+        const newElement = document.querySelector("#donut-new + div span");
+
+        setTextContentSafe(totalElement, totalRequests);
+        setTextContentSafe(pendingElement, pendingRequests);
+        setTextContentSafe(rejectedElement, acceptedRequests);
+        setTextContentSafe(newElement, newThisMonth);
+
+        // Initialize donut charts
+        const donutConfigs = [
+            {
+                id: "donut-total",
+                data: [pendingRequests, acceptedRequests, rejectedRequests],
+                colors: ["#fbbf24", "#34d399", "#f3f4f6"],
+                labels: ["Pending", "Accepted", "Rejected"],
+            },
+            {
+                id: "donut-pending",
+                data: [pendingRequests, totalRequests - pendingRequests],
+                colors: ["#fbbf24", "#f3f4f6"],
+                labels: ["Pending", "Others"],
+            },
+            {
+                id: "donut-rejected",
+                data: [acceptedRequests, totalRequests - acceptedRequests],
+                colors: ["#34d399", "#f3f4f6"],
+                labels: ["Accepted", "Others"],
+            },
+            {
+                id: "donut-new",
+                data: [
+                    data.filter((req) => req.status === "pending" && new Date(req.createdAt).getMonth() === currentMonth).length,
+                    data.filter((req) => req.status === "accepted" && new Date(req.createdAt).getMonth() === currentMonth).length,
+                    data.filter((req) => req.status === "rejected" && new Date(req.createdAt).getMonth() === currentMonth).length,
+                ],
+                colors: ["#fbbf24", "#34d399", "#f3f4f6"],
+                labels: ["Pending", "Accepted", "Rejected"],
+            },
+        ];
+
+        donutConfigs.forEach((cfg) => {
+            createChart(cfg.id, {
+                type: "doughnut",
+                data: {
+                    labels: cfg.labels,
+                    datasets: [{
+                        data: cfg.data,
+                        backgroundColor: cfg.colors,
+                        borderWidth: 0,
+                    }],
+                },
+                options: {
+                    cutout: "70%",
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true },
+                    },
+                    responsive: false,
+                },
+            });
+        });
+
+        // Initialize the main chart
+        const requestsCtx = getCanvasContext("requestsChart");
+        if (requestsCtx) {
+            const chartData = processDataForChart(data);
+            requestsChart = new Chart(requestsCtx, {
+                type: "line",
+                data: chartData,
+                options: {
+                    responsive: true,
+                    animation: {
+                        duration: 2000,
+                        easing: "easeInOutQuart",
+                    },
+                    plugins: {
+                        legend: {
+                            position: "top",
+                            align: "end",
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: {
+                                    size: 12,
+                                    family: "'Inter', sans-serif",
+                                },
+                            },
+                        },
+                        tooltip: {
+                            backgroundColor: "rgba(76, 29, 149, 0.9)",
+                            titleFont: {
+                                size: 14,
+                                family: "'Inter', sans-serif",
+                            },
+                            bodyFont: {
+                                size: 13,
+                                family: "'Inter', sans-serif",
+                            },
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: "rgba(76, 29, 149, 0.1)",
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                },
+                                padding: 10,
+                            },
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                font: {
+                                    family: "'Inter', sans-serif",
+                                },
+                                padding: 10,
+                            },
+                        },
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: "index",
+                    },
+                },
+            });
+        }
     } catch (error) {
-      console.error("Error processing API response:", error);
+        console.error("Error initializing charts:", error);
     }
-  })
-  .catch((error) => console.error("Error fetching data:", error));
+}
+
+// Modify the event listeners
+document.addEventListener("DOMContentLoaded", () => {
+    const select = document.querySelector("select");
+    if (select) {
+        select.addEventListener("change", function () {
+            fetchDataForCharts().then(data => {
+                if (data) {
+                    updateChart(data, this.value);
+                }
+            });
+        });
+    }
+
+    // Initialize charts and fetch requests
+    initializeCharts();
+    fetchRecentRequests();
+
+    // Refresh data every 5 minutes
+    setInterval(() => {
+        initializeCharts();
+        fetchRecentRequests();
+    }, 300000);
+  });
+
+// Function to fetch and process data for charts
+async function fetchDataForCharts() {
+  try {
+    const response = await fetch(
+      "https://backend-production-816c.up.railway.app/api/requests"
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    let data = await response.json();
+
+    // Check if data has a requests property
+    if (data && data.requests) {
+      data = data.requests;
+    }
+
+    // Make sure data is an array
+    if (!Array.isArray(data)) {
+      throw new Error("Invalid data format");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
+}
 
 fetch("./Sidebar.html")
   .then((response) => response.text())
@@ -510,124 +724,4 @@ fetch("./Sidebar.html")
 
     // Initialize navbar functionality (assuming loadNavbar is defined elsewhere or not needed with this approach)
     // loadNavbar();
-  });
-
-// Function to fetch and process data for charts
-async function fetchDataForCharts() {
-  try {
-    const response = await fetch("https://backend-production-816c.up.railway.app/api/requests");
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    
-    let data = await response.json();
-    
-    // Check if data has a requests property
-    if (data && data.requests) {
-      data = data.requests;
-    }
-    
-    // Make sure data is an array
-    if (!Array.isArray(data)) {
-      throw new Error('Invalid data format');
-    }
-    
-    return data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return [];
-  }
-}
-
-// Function to initialize charts with API data
-async function initializeCharts() {
-  const data = await fetchDataForCharts();
-  
-  // Calculate counts from API data
-  const totalRequests = data.length;
-  const pendingRequests = data.filter(req => req.status === 'pending').length;
-  const acceptedRequests = data.filter(req => req.status === 'accepted').length;
-  const rejectedRequests = data.filter(req => req.status === 'rejected').length;
-  
-  // Get current month data
-  const currentDate = new Date();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-  
-  const newThisMonth = data.filter(req => {
-    if (!req.createdAt) return false;
-    const reqDate = new Date(req.createdAt);
-    return reqDate.getMonth() === currentMonth && reqDate.getFullYear() === currentYear;
-  }).length;
-
-  const donutConfigs = [
-    {
-      id: "donut-total",
-      data: [pendingRequests, acceptedRequests, rejectedRequests],
-      colors: ["#fbbf24", "#34d399", "#f3f4f6"],
-      labels: ["Pending", "Accepted", "Rejected"]
-    },
-    {
-      id: "donut-pending",
-      data: [pendingRequests, totalRequests - pendingRequests],
-      colors: ["#fbbf24", "#f3f4f6"],
-      labels: ["Pending", "Others"]
-    },
-    {
-      id: "donut-rejected",
-      data: [acceptedRequests, totalRequests - acceptedRequests],
-      colors: ["#34d399", "#f3f4f6"],
-      labels: ["Accepted", "Others"]
-    },
-    {
-      id: "donut-new",
-      data: [
-        data.filter(req => req.status === 'pending' && new Date(req.createdAt).getMonth() === currentMonth).length,
-        data.filter(req => req.status === 'accepted' && new Date(req.createdAt).getMonth() === currentMonth).length,
-        data.filter(req => req.status === 'rejected' && new Date(req.createdAt).getMonth() === currentMonth).length
-      ],
-      colors: ["#fbbf24", "#34d399", "#f3f4f6"],
-      labels: ["Pending", "Accepted", "Rejected"]
-    },
-  ];
-
-  // Update the numbers displayed in the center of each donut chart
-  document.querySelector('#donut-total + div span').textContent = totalRequests;
-  document.querySelector('#donut-pending + div span').textContent = pendingRequests;
-  document.querySelector('#donut-rejected + div span').textContent = acceptedRequests;
-  document.querySelector('#donut-new + div span').textContent = newThisMonth;
-
-  donutConfigs.forEach((cfg) => {
-    const ctx = document.getElementById(cfg.id).getContext("2d");
-    new Chart(ctx, {
-      type: "doughnut",
-      data: {
-        labels: cfg.labels,
-        datasets: [
-          {
-            data: cfg.data,
-            backgroundColor: cfg.colors,
-            borderWidth: 0,
-          },
-        ],
-      },
-      options: {
-        cutout: "70%",
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: true },
-        },
-        responsive: false,
-      },
-    });
-  });
-}
-
-// Call the function when the page loads
-document.addEventListener("DOMContentLoaded", () => {
-  initializeCharts();
-  fetchRecentRequests();
-  
-  // Refresh data every 5 minutes
-  setInterval(initializeCharts, 300000);
 });

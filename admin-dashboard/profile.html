@@ -30,10 +30,93 @@
   <body
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
   >
+    <!-- Add Authentication Check Script -->
+    <script>
+        // Authentication Check
+        function checkAuth() {
+            const authToken = sessionStorage.getItem('authToken');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!authToken) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'You must be logged in to access this page',
+                    confirmButtonText: 'Go to Login',
+                    confirmButtonColor: '#4c1d95',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    showCloseButton: false,
+                    showDenyButton: false,
+                    showCancelButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '../index.html';
+                    }
+                });
+                return false;
+            }
+
+            // Handle sidebar visibility based on user role
+            const requestsBtn = document.getElementById('sidebar-requests');
+            const addVerificationBtn = document.getElementById('sidebar-add-verification');
+            const contactBtn = document.getElementById('sidebar-contact');
+
+            if (userRole === 'admin') {
+              console.log(";;;");
+              
+                // Hide these buttons for admin
+                requestsBtn.style.display = 'none';
+                addVerificationBtn.style.display = 'none';
+                contactBtn.style.display = 'none';
+            } else {
+                // Show these buttons for regular users
+                requestsBtn.style.display = 'flex';
+                addVerificationBtn.style.display = 'flex';
+                contactBtn.style.display = 'flex';
+            }
+
+            return true;
+        }
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            // Initialize page elements and load data
+            if (typeof fetchUserProfile === 'function') {
+                fetchUserProfile();
+            }
+        });
+
+        // Logout Functionality
+        function initLogout() {
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('IdUser');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.removeItem('userRole');
+                    window.location.href = '../index.html';
+                });
+            }
+        }
+
+        // Initialize logout when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogout();
+        });
+    </script>
     <div class="flex h-full min-h-screen">
       <!-- Sidebar -->
       <aside
-        class="fixed inset-y-0 left-0 w-full lg:w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col"
+        class="fixed inset-y-0 left-0 w-1/3 lg:w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50 flex flex-col"
         id="sidebar"
         class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg z-50 flex flex-col transition-transform duration-300 ease-in-out"
       >
@@ -85,6 +168,7 @@
         <div class="mt-auto p-6">
           <a
             href="#"
+            id="sign-out-btn"
             class="flex items-center space-x-3 p-3 rounded-lg text-red-500 hover:bg-red-50 font-bold"
           >
             <i class="fas fa-sign-out-alt"></i>
@@ -93,7 +177,7 @@
         </div>
       </aside>
       <!-- Main Content -->
-      <div class="flex-1 lg:ml-64 p-8 pt-20">
+      <div class="flex-1 pt-8 lg:ml-64">
         <!-- Header for mobile toggle -->
         <header class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40 lg:hidden">
           <div class="container mx-auto px-4 py-3 flex items-center">
@@ -106,16 +190,11 @@
             <h1 class="text-xl font-bold">User Profile</h1>
           </div>
         </header>
-      <div class="flex-1 lg:ml-64 p-8">
+      <div class="flex-1 lg:mx-[13.75rem] p-8">
         <!-- Sidebar Toggle Button -->
-        <button
-          id="sidebarToggle"
-          class="fixed top-4 left-4 z-50 bg-violet-600 text-white p-2 rounded-lg shadow-lg hover:bg-violet-700 transition-colors lg:hidden"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
+      
 
-        <div class="w-3/4 mx-auto" id="profile-section">
+        <div class="w-full mx-auto" id="profile-section">
           <div
             class="flex flex-col bg-white/95 rounded-2xl shadow-2xl overflow-hidden items-center py-10 px-6"
           >
@@ -795,93 +874,49 @@
     </div>
     <script src="js/profile.js"></script>
     <script>
-         document.body.innerHTML = '';
-        document.body.style.backgroundColor = 'white';
-        document.body.style.margin = '0';
-        document.body.style.padding = '0';
-        document.body.style.height = '100vh';
-        document.body.style.display = 'flex';
-        document.body.style.justifyContent = 'center';
-        document.body.style.alignItems = 'center';
-
-        // Authentication Check
-        function checkAuth() {
-            const authToken = sessionStorage.getItem('authToken');
-            const userRole = sessionStorage.getItem('userRole');
-            
-            if (!authToken || userRole !== 'user') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Access Denied',
-                    text: 'You must be logged at First',
-                    confirmButtonText: 'Go to Login',
-                    confirmButtonColor: '#4c1d95',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                    showConfirmButton: true,
-                    showCloseButton: false,
-                    showDenyButton: false,
-                    showCancelButton: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '../index.html';
-                    }
-                });
-                return false;
-            }
-            return true;
-        }
-
-        // Check authentication when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!checkAuth()) {
-                return;
-            }
-            // If authenticated, reload the page to show content
-            window.location.reload();
-        });
-
-        // Logout Functionality
-        function initLogout() {
-            const signOutBtn = document.getElementById('sign-out-btn');
-            
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('IdUser');
-                    sessionStorage.removeItem('password');
-                    sessionStorage.removeItem('userRole');
-                    window.location.href = '../index.html';
-                });
-            }
-        }
-
-        // Initialize logout when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initLogout();
-        });
     // Sidebar Toggle Functionality
     document.addEventListener('DOMContentLoaded', function() {
       const sidebar = document.getElementById('sidebar');
       const sidebarToggle = document.getElementById('sidebarToggle');
       const mainContent = document.querySelector('.flex-1');
 
+      // Sign out functionality
+      const signOutBtn = document.getElementById('sign-out-btn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          sessionStorage.removeItem('authToken');
+          sessionStorage.removeItem('IdUser');
+          sessionStorage.removeItem('password');
+          sessionStorage.removeItem('userRole');
+          window.location.href = '../index.html';
+        });
+      }
+
       // Function to toggle sidebar
       function toggleSidebar() {
-        sidebar.classList.toggle('-translate-x-full');
-        mainContent.classList.toggle('lg:ml-64');
+        if (sidebar.classList.contains('-translate-x-full')) {
+          // Show sidebar
+          sidebar.classList.remove('-translate-x-full');
+          sidebar.classList.add('translate-x-0');
+        } else {
+          // Hide sidebar
+          sidebar.classList.add('-translate-x-full');
+          sidebar.classList.remove('translate-x-0');
+        }
       }
 
       // Add click event to toggle button
-      sidebarToggle.addEventListener('click', toggleSidebar);
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', toggleSidebar);
+      }
 
       // Close sidebar when clicking outside on mobile
       document.addEventListener('click', (e) => {
         if (window.innerWidth < 1024) {
           if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
             sidebar.classList.add('-translate-x-full');
+            sidebar.classList.remove('translate-x-0');
           }
         }
       });
@@ -890,10 +925,10 @@
       window.addEventListener('resize', () => {
         if (window.innerWidth >= 1024) {
           sidebar.classList.remove('-translate-x-full');
-          mainContent.classList.add('lg:ml-64');
+          sidebar.classList.add('translate-x-0');
         } else {
           sidebar.classList.add('-translate-x-full');
-          mainContent.classList.remove('lg:ml-64');
+          sidebar.classList.remove('translate-x-0');
         }
       });
     });

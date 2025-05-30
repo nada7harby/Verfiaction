@@ -9,6 +9,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <!-- Add SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -28,6 +30,69 @@
   <body
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
   >
+    <!-- Add Authentication Check Script -->
+    <script>
+        // Authentication Check
+        function checkAuth() {
+            const authToken = sessionStorage.getItem('authToken');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!authToken || userRole !== 'admin') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'You must be logged in as an admin to access this page',
+                    confirmButtonText: 'Go to Login',
+                    confirmButtonColor: '#4c1d95',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    showCloseButton: false,
+                    showDenyButton: false,
+                    showCancelButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '../index.html';
+                    }
+                });
+                return false;
+            }
+            return true;
+        }
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            // Initialize page elements and load data
+            if (typeof fetchPayments === 'function') {
+                fetchPayments();
+            }
+        });
+
+        // Logout Functionality
+        function initLogout() {
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('IdUser');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.removeItem('userRole');
+                    window.location.href = '../index.html';
+                });
+            }
+        }
+
+        // Initialize logout when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogout();
+        });
+    </script>
     <div class="flex h-full">
       <!-- Sidebar -->
       <div id="Sidebar-container"></div>
@@ -303,99 +368,6 @@
     </div>
 
     <script>
-      document.body.innerHTML = "";
-      document.body.style.backgroundColor = "white";
-      document.body.style.margin = "0";
-      document.body.style.padding = "0";
-      document.body.style.height = "100vh";
-      document.body.style.display = "flex";
-      document.body.style.justifyContent = "center";
-      document.body.style.alignItems = "center";
-
-      // Authentication Check
-      function checkAuth() {
-        const authToken = sessionStorage.getItem("authToken");
-        const userRole = sessionStorage.getItem("userRole");
-
-        if (!authToken || userRole !== "admin") {
-          Swal.fire({
-            icon: "error",
-            title: "Access Denied",
-            text: "You must be logged in as an admin to access this page",
-            confirmButtonText: "Go to Login",
-            confirmButtonColor: "#4c1d95",
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            allowEnterKey: false,
-            showConfirmButton: true,
-            showCloseButton: false,
-            showDenyButton: false,
-            showCancelButton: false,
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = "../index.html";
-            }
-          });
-          return false;
-        }
-        return true;
-      }
-
-      // Check authentication when page loads
-      document.addEventListener("DOMContentLoaded", function () {
-        if (!checkAuth()) {
-          return;
-        }
-        // If authenticated, reload the page to show content
-        window.location.reload();
-      });
-
-      // Logout Functionality
-      function initLogout() {
-        const signOutBtn = document.getElementById("sign-out-btn");
-
-        if (signOutBtn) {
-          signOutBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            sessionStorage.removeItem("authToken");
-            sessionStorage.removeItem("IdUser");
-            sessionStorage.removeItem("password");
-            sessionStorage.removeItem("userRole");
-            window.location.href = "../index.html";
-          });
-        }
-      }
-
-      // Initialize logout when DOM is loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        initLogout();
-      });
-      // Sidebar Toggle Functionality
-      const sidebarToggle = document.getElementById("sidebarToggle");
-      const sidebar = document.querySelector("aside");
-      const mainContent = document.querySelector("main");
-      const header = document.querySelector("header");
-
-      // Logout Functionality
-      function initLogout() {
-        const signOutBtn = document.getElementById("sign-out-btn");
-
-        if (signOutBtn) {
-          signOutBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            sessionStorage.removeItem("authToken");
-            sessionStorage.removeItem("IdUser");
-            sessionStorage.removeItem("password");
-            window.location.href = "../index.html";
-          });
-        }
-      }
-
-      // Initialize logout when DOM is loaded
-      document.addEventListener("DOMContentLoaded", function () {
-        initLogout();
-      });
-
       sidebarToggle.addEventListener("click", () => {
         sidebar.classList.toggle("-translate-x-full");
       });
