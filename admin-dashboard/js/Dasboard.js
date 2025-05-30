@@ -711,8 +711,17 @@ async function fetchDataForCharts() {
 
 fetch("./Sidebar.html")
   .then((response) => response.text())
-  .then((data) => {
-    document.getElementById("Sidebar-container").innerHTML = data;
-    // Initialize navbar functionality
-    loadNavbar();
+  .then((htmlString) => {
+    // Create a temporary div to parse the html string
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlString;
+
+    // Get the inner content of the aside element
+    const sidebarInnerContent = tempDiv.querySelector('aside').innerHTML;
+
+    // Inject the inner content into the sidebar container in dashboard.html
+    document.getElementById("Sidebar-container").innerHTML = sidebarInnerContent;
+
+    // Initialize navbar functionality (assuming loadNavbar is defined elsewhere or not needed with this approach)
+    // loadNavbar();
   });

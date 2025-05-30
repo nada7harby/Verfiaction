@@ -1,0 +1,156 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.7;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(to bottom right, #e9d5ff, #ffffff, #c4b5fd); /* Matching violet/white gradient */
+    color: #333; /* Dark gray text */
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: transparent; /* Remove container background */
+    padding: 0; /* Remove container padding */
+    border-radius: 0; /* Remove container border-radius */
+    box-shadow: none; /* Remove container box-shadow */
+}
+
+h1 {
+    text-align: center;
+    color: #4c1d95; /* Darker violet for main title */
+    margin-bottom: 10px;
+    font-size: 32px; /* Larger main heading */
+    font-weight: 700; /* Bold */
+    margin-top: 20px; /* Add some space at the top */
+}
+
+.effective-date {
+    text-align: center;
+    margin-bottom: 40px;
+    font-style: italic;
+    color: #555;
+    font-size: 18px; /* Slightly larger date font */
+}
+
+.terms-section {
+    margin-bottom: 30px;
+    padding-bottom: 0; /* Remove padding from section */
+    border-bottom: none; /* Remove border from section */
+}
+
+.terms-card {
+    background-color: #fff; /* White background for card */
+    padding: 25px; /* Padding inside the card */
+    border-radius: 12px; /* Rounded corners for card */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Subtle shadow for card */
+    display: flex; /* Use flexbox for content and image inside card */
+    align-items: center; /* Align items to center vertically */
+    gap: 25px; /* Gap between content and image */
+    flex-wrap: wrap; /* Allow content and image to wrap */
+    flex-direction: row-reverse; /* Image on the left, content on the right */
+}
+
+.section-content {
+    flex: 1; /* Allow content to take up available space */
+    min-width: 280px; /* Ensure content doesn't get too small */
+    padding-right: 0; /* Remove padding as gap is used */
+    /* Add padding-left if needed when image is on the left */
+}
+
+.section-image {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    width: 90px; /* Image width */
+    height: 90px; /* Image height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ede9fe; /* Light violet background for image container */
+    border-radius: 8px; /* Slightly rounded corners for image container */
+    padding: 8px; /* Padding inside image container */
+    /* Add margin-right if needed when image is on the left */
+}
+
+.section-image img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    object-fit: contain; /* Ensure image fits without distortion */
+}
+
+h2 {
+    color: #6d28d9; /* Violet color for section titles */
+    margin-top: 0;
+    margin-bottom: 8px; /* Smaller bottom margin for h2 */
+    font-size: 24px; /* Heading size */
+    font-weight: 700; /* Bold */
+}
+
+p {
+    margin-bottom: 15px;
+    font-size: 17px; /* Body text size */
+    line-height: 1.7;
+    color: #444; /* Slightly darker text color */
+}
+
+a {
+    color: #007bff; /* Keeping standard link blue for now, can change to violet if needed */
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.closing {
+    text-align: center;
+    margin-top: 40px;
+    font-weight: 700;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 15px; /* Reduce padding on smaller screens */
+    }
+    
+    .terms-card {
+        flex-direction: column; /* Stack content and image vertically on small screens */
+        align-items: center; /* Center items when stacked */
+        text-align: center; /* Center text when stacked */
+        padding: 20px; /* Reduce card padding */
+        gap: 15px; /* Reduce gap */
+    }
+
+    .section-content {
+         min-width: unset; /* Remove min-width on small screens */
+         width: 100%; /* Allow content to take full width */
+         padding-right: 0;
+    }
+
+    .section-image {
+        margin-bottom: 10px; /* Space below image when stacked */
+        width: 70px; /* Smaller image size on mobile */
+        height: 70px;
+        padding: 6px; /* Adjust image container padding */
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin-bottom: 5px; /* Adjust h2 margin */
+    }
+
+    p {
+        font-size: 16px;
+    }
+    
+    .effective-date, .closing {
+        font-size: 16px;
+    }
+} 
