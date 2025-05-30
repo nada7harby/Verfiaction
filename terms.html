@@ -15,6 +15,8 @@
                     colors: {
                         primary: '#6d28d9',
                         secondary: '#ede9fe',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
                     },
                     fontFamily: {
                         sans: ['Open Sans', 'sans-serif'],
@@ -34,8 +36,8 @@
                             '100%': { transform: 'translateY(0)', opacity: '1' },
                         },
                         cardHover: {
-                            '0%': { transform: 'translateY(0)', boxShadow: '0 4px 15px rgba(0, 0, 0, 0.08)' },
-                            '100%': { transform: 'translateY(-5px)', boxShadow: '0 10px 25px rgba(0, 0, 0, 0.12)' },
+                            '0%': { transform: 'translateY(0)', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' },
+                            '100%': { transform: 'translateY(-5px)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' },
                         },
                     },
                 }
@@ -44,166 +46,349 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            .bg-gradient-violet {
-                background: linear-gradient(to bottom right, #e9d5ff, #ffffff, #c4b5fd);
+            .card-hover-effect {
+                @apply transition-all duration-300 ease-in-out hover:animate-card-hover;
             }
         }
     </style>
 </head>
-<body class="bg-gradient-violet min-h-screen font-sans">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
-        <div class="text-center mb-12 animate-fade-in">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Terms and Conditions of Service</h1>
-            <p class="text-gray-600 italic">Effective Date: May 28, 2025</p>
+<body class="bg-white min-h-screen font-sans ">
+    <div class="container mx-auto px-4 py-12 max-w-6xl">
+        <!-- Header Section -->
+        <div class="text-center mb-16 animate-fade-in">
+            <h1 class="text-4xl md:text-5xl font-bold text-dark mb-4">Terms and Conditions of Service</h1>
+            <p class="text-gray-600 text-lg">Effective Date: May 28, 2025</p>
         </div>
 
-        <!-- Overview Section -->
-        <section id="overview" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/certificate.png" alt="Certificate Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Overview</h2>
-                        <p class="text-gray-700 text-left">Spatrak provides a digital document verification service that allows clients to request verification of educational and professional certificates. All services are provided remotely and results are delivered digitally.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Eligibility Section -->
-        <section id="eligibility" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/+18.png" alt="18+ Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Eligibility</h2>
-                        <p class="text-gray-700 text-left">You must be at least 18 years old to use our services. By using our site, you confirm that you meet this requirement.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Service Description Section -->
-        <section id="service-description" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/search certificate.png" alt="Search Certificate Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Service Description</h2>
-                        <p class="text-gray-700 text-left">Our service involves contacting relevant institutions to verify the authenticity of the documents submitted by clients. We do not alter or issue certificates; we only verify their legitimacy.</p>
+        <!-- Vision-Style Sections -->
+        <div class="space-y-8">
+            <!-- 1. Overview Section -->
+            <section id="overview" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/3 flex justify-center">
+                            
+                            <img src="./images/2813838 1.png" alt="Certificate Icon" class="w-24 h-24 md:w-32 md:h-32">
+                            
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Overview</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">Spatrak provides a digital document verification service that allows clients to request verification of educational and professional certificates. All services are provided remotely and results are delivered digitally.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Remote verification services for all document types</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Digital delivery of verification results</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Secure and reliable verification process</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Payments Section -->
-        <section id="payments" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/payment.png" alt="Payment Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Payments</h2>
-                        <p class="text-gray-700 text-left">All payments for verification services must be made in advance. Payment can be made through the methods available on our website. Prices are listed in USD unless otherwise specified.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Delivery Section -->
-        <section id="delivery" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/upload file.png" alt="Upload File Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Delivery</h2>
-                        <p class="text-gray-700 text-left">Verification results are delivered via email or through downloadable reports within the specified timeframe mentioned at the time of purchase.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Refund Policy Section -->
-        <section id="refund-policy" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/return money.png" alt="Return Money Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Refund Policy</h2>
-                        <p class="text-gray-700 text-left">Refunds may be considered only if:<br>
-                        - We are unable to process your verification due to an error on our part.<br>
-                        - The service was not delivered as described.<br>
-                        Please contact us within 7 days of delivery to request a refund.</p>
+            <!-- 2. Eligibility Section -->
+            <section id="eligibility" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/+18.png" alt="18+ Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Eligibility</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">You must be at least 18 years old to use our services. By using our site, you confirm that you meet this requirement.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Age verification required for all users</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Legal capacity to enter into agreements</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Compliance with local regulations</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Privacy Policy Section -->
-        <section id="privacy-policy" class="mb-8">
-            <div class="terms-card w-full">
-                <div class="flex flex-col md:flex-row gap-8 items-center">
-                    <div class="section-image w-24 h-24 md:w-32 md:h-32 bg-secondary rounded-full flex items-center justify-center p-4 order-1 md:order-1">
-                        <img src="./images/security.png" alt="Security Icon" class="w-full h-full object-contain">
-                    </div>
-                    <div class="section-content md:w-4/5 order-2 md:order-2 px-6 py-8">
-                        <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Privacy Policy</h2>
-                        <p class="text-gray-700 text-left">Please refer to our Privacy Policy for information on how we collect, use, and protect your personal data.</p>
+            <!-- 3. Service Description Section -->
+            <section id="service-description" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/search certificate.png" alt="Search Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Service Description</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">Our service involves contacting relevant institutions to verify the authenticity of the documents submitted by clients. We do not alter or issue certificates; we only verify their legitimacy.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Direct verification with issuing institutions</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>No document alteration services</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Comprehensive verification reports</span>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Limitation of Liability Section -->
-        <section id="limitation-of-liability" class="mb-8">
-            <div class="terms-card w-full px-8 py-8">
-                <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Limitation of Liability</h2>
-                <p class="text-gray-700 text-left">Spatrak is not responsible for any decisions made by third parties (e.g. employers, institutions) based on the verification results. We do not guarantee the outcome of the use of verified documents.</p>
-            </div>
-        </section>
+            <!-- 4. Payments Section -->
+            <section id="payments" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/payment.png" alt="Payment Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Payments</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">All payments for verification services must be made in advance. Payment can be made through the methods available on our website. Prices are listed in USD unless otherwise specified.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Advance payment required</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Multiple payment methods available</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>USD pricing standard</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Modifications Section -->
-        <section id="modifications" class="mb-8">
-            <div class="terms-card w-full px-8 py-8">
-                <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Modifications</h2>
-                <p class="text-gray-700 text-left">We reserve the right to update these Terms of Service at any time. Continued use of our website means you accept any changes.</p>
-            </div>
-        </section>
+            <!-- 5. Delivery Section -->
+            <section id="delivery" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/upload file.png" alt="Delivery Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Delivery</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">Verification results are delivered via email or through downloadable reports within the specified timeframe mentioned at the time of purchase.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Email delivery option</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Downloadable PDF reports</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Guaranteed delivery timeframe</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="mb-8">
-            <div class="terms-card w-full px-8 py-8">
-                <h2 class="text-xl md:text-2xl font-semibold text-primary mb-4 text-left">Contact</h2>
-                <p class="text-gray-700 text-left">If you have any questions or concerns about these terms, please contact us at: <a href="mailto:support@spatrak.com" class="text-blue-600 hover:text-blue-800 transition-colors">support@spatrak.com</a></p>
-            </div>
-        </section>
+            <!-- 6. Refund Policy Section -->
+            <section id="refund-policy" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/return money.png" alt="Refund Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Refund Policy</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">Refunds may be considered only if we are unable to process your verification due to an error on our part or if the service was not delivered as described.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>7-day refund request window</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Service error qualification</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Undelivered service protection</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <p class="text-center text-gray-600 text-lg italic mt-12 animate-fade-in">Thank you for choosing Spatrak.</p>
+            <!-- 7. Privacy Policy Section -->
+            <section id="privacy-policy" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/security.png" alt="Security Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Privacy Policy</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">Please refer to our Privacy Policy for information on how we collect, use, and protect your personal data.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Data protection standards</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Secure document handling</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>GDPR compliance</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. Limitation of Liability Section -->
+            <section id="limitation-of-liability" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/liability.png" alt="Liability Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Limitation of Liability</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">Spatrak is not responsible for any decisions made by third parties (e.g. employers, institutions) based on the verification results.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Third-party decision disclaimer</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Verification accuracy guarantee</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Service scope limitations</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. Modifications Section -->
+            <section id="modifications" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/modification.png" alt="Modification Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Modifications</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">We reserve the right to update these Terms of Service at any time. Continued use of our website means you accept any changes.</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Terms update policy</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Continued use agreement</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Notification of changes</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 10. Contact Section -->
+            <section id="contact" class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/5 to-secondary/10 p-8 md:p-10 rounded-2xl border-l-4 border-primary card-hover-effect">
+                    <div class="flex flex-col md:flex-row gap-8 md:gap-10 items-center">
+                        <div class="md:w-1/4 flex justify-center">
+                            <div class="bg-white p-5 md:p-6 rounded-full shadow-lg">
+                                <img src="./images/contact.png" alt="Contact Icon" class="w-20 h-20 md:w-24 md:h-24">
+                            </div>
+                        </div>
+                        <div class="md:w-3/4">
+                            <h2 class="text-2xl md:text-3xl font-bold text-dark mb-4 md:mb-5">Contact</h2>
+                            <p class="text-gray-700 text-base md:text-lg mb-4 md:mb-6">If you have any questions or concerns about these terms, please contact us at:</p>
+                            <ul class="space-y-2 md:space-y-3 text-gray-700">
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Email: <a href="mailto:support@spatrak.com" class="text-primary hover:underline">support@spatrak.com</a></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>Business hours: 9AM-5PM (GMT)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-primary mr-2">•</span>
+                                    <span>24-hour response guarantee</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Closing Section -->
+            <section class="animate-slide-up">
+                <div class="bg-gradient-to-r from-primary/10 to-primary/20 p-10 rounded-2xl border-l-4 border-primary text-center">
+                    <h2 class="text-2xl md:text-3xl font-bold text-dark mb-5">Thank you for choosing Spatrak</h2>
+                    <p class="text-gray-700 text-lg mb-6">We're committed to providing the best document verification services in the industry.</p>
+                    <a href="#" class="inline-flex items-center text-primary font-semibold text-lg hover:text-primary/80 transition-colors">
+                        Learn More
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
     </div>
 
     <script>
-        // Add hover animation to all cards
-        document.querySelectorAll('.terms-card').forEach(card => {
-            card.classList.add('bg-white', 'rounded-xl', 'shadow-md', 'overflow-hidden', 'transition-all', 'duration-300');
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('animate-card-hover');
-            });
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('animate-card-hover');
-            });
-        });
-
         // Add scroll animations
         const observerOptions = {
             threshold: 0.1
@@ -218,8 +403,8 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.terms-card').forEach(card => {
-            observer.observe(card);
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
         });
     </script>
 </body>
