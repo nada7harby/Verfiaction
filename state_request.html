@@ -25,6 +25,17 @@
         border-radius: 0.75rem; /* rounded-xl */
         padding: 1rem; /* p-4 */
         margin-top: 0.5rem; /* mt-2 */
+        /* Mobile: Two per row */
+        flex: 0 0 calc(50% - 8px); /* 50% width minus half of the gap (gap-4 is 16px total) */
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
+      }
+
+      /* Medium screens and up: flex-1 */
+      @media (min-width: 768px) { /* md breakpoint */
+        .summary-card {
+          flex: 1; /* Revert to flex-1 to take up equal space */
+          width: auto; /* Reset width */
+        }
       }
     </style>
 </head>
@@ -33,18 +44,18 @@
     <div id="navbar-container"></div>
     
     <!-- Tabs with Summary Cards -->
-    <div class="px-8 mt-[100px]">
-        <div class="flex gap-4 mb-2"> <!-- Reduced margin-bottom -->
-            <button onclick="showTable('all')" class="active-tab px-4 py-2 rounded-lg font-bold">All</button>
-            <button onclick="showTable('in-progress')" class="inactive-tab px-4 py-2 rounded-lg font-bold">In Progress</button>
-            <button onclick="showTable('on-hold')" class="inactive-tab px-4 py-2 rounded-lg font-bold">On Hold</button>
-            <button onclick="showTable('completed')" class="inactive-tab px-4 py-2 rounded-lg font-bold">Completed</button>
-            <button onclick="showTable('not-finalized')" class="inactive-tab px-4 py-2 rounded-lg font-bold">Not finalized</button>
+    <div class="px-4 md:px-8 mt-[100px]">
+        <div class="flex gap-2 md:gap-4 mb-4 md:mb-2 flex-wrap justify-center md:justify-start"> <!-- Allow tabs to wrap and adjust gap -->
+            <button onclick="showTable('all')" class="active-tab px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-sm md:text-base">All</button>
+            <button onclick="showTable('in-progress')" class="inactive-tab px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-sm md:text-base">In Progress</button>
+            <button onclick="showTable('on-hold')" class="inactive-tab px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-sm md:text-base">On Hold</button>
+            <button onclick="showTable('completed')" class="inactive-tab px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-sm md:text-base">Completed</button>
+            <button onclick="showTable('not-finalized')" class="inactive-tab px-3 py-1 md:px-4 md:py-2 rounded-lg font-bold text-sm md:text-base">Not finalized</button>
         </div>
 
         <!-- Summary Cards Row -->
-        <div class="flex gap-4 mb-6">
-            <div class="summary-card flex-1">
+        <div class="flex flex-row flex-wrap gap-4 mb-6"> <!-- Use flex-row and allow wrapping -->
+            <div class="summary-card w-full sm:w-1/2 md:flex-1"> <!-- Take full width on small, half on sm, flex-1 on medium+ -->
                 <div class="flex justify-between items-center">
                     <span class="font-bold text-violet-900">Total Requests</span>
                     <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">24</span>
@@ -52,7 +63,7 @@
                 <div class="mt-2 text-sm text-gray-600">All requests in the system</div>
             </div>
             
-            <div class="summary-card flex-1">
+            <div class="summary-card w-full sm:w-1/2 md:flex-1"> <!-- Take full width on small, half on sm, flex-1 on medium+ -->
                 <div class="flex justify-between items-center">
                     <span class="font-bold text-violet-900">In Progress</span>
                     <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">6</span>
@@ -60,7 +71,7 @@
                 <div class="mt-2 text-sm text-gray-600">Requests being processed</div>
             </div>
             
-            <div class="summary-card flex-1">
+            <div class="summary-card w-full sm:w-1/2 md:flex-1"> <!-- Take full width on small, half on sm, flex-1 on medium+ -->
                 <div class="flex justify-between items-center">
                     <span class="font-bold text-violet-900">On Hold</span>
                     <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">3</span>
@@ -68,7 +79,7 @@
                 <div class="mt-2 text-sm text-gray-600">Requests pending action</div>
             </div>
             
-            <div class="summary-card flex-1">
+            <div class="summary-card w-full sm:w-1/2 md:flex-1"> <!-- Take full width on small, half on sm, flex-1 on medium+ -->
                 <div class="flex justify-between items-center">
                     <span class="font-bold text-violet-900">Completed</span>
                     <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">12</span>
@@ -76,7 +87,7 @@
                 <div class="mt-2 text-sm text-gray-600">Finished requests</div>
             </div>
             
-            <div class="summary-card flex-1">
+            <div class="summary-card w-full sm:w-1/2 md:flex-1"> <!-- Take full width on small, half on sm, flex-1 on medium+ -->
                 <div class="flex justify-between items-center">
                     <span class="font-bold text-violet-900">Not Finalized</span>
                     <span class="bg-violet-700 text-white rounded-full px-2 py-1 text-sm">3</span>
