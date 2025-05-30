@@ -410,78 +410,78 @@ function fetchRecentRequests() {
     const tableBody = getElement("requestsTableBody");
     if (!tableBody) return;
 
-    fetch("https://backend-production-816c.up.railway.app/api/requests/")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            let requests = data;
-            if (data && data.requests) {
-                requests = data.requests;
-            }
+  fetch("https://backend-production-816c.up.railway.app/api/requests/")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      let requests = data;
+      if (data && data.requests) {
+        requests = data.requests;
+      }
 
-            requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            const recentRequests = requests.slice(0, 2);
+      requests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const recentRequests = requests.slice(0, 2);
 
-            if (recentRequests.length === 0) {
+      if (recentRequests.length === 0) {
                 setInnerHTMLSafe(tableBody, `
-                    <tr>
-                        <td colspan="4" class="px-6 py-4 text-center text-violet-900">
-                            No requests found
-                        </td>
-                    </tr>
+          <tr>
+            <td colspan="4" class="px-6 py-4 text-center text-violet-900">
+              No requests found
+            </td>
+          </tr>
                 `);
-                return;
-            }
+        return;
+      }
 
             let tableContent = '';
-            recentRequests.forEach((request) => {
-                let statusClass = "bg-gray-100 text-gray-800";
-                if (request.status === "approved") {
-                    statusClass = "bg-green-100 text-green-800";
-                } else if (request.status === "pending") {
-                    statusClass = "bg-yellow-100 text-yellow-800";
-                } else if (request.status === "rejected") {
-                    statusClass = "bg-red-100 text-red-800";
-                }
+      recentRequests.forEach((request) => {
+        let statusClass = "bg-gray-100 text-gray-800";
+        if (request.status === "approved") {
+          statusClass = "bg-green-100 text-green-800";
+        } else if (request.status === "pending") {
+          statusClass = "bg-yellow-100 text-yellow-800";
+        } else if (request.status === "rejected") {
+          statusClass = "bg-red-100 text-red-800";
+        }
 
-                const requestDate = request.createdAt
-                    ? new Date(request.createdAt).toLocaleDateString()
-                    : "N/A";
+        const requestDate = request.createdAt
+          ? new Date(request.createdAt).toLocaleDateString()
+          : "N/A";
 
                 tableContent += `
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                            ${request._id || "N/A"}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                            ${request.lastName || request.user?.name || "N/A"}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                            ${requestDate}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="${statusClass} px-2 py-1 rounded-full text-sm capitalize">
-                                ${request.status || "unknown"}
-                            </span>
-                        </td>
+          <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+            ${request._id || "N/A"}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+            ${request.lastName || request.user?.name || "N/A"}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+            ${requestDate}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="${statusClass} px-2 py-1 rounded-full text-sm capitalize">
+              ${request.status || "unknown"}
+            </span>
+          </td>
                     </tr>
-                `;
-            });
+        `;
+      });
 
             setInnerHTMLSafe(tableBody, tableContent);
-        })
-        .catch((error) => {
-            console.error("Error fetching requests:", error);
+    })
+    .catch((error) => {
+      console.error("Error fetching requests:", error);
             setInnerHTMLSafe(tableBody, `
-                <tr>
-                    <td colspan="4" class="px-6 py-4 text-center text-violet-900">
-                        Error loading requests. Please try again later.
-                    </td>
-                </tr>
+        <tr>
+          <td colspan="4" class="px-6 py-4 text-center text-violet-900">
+            Error loading requests. Please try again later.
+          </td>
+        </tr>
             `);
         });
 }
@@ -492,8 +492,8 @@ async function initializeCharts() {
         const data = await fetchDataForCharts();
         if (!data || !Array.isArray(data)) {
             console.error("Invalid data format received");
-            return;
-        }
+        return;
+      }
 
         // Calculate counts from API data
         const totalRequests = data.length;
@@ -678,7 +678,7 @@ document.addEventListener("DOMContentLoaded", () => {
         initializeCharts();
         fetchRecentRequests();
     }, 300000);
-});
+  });
 
 // Function to fetch and process data for charts
 async function fetchDataForCharts() {
@@ -724,4 +724,4 @@ fetch("./Sidebar.html")
 
     // Initialize navbar functionality (assuming loadNavbar is defined elsewhere or not needed with this approach)
     // loadNavbar();
-  });
+});

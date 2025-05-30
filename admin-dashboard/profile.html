@@ -30,6 +30,89 @@
   <body
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
   >
+    <!-- Add Authentication Check Script -->
+    <script>
+        // Authentication Check
+        function checkAuth() {
+            const authToken = sessionStorage.getItem('authToken');
+            const userRole = sessionStorage.getItem('userRole');
+            
+            if (!authToken) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Access Denied',
+                    text: 'You must be logged in to access this page',
+                    confirmButtonText: 'Go to Login',
+                    confirmButtonColor: '#4c1d95',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showConfirmButton: true,
+                    showCloseButton: false,
+                    showDenyButton: false,
+                    showCancelButton: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '../index.html';
+                    }
+                });
+                return false;
+            }
+
+            // Handle sidebar visibility based on user role
+            const requestsBtn = document.getElementById('sidebar-requests');
+            const addVerificationBtn = document.getElementById('sidebar-add-verification');
+            const contactBtn = document.getElementById('sidebar-contact');
+
+            if (userRole === 'admin') {
+              console.log(";;;");
+              
+                // Hide these buttons for admin
+                requestsBtn.style.display = 'none';
+                addVerificationBtn.style.display = 'none';
+                contactBtn.style.display = 'none';
+            } else {
+                // Show these buttons for regular users
+                requestsBtn.style.display = 'flex';
+                addVerificationBtn.style.display = 'flex';
+                contactBtn.style.display = 'flex';
+            }
+
+            return true;
+        }
+
+        // Check authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) {
+                return;
+            }
+            // Initialize page elements and load data
+            if (typeof fetchUserProfile === 'function') {
+                fetchUserProfile();
+            }
+        });
+
+        // Logout Functionality
+        function initLogout() {
+            const signOutBtn = document.getElementById('sign-out-btn');
+            
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    sessionStorage.removeItem('authToken');
+                    sessionStorage.removeItem('IdUser');
+                    sessionStorage.removeItem('password');
+                    sessionStorage.removeItem('userRole');
+                    window.location.href = '../index.html';
+                });
+            }
+        }
+
+        // Initialize logout when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initLogout();
+        });
+    </script>
     <div class="flex h-full min-h-screen">
       <!-- Sidebar -->
       <aside
@@ -85,6 +168,7 @@
         <div class="mt-auto p-6">
           <a
             href="#"
+            id="sign-out-btn"
             class="flex items-center space-x-3 p-3 rounded-lg text-red-500 hover:bg-red-50 font-bold"
           >
             <i class="fas fa-sign-out-alt"></i>
@@ -93,7 +177,7 @@
         </div>
       </aside>
       <!-- Main Content -->
-      <div class="flex-1 lg:ml-64 p-8 pt-20">
+      <div class="flex-1 p-4 pt-8 lg:ml-64">
         <!-- Header for mobile toggle -->
         <header class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40 lg:hidden">
           <div class="container mx-auto px-4 py-3 flex items-center">
@@ -106,7 +190,7 @@
             <h1 class="text-xl font-bold">User Profile</h1>
           </div>
         </header>
-      <div class="flex-1 lg:ml-64 p-8">
+      <div class="flex-1 lg:ml-55 p-8">
         <!-- Sidebar Toggle Button -->
         <button
           id="sidebarToggle"
@@ -115,7 +199,7 @@
           <i class="fas fa-bars"></i>
         </button>
 
-        <div class="w-3/4 mx-auto" id="profile-section">
+        <div class="w-full mx-auto" id="profile-section">
           <div
             class="flex flex-col bg-white/95 rounded-2xl shadow-2xl overflow-hidden items-center py-10 px-6"
           >
@@ -795,78 +879,49 @@
     </div>
     <script src="js/profile.js"></script>
     <script>
-         document.body.innerHTML = '';
-        document.body.style.backgroundColor = 'white';
-        document.body.style.margin = '0';
-        document.body.style.padding = '0';
-        document.body.style.height = '100vh';
-        document.body.style.display = 'flex';
-        document.body.style.justifyContent = 'center';
-        document.body.style.alignItems = 'center';
-
-        // Authentication Check
-        function checkAuth() {
-            const authToken = sessionStorage.getItem('authToken');
-            const userRole = sessionStorage.getItem('userRole');
-            
-            if (!authToken || userRole !== 'user') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Access Denied',
-                    text: 'You must be logged at First',
-                    confirmButtonText: 'Go to Login',
-                    confirmButtonColor: '#4c1d95',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                    showConfirmButton: true,
-                    showCloseButton: false,
-                    showDenyButton: false,
-                    showCancelButton: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '../index.html';
-                    }
-                });
-                return false;
-            }
-            return true;
-        }
-
-        // Check authentication when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!checkAuth()) {
-                return;
-            }
-            // If authenticated, reload the page to show content
-            window.location.reload();
-        });
-
-        // Logout Functionality
-        function initLogout() {
-            const signOutBtn = document.getElementById('sign-out-btn');
-            
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('IdUser');
-                    sessionStorage.removeItem('password');
-                    sessionStorage.removeItem('userRole');
-                    window.location.href = '../index.html';
-                });
-            }
-        }
-
-        // Initialize logout when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initLogout();
-        });
     // Sidebar Toggle Functionality
     document.addEventListener('DOMContentLoaded', function() {
       const sidebar = document.getElementById('sidebar');
       const sidebarToggle = document.getElementById('sidebarToggle');
       const mainContent = document.querySelector('.flex-1');
+
+      const requestsBtn = document.getElementById('sidebar-requests');
+const addVerificationBtn = document.getElementById('sidebar-add-verification');
+const contactBtn = document.getElementById('sidebar-contact');
+
+if (userRole === 'admin') {
+  // Hide these buttons for admin
+  requestsBtn.style.display = 'none';
+  addVerificationBtn.style.display = 'none';
+  contactBtn.style.display = 'none';
+} else {
+  // Show these buttons for regular users
+  requestsBtn.style.display = 'flex';
+  addVerificationBtn.style.display = 'flex';
+  contactBtn.style.display = 'flex';
+}
+      // Function to handle sidebar visibility based on user role
+      // function handleSidebarVisibility() {
+      //   const userRole = sessionStorage.getItem('userRole');
+      //   const requestsBtn = document.getElementById('sidebar-requests');
+      //   const addVerificationBtn = document.getElementById('sidebar-add-verification');
+      //   const contactBtn = document.getElementById('sidebar-contact');
+
+      //   if (userRole === 'admin') {
+      //     // Hide these buttons for admin
+      //     requestsBtn.style.display = 'none';
+      //     addVerificationBtn.style.display = 'none';
+      //     contactBtn.style.display = 'none';
+      //   } else {
+      //     // Show these buttons for regular users
+      //     requestsBtn.style.display = 'flex';
+      //     addVerificationBtn.style.display = 'flex';
+      //     contactBtn.style.display = 'flex';
+      //   }
+      // }
+
+      // // Call the function when page loads
+      // handleSidebarVisibility();
 
       // Function to toggle sidebar
       function toggleSidebar() {
