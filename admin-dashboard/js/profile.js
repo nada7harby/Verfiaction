@@ -399,7 +399,9 @@ function applyFilters() {
       row.dataset.requestId = request._id;
       row.innerHTML = `
                     <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg font-semibold">${
-                      request._id || "N/A"
+                      request._id
+                        ?  "RV"+request._id.substring(0, 6) 
+                        : "N/A"
                     }</td>
                     <td class="px-6 py-5 whitespace-nowrap">
                         <div class="flex items-center space-x-3">
@@ -581,7 +583,7 @@ function renderRequestDetails(request) {
                             <p class="text-sm text-violet-600">Request ID</p>
                             <p class="font-medium break-words">  ${
                               request._id
-                                ? request._id.substring(0, 6) + "..."
+                                ? "RV" + request._id.substring(0, 6)
                                 : "N/A"
                             }</p>
                         </div>

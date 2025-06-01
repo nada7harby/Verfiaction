@@ -158,13 +158,11 @@ window.addEventListener('DOMContentLoaded', function() {
 </script>
 
     <!-- Navbar -->
-    <!-- <div id="navbar-container"></div> -->
-    <!--#include file="navbar.html" -->
-<div
+   <div
   class="w-full bg-white shadow-[0_4px_24px_0_rgba(80,80,180,0.10)] fixed top-0 left-0 right-0 z-50"
   style="margin-top: 0"
 >
-  <nav class="glass py-3 shadow-none w-full max-w-6xl mx-auto bg-white">
+  <nav class="glass py-3 shadow-none w-full max-w-6xl mx-auto bg-white" style=" text-align: center;">
     <div class="flex items-center justify-between w-full">
       <!-- Logo and Site Name (far left) -->
       <div class="flex items-center gap-3 min-w-0">
@@ -186,11 +184,7 @@ window.addEventListener('DOMContentLoaded', function() {
           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
           >Home</a
         >
-        <a
-          href="admin-dashboard/dashboard.html"
-          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-          >Dashboard</a
-        >
+        
         <a
           href="verify.html"
           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
@@ -207,10 +201,10 @@ window.addEventListener('DOMContentLoaded', function() {
           >Payment</a
         >
         <a
-        href="terms.html"
-        class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-        >Conditions</a
-      >
+          href="terms.html"
+          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+          >Terms and Conditions</a
+        >
       </div>
       <!-- Hamburger for mobile (far right) -->
       <div class="md:hidden flex items-center ml-auto">
@@ -270,11 +264,7 @@ window.addEventListener('DOMContentLoaded', function() {
         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
         >Home</a
       >
-      <a
-        href="dashboard.html"
-        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-        >Dashboard</a
-      >
+     
       <a
         href="verify.html"
         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
@@ -290,6 +280,11 @@ window.addEventListener('DOMContentLoaded', function() {
         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
         >Payment</a
       >
+      <a
+        href="terms.html"
+        class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+        >Terms and Conditions</a
+      >
       <div class="border-t border-violet-100 my-2"></div>
       <div id="mobile-user-section">
         <!-- Mobile user section will be populated by JavaScript -->
@@ -302,9 +297,15 @@ window.addEventListener('DOMContentLoaded', function() {
   document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded");
 
-    // Check for token in session storage
+    // Check for token and user role in session storage
     const token = sessionStorage.getItem('authToken');
+    const userRole = sessionStorage.getItem('userRole');
     const isLoggedIn = !!token;
+    const isAdmin = userRole === 'admin';
+
+    console.log('Login Status:', isLoggedIn);
+    console.log('User Role:', userRole);
+    console.log('Is Admin:', isAdmin);
 
     // Get dropdown elements
     const avatarDropdownBtn = document.getElementById('avatar-dropdown-btn');
@@ -312,6 +313,21 @@ window.addEventListener('DOMContentLoaded', function() {
     const mobileUserSection = document.getElementById('mobile-user-section');
     const navToggle = document.getElementById("nav-toggle");
     const mobileMenu = document.getElementById("mobile-menu");
+    const desktopDashboardLink = document.getElementById('desktop-dashboard-link');
+    const mobileDashboardLink = document.getElementById('mobile-dashboard-link');
+
+    // Function to handle Dashboard visibility
+    function handleDashboardVisibility() {
+      if (isAdmin) {
+        // Show Dashboard for admin
+        if (desktopDashboardLink) desktopDashboardLink.classList.remove('hidden');
+        if (mobileDashboardLink) mobileDashboardLink.classList.remove('hidden');
+      } else {
+        // Hide Dashboard for non-admin users
+        if (desktopDashboardLink) desktopDashboardLink.classList.add('hidden');
+        if (mobileDashboardLink) mobileDashboardLink.classList.add('hidden');
+      }
+    }
 
     // Function to populate dropdown menu based on login status
     function updateDropdownMenus() {
@@ -319,7 +335,7 @@ window.addEventListener('DOMContentLoaded', function() {
       if (isLoggedIn) {
         avatarDropdownMenu.innerHTML = `
           <a href="admin-dashboard/profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
-          <a href="dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>
+          ${isAdmin ? '<a href="admin-dashboard/dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>' : ''}
           <a href="#" id="sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
         `;
       } else {
@@ -341,7 +357,7 @@ window.addEventListener('DOMContentLoaded', function() {
             <span class="text-violet-900 font-semibold">User</span>
           </div>
           <a href="admin-dashboard/profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
-          <a href="dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>
+          ${isAdmin ? '<a href="admin-dashboard/dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>' : ''}
           <a href="#" id="mobile-sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
         `;
       } else {
@@ -362,6 +378,7 @@ window.addEventListener('DOMContentLoaded', function() {
             sessionStorage.removeItem('authToken');
             sessionStorage.removeItem('IdUser');
             sessionStorage.removeItem('password');
+            sessionStorage.removeItem('userRole');
             window.location.href = 'index.html';
           });
         }
@@ -370,14 +387,18 @@ window.addEventListener('DOMContentLoaded', function() {
           mobileSignOutBtn.addEventListener('click', function(e) {
             e.preventDefault();
             sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('IdUser');
+            sessionStorage.removeItem('password');
+            sessionStorage.removeItem('userRole');
             window.location.href = 'index.html';
           });
         }
       }
     }
 
-    // Initialize dropdown menus
+    // Initialize menus and handle Dashboard visibility
     updateDropdownMenus();
+    handleDashboardVisibility();
 
     // Toggle dropdown menu on click (for better mobile UX)
     if (avatarDropdownBtn && avatarDropdownMenu) {
@@ -498,7 +519,6 @@ window.addEventListener('DOMContentLoaded', function() {
         }
       });
     }
-
   });
 </script>
     <!-- 1. Auto Slider Section -->
