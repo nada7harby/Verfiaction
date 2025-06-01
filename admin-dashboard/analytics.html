@@ -26,7 +26,143 @@
       };
     </script>
   </head>
-  <body
+  <body>
+       <!-- Navbar -->
+   <div
+   class="w-full bg-white shadow-[0_4px_24px_0_rgba(80,80,180,0.10)] fixed top-0 left-0 right-0 z-50"
+   style="margin-top: 0"
+ >
+   <nav class="glass py-3 shadow-none w-full max-w-6xl mx-auto bg-white" style=" text-align: center;">
+     <div class="flex items-center justify-between w-full">
+       <!-- Logo and Site Name (far left) -->
+       <div class="flex items-center gap-3 min-w-0">
+         <img
+           src="images/logo-removebg-preview.png"
+           alt="SPATRAK Logo"
+           class="h-12 w-12 object-contain"
+           onerror="this.src='https://via.placeholder.com/48'"
+         />
+         <span
+           class="text-2xl font-bold text-violet-900 tracking-wide whitespace-nowrap"
+           >SPATRAK</span
+         >
+       </div>
+       <!-- Desktop Centered Navigation Links -->
+       <div id="nav-menu" class="hidden md:flex gap-6 items-center mx-auto">
+         <a
+           href="index.html"
+           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+           >Home</a
+         >
+         
+         <a
+           href="verify.html"
+           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+           >Verify</a
+         >
+         <a
+           href="state_request.html"
+           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+           >Requests</a
+         >
+         <a
+           href="payment.html"
+           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+           >Payment</a
+         >
+         <a
+           href="terms.html"
+           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+           >Conditions</a
+         >
+       </div>
+       <!-- Hamburger for mobile (far right) -->
+       <div class="md:hidden flex items-center ml-auto">
+         <button id="nav-toggle" class="text-violet-900 focus:outline-none">
+           <svg
+             class="w-8 h-8"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg"
+           >
+             <path
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width="2"
+               d="M4 6h16M4 12h16M4 18h16"
+             ></path>
+           </svg>
+         </button>
+       </div>
+       <!-- Desktop User Avatar Dropdown (far right) -->
+       <div class="relative group ml-4 hidden md:block">
+         <button id="avatar-dropdown-btn" class="focus:outline-none flex items-center">
+           <img
+             src="images/Sample_User_Icon.png"
+             alt="User"
+             class="h-10 w-10 rounded-full border-2 border-violet-300 shadow-sm"
+             onerror="this.src='images/Sample_User_Icon.png'"
+           />
+           <svg
+             class="w-4 h-4 ml-2 text-violet-900"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg"
+           >
+             <path
+               stroke-linecap="round"
+               stroke-linejoin="round"
+               stroke-width="2"
+               d="M19 9l-7 7-7-7"
+             ></path>
+           </svg>
+         </button>
+         <div
+           id="avatar-dropdown-menu"
+           class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus:opacity-100 group-focus:visible transition-opacity duration-200 z-50"
+         >
+           <!-- Menu items will be populated by JavaScript -->
+         </div>
+       </div>
+     </div>
+     <!-- Mobile Menu: links + user dropdown inside -->
+     <div id="mobile-menu" class="hidden flex-col gap-2 mt-4">
+       <a
+         href="index.html"
+         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+         >Home</a
+       >
+      
+       <a
+         href="verify.html"
+         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+         >Verify</a
+       >
+       <a
+         href="state_request.html"
+         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+         >Requests</a
+       >
+       <a
+         href="payment.html"
+         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+         >Payment</a
+       >
+       <a
+         href="terms.html"
+         class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
+         >Terms and Conditions</a
+       >
+       <div class="border-t border-violet-100 my-2"></div>
+       <div id="mobile-user-section">
+         <!-- Mobile user section will be populated by JavaScript -->
+       </div>
+     </div>
+   </nav>
+ </div>
+  <div
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
   >
     <div class="flex h-full">
@@ -536,5 +672,6 @@
           loadNavbar();
         });
     </script>
+    </div>
   </body>
 </html>
