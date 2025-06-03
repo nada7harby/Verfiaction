@@ -5,14 +5,42 @@
     <title>Verify a degree</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       body,
       * {
         font-family: "GE SS Unique", sans-serif !important;
       }
+      #mainContent {
+        display: none;
+      }
     </style>
+    <script>
+      // Check authentication on page load
+      window.addEventListener('load', function() {
+        const token = sessionStorage.getItem('authToken');
+        if (!token) {
+          Swal.fire({
+            title: 'Authentication Required',
+            text: 'Please login to access this page',
+            icon: 'warning',
+            confirmButtonText: 'Login',
+            confirmButtonColor: '#7e22ce'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = 'index.html';
+            } else {
+              window.location.href = 'index.html';
+            }
+          });
+        } else {
+          document.getElementById('mainContent').style.display = 'block';
+        }
+      });
+    </script>
   </head>
   <body class="bg-gradient-to-b from-gray-100 to-violet-200 min-h-screen">
+    <div id="mainContent">
    <!-- Navbar -->
    <div
   class="w-full bg-white shadow-[0_4px_24px_0_rgba(80,80,180,0.10)] fixed top-0 left-0 right-0 z-50"
@@ -1018,5 +1046,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+  </div>
   </body>
 </html>
