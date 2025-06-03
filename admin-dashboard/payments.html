@@ -11,6 +11,10 @@
     />
     <!-- Add SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Add jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- Add jspdf-autotable plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -29,141 +33,9 @@
   </head>
   <body
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
-  >   <!-- Navbar -->
-  <div
- class="w-full bg-white shadow-[0_4px_24px_0_rgba(80,80,180,0.10)] fixed top-0 left-0 right-0 z-50"
- style="margin-top: 0"
->
- <nav class="glass py-3 shadow-none w-full max-w-6xl mx-auto bg-white" style=" text-align: center;">
-   <div class="flex items-center justify-between w-full">
-     <!-- Logo and Site Name (far left) -->
-     <div class="flex items-center gap-3 min-w-0">
-       <img
-         src="images/logo-removebg-preview.png"
-         alt="SPATRAK Logo"
-         class="h-12 w-12 object-contain"
-         onerror="this.src='https://via.placeholder.com/48'"
-       />
-       <span
-         class="text-2xl font-bold text-violet-900 tracking-wide whitespace-nowrap"
-         >SPATRAK</span
-       >
-     </div>
-     <!-- Desktop Centered Navigation Links -->
-     <div id="nav-menu" class="hidden md:flex gap-6 items-center mx-auto">
-       <a
-         href="index.html"
-         class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-         >Home</a
-       >
-       
-       <a
-         href="verify.html"
-         class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-         >Verify</a
-       >
-       <a
-         href="state_request.html"
-         class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-         >Requests</a
-       >
-       <a
-         href="payment.html"
-         class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-         >Payment</a
-       >
-       <a
-         href="terms.html"
-         class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-         >Conditions</a
-       >
-     </div>
-     <!-- Hamburger for mobile (far right) -->
-     <div class="md:hidden flex items-center ml-auto">
-       <button id="nav-toggle" class="text-violet-900 focus:outline-none">
-         <svg
-           class="w-8 h-8"
-           fill="none"
-           stroke="currentColor"
-           viewBox="0 0 24 24"
-           xmlns="http://www.w3.org/2000/svg"
-         >
-           <path
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             stroke-width="2"
-             d="M4 6h16M4 12h16M4 18h16"
-           ></path>
-         </svg>
-       </button>
-     </div>
-     <!-- Desktop User Avatar Dropdown (far right) -->
-     <div class="relative group ml-4 hidden md:block">
-       <button id="avatar-dropdown-btn" class="focus:outline-none flex items-center">
-         <img
-           src="images/Sample_User_Icon.png"
-           alt="User"
-           class="h-10 w-10 rounded-full border-2 border-violet-300 shadow-sm"
-           onerror="this.src='images/Sample_User_Icon.png'"
-         />
-         <svg
-           class="w-4 h-4 ml-2 text-violet-900"
-           fill="none"
-           stroke="currentColor"
-           viewBox="0 0 24 24"
-           xmlns="http://www.w3.org/2000/svg"
-         >
-           <path
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             stroke-width="2"
-             d="M19 9l-7 7-7-7"
-           ></path>
-         </svg>
-       </button>
-       <div
-         id="avatar-dropdown-menu"
-         class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus:opacity-100 group-focus:visible transition-opacity duration-200 z-50"
-       >
-         <!-- Menu items will be populated by JavaScript -->
-       </div>
-     </div>
-   </div>
-   <!-- Mobile Menu: links + user dropdown inside -->
-   <div id="mobile-menu" class="hidden flex-col gap-2 mt-4">
-     <a
-       href="index.html"
-       class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-       >Home</a
-     >
+  >
+    <!-- Navbar -->
     
-     <a
-       href="verify.html"
-       class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-       >Verify</a
-     >
-     <a
-       href="state_request.html"
-       class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-       >Requests</a
-     >
-     <a
-       href="payment.html"
-       class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-       >Payment</a
-     >
-     <a
-       href="terms.html"
-       class="block text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-       >Terms and Conditions</a
-     >
-     <div class="border-t border-violet-100 my-2"></div>
-     <div id="mobile-user-section">
-       <!-- Mobile user section will be populated by JavaScript -->
-     </div>
-   </div>
- </nav>
-</div>
     <!-- Add Authentication Check Script -->
     <script>
         // Authentication Check
@@ -388,12 +260,20 @@
                         >Success</span
                       >
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
                       <button
                         onclick="showPaymentDetails('INV-001')"
                         class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-3 py-1 rounded-lg transition duration-300"
+                        title="View Details"
                       >
                         <i class="fas fa-eye"></i>
+                      </button>
+                      <button
+                        onclick="downloadInvoice('INV-001')"
+                        class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1 rounded-lg transition duration-300"
+                        title="Download Invoice"
+                      >
+                        <i class="fas fa-download"></i>
                       </button>
                     </td>
                   </tr>
@@ -416,12 +296,20 @@
                         >Pending</span
                       >
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
+                    <td class="px-6 py-4 whitespace-nowrap flex space-x-2">
                       <button
                         onclick="showPaymentDetails('INV-002')"
                         class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-3 py-1 rounded-lg transition duration-300"
+                        title="View Details"
                       >
                         <i class="fas fa-eye"></i>
+                      </button>
+                      <button
+                        onclick="downloadInvoice('INV-002')"
+                        class="bg-green-100 hover:bg-green-200 text-green-800 px-3 py-1 rounded-lg transition duration-300"
+                        title="Download Invoice"
+                      >
+                        <i class="fas fa-download"></i>
                       </button>
                     </td>
                   </tr>
@@ -497,6 +385,15 @@
             <p class="text-sm text-violet-600 mb-2">Transaction ID</p>
             <p class="text-violet-900" id="modalTransactionId">TRX-123456789</p>
           </div>
+          <div class="border-t border-violet-100 pt-4 flex justify-end">
+            <button
+              id="downloadInvoiceBtn"
+              onclick="downloadCurrentInvoice()"
+              class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-300 flex items-center"
+            >
+              <i class="fas fa-download mr-2"></i> Download Invoice
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -518,38 +415,37 @@
         }
       });
 
-      // Modal Functionality
+      // Sample payment details data
+      const paymentDetails = {
+        "INV-001": {
+          invoiceNumber: "INV-001",
+          date: "2024-03-15",
+          customer: "John Doe",
+          amount: "$1,200.00",
+          paymentMethod: "Credit Card",
+          status: "Success",
+          description: "Payment for verification services and document processing.",
+          transactionId: "TRX-123456789",
+        },
+        "INV-002": {
+          invoiceNumber: "INV-002",
+          date: "2024-03-14",
+          customer: "Jane Smith",
+          amount: "$800.00",
+          paymentMethod: "PayPal",
+          status: "Pending",
+          description: "Payment for document verification and processing.",
+          transactionId: "TRX-987654321",
+        },
+      };
+
+      let currentInvoice = null;
       const modal = document.getElementById("paymentModal");
 
       function showPaymentDetails(invoiceNumber) {
-        // In a real application, you would fetch the payment details from your backend
-        // For now, we'll use sample data
-        const paymentDetails = {
-          "INV-001": {
-            invoiceNumber: "INV-001",
-            date: "2024-03-15",
-            customer: "John Doe",
-            amount: "$1,200.00",
-            paymentMethod: "Credit Card",
-            status: "Success",
-            description:
-              "Payment for verification services and document processing.",
-            transactionId: "TRX-123456789",
-          },
-          "INV-002": {
-            invoiceNumber: "INV-002",
-            date: "2024-03-14",
-            customer: "Jane Smith",
-            amount: "$800.00",
-            paymentMethod: "PayPal",
-            status: "Pending",
-            description: "Payment for document verification and processing.",
-            transactionId: "TRX-987654321",
-          },
-        };
-
         const details = paymentDetails[invoiceNumber];
         if (details) {
+          currentInvoice = details;
           document.getElementById("modalInvoiceNumber").textContent =
             details.invoiceNumber;
           document.getElementById("modalDate").textContent = details.date;
@@ -587,7 +483,144 @@
           closePaymentModal();
         }
       });
-      fetch("./Sidebar.html")
+
+      // Function to download invoice from table row
+      function downloadInvoice(invoiceNumber) {
+        const details = paymentDetails[invoiceNumber];
+        if (details) {
+          generateInvoicePDF(details);
+        }
+      }
+
+      // Function to download current invoice from modal
+      function downloadCurrentInvoice() {
+        if (currentInvoice) {
+          generateInvoicePDF(currentInvoice);
+        }
+      }
+
+      // Function to generate PDF invoice
+   function generateInvoicePDF(invoiceData) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // إعداد الألوان الأساسية (Violet)
+    const primaryColor = [76, 29, 149]; // Violet-900
+    const primaryLight = [221, 214, 254]; // Violet-200
+    const primaryMedium = [167, 139, 250]; // Violet-400
+    
+    // إضافة خلفية متدرجة (Gradient)
+    doc.setFillColor(primaryLight[0], primaryLight[1], primaryLight[2]);
+    doc.rect(0, 0, 220, 30, 'F');
+    doc.setFillColor(255, 255, 255);
+    doc.rect(0, 30, 220, 240, 'F');
+    doc.setFillColor(primaryMedium[0], primaryMedium[1], primaryMedium[2]);
+    doc.rect(0, 270, 220, 30, 'F');
+    
+    // إضافة شعار و عنوان
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(24);
+    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.text("SPATRAK", 105, 20, { align: 'center' });
+    
+    // عنوان الفاتورة
+    doc.setFontSize(18);
+    doc.text("INVOICE", 105, 40, { align: 'center' });
+    
+    // معلومات الشركة
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text("123 Main Street, Cairo, Egypt", 105, 50, { align: 'center' });
+    doc.text("Phone: +20 100 123 4567 | Email: info@spatrak.com", 105, 55, { align: 'center' });
+    
+    // خط فاصل
+    doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.setLineWidth(0.5);
+    doc.line(20, 60, 190, 60);
+    
+    // تفاصيل الفاتورة
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    doc.setFont("helvetica", "bold");
+    doc.text("Invoice Number:", 20, 75);
+    doc.text("Date:", 20, 85);
+    doc.text("Customer:", 20, 95);
+    doc.text("Status:", 120, 75);
+    doc.text("Payment Method:", 120, 85);
+    
+    doc.setFont("helvetica", "normal");
+    doc.text(invoiceData.invoiceNumber, 50, 75);
+    doc.text(invoiceData.date, 50, 85);
+    doc.text(invoiceData.customer, 50, 95);
+    doc.text(invoiceData.status, 150, 75);
+    doc.text(invoiceData.paymentMethod, 150, 85);
+    
+    // جدول العناصر
+    doc.autoTable({
+        startY: 110,
+        head: [['Description', 'Amount']],
+        body: [
+            [invoiceData.description, invoiceData.amount],
+            ['', ''],
+            ['Subtotal', invoiceData.amount],
+            ['Tax (0%)', '$0.00'],
+            ['Total', invoiceData.amount]
+        ],
+        styles: {
+            font: 'helvetica',
+            fontSize: 10,
+            cellPadding: 5,
+            halign: 'right',
+            valign: 'middle'
+        },
+        headStyles: {
+            fillColor: primaryColor,
+            textColor: [255, 255, 255],
+            fontStyle: 'bold'
+        },
+        bodyStyles: {
+            textColor: [0, 0, 0]
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245]
+        },
+        columnStyles: {
+            0: { 
+                cellWidth: 140, 
+                halign: 'left',
+                fillColor: [255, 255, 255]
+            },
+            1: { 
+                cellWidth: 40,
+                fillColor: [255, 255, 255]
+            }
+        },
+        didDrawCell: function(data) {
+            // تنسيق صف الإجمالي
+            if (data.row.index === 4) {
+                data.cell.styles.fillColor = primaryColor;
+                data.cell.styles.textColor = [255, 255, 255];
+                data.cell.styles.fontStyle = 'bold';
+            }
+        },
+        margin: { top: 110 }
+    });
+    
+    // ملاحظات الدفع
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text("Payment Terms: Due upon receipt", 20, doc.lastAutoTable.finalY + 15);
+    doc.text("Thank you for your business!", 20, doc.lastAutoTable.finalY + 25);
+    
+    // تذييل الصفحة
+    doc.setFontSize(8);
+    doc.setTextColor(255, 255, 255);
+    doc.text("© 2024 SPATRAK - All Rights Reserved", 105, 285, { align: 'center' });
+    
+    // حفظ الملف
+    doc.save(`Invoice_${invoiceData.invoiceNumber}.pdf`);
+}      fetch("./Sidebar.html")
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("Sidebar-container").innerHTML = data;

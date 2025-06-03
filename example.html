@@ -1,189 +1,178 @@
-// فتح مودال التعديل
-function openEditModal(requestId) {
-    const request = allRequests.find(req => req.id === requestId);
-    if (request) {
-        document.getElementById('editRequestId').value = requestId;
-        document.getElementById('editRequestStatus').value = request.status || 'pending';
-        document.getElementById('editRequestNotes').value = request.adminNotes || '';
-        
-        // عرض المودال
-        document.getElementById('editModal').classList.remove('hidden');
-        document.getElementById('editModal').classList.add('flex');
-        document.body.style.overflow = 'hidden';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF Invoice</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e9d5ff, #ffffff, #c4b5fd);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-}
-
-// فتح مودال العرض
-function openViewModal(requestId) {
-    const request = allRequests.find(req => req.id === requestId);
-    if (request) {
-        const detailsContent = document.getElementById('requestDetailsContent');
-        
-        // عرض مؤشر التحميل
-        detailsContent.innerHTML = `
-            <div class="flex justify-center items-center py-8">
-                <i class="fas fa-spinner fa-spin text-3xl text-violet-600"></i>
-            </div>
-        `;
-        
-        // عرض المودال
-        document.getElementById('viewModal').classList.remove('hidden');
-        document.getElementById('viewModal').classList.add('flex');
-        document.body.style.overflow = 'hidden';
-        
-        // محاكاة جلب البيانات (في تطبيق حقيقي ستجلب البيانات من API)
-        setTimeout(() => {
-            renderRequestDetails(request);
-        }, 500);
+    button {
+      padding: 12px 24px;
+      background-color: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      font-family: 'Arial', sans-serif;
+      transition: all 0.3s;
+      margin: 20px;
     }
-}
-
-// عرض تفاصيل الطلب
-function renderRequestDetails(request) {
-    const detailsContent = document.getElementById('requestDetailsContent');
-    const requestDate = request.createdAt ? new Date(request.createdAt).toLocaleString() : 'N/A';
-    const userName = request.userName || request.user?.name || 'N/A';
-    const userEmail = request.userEmail || request.user?.email || 'N/A';
-    const userPhone = request.userPhone || request.user?.phone || 'N/A';
-    
-    // تحديد لون الحالة
-    let statusClass = 'bg-gray-100 text-gray-800';
-    if (request.status === 'approved') {
-        statusClass = 'bg-green-100 text-green-800';
-    } else if (request.status === 'rejected') {
-        statusClass = 'bg-red-100 text-red-800';
-    } else if (request.status === 'pending') {
-        statusClass = 'bg-yellow-100 text-yellow-800';
+    button:hover {
+      background-color: #6d28d9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    
-    detailsContent.innerHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- معلومات الطلب -->
-            <div class="md:col-span-2 space-y-4">
-                <div class="bg-violet-50 rounded-lg p-4">
-                    <h4 class="font-bold text-violet-800 mb-2">Request Information</h4>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-sm text-violet-600">Request ID</p>
-                            <p class="font-medium">${request.id || 'N/A'}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-violet-600">Type</p>
-                            <p class="font-medium capitalize">${request.type || 'N/A'}</p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-violet-600">Status</p>
-                            <p class="font-medium">
-                                <span class="${statusClass} px-3 py-1 rounded-full text-sm">${request.status || 'N/A'}</span>
-                            </p>
-                        </div>
-                        <div>
-                            <p class="text-sm text-violet-600">Date</p>
-                            <p class="font-medium">${requestDate}</p>
-                        </div>
-                    </div>
-                </div>
-                
-                ${request.description ? `
-                <div class="bg-violet-50 rounded-lg p-4">
-                    <h4 class="font-bold text-violet-800 mb-2">Description</h4>
-                    <p class="text-violet-700">${request.description}</p>
-                </div>
-                ` : ''}
-                
-                ${request.adminNotes ? `
-                <div class="bg-amber-50 rounded-lg p-4">
-                    <h4 class="font-bold text-amber-800 mb-2">Admin Notes</h4>
-                    <p class="text-amber-700">${request.adminNotes}</p>
-                </div>
-                ` : ''}
-            </div>
-            
-            <!-- معلومات المستخدم -->
-            <div class="space-y-4">
-                <div class="bg-violet-50 rounded-lg p-4">
-                    <h4 class="font-bold text-violet-800 mb-2">User Information</h4>
-                    <div class="flex items-center space-x-3 mb-3">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=random" 
-                             alt="User" class="w-12 h-12 rounded-full">
-                        <div>
-                            <p class="font-medium">${userName}</p>
-                            <p class="text-sm text-violet-600">User</p>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <div>
-                            <p class="text-sm text-violet-600">Email</p>
-                            <p class="font-medium">${userEmail}</p>
-                        </div>
-                        ${userPhone ? `
-                        <div>
-                            <p class="text-sm text-violet-600">Phone</p>
-                            <p class="font-medium">${userPhone}</p>
-                        </div>
-                        ` : ''}
-                    </div>
-                </div>
-                
-                ${request.attachments && request.attachments.length > 0 ? `
-                <div class="bg-violet-50 rounded-lg p-4">
-                    <h4 class="font-bold text-violet-800 mb-2">Attachments (${request.attachments.length})</h4>
-                    <div class="space-y-2">
-                        ${request.attachments.map(attachment => `
-                            <a href="${attachment.url}" target="_blank" 
-                               class="flex items-center space-x-2 text-violet-600 hover:text-violet-800">
-                                <i class="fas fa-paperclip"></i>
-                                <span>${attachment.name || 'Download'}</span>
-                            </a>
-                        `).join('')}
-                    </div>
-                </div>
-                ` : ''}
-            </div>
-        </div>
-    `;
-}
+  </style>
+</head>
+<body>
 
-// حفظ التغييرات
-function saveRequestChanges() {
-    const requestId = document.getElementById('editRequestId').value;
-    const newStatus = document.getElementById('editRequestStatus').value;
-    const notes = document.getElementById('editRequestNotes').value;
-    
-    // في تطبيق حقيقي، هنا ستقوم بإرسال التغييرات إلى الـ API
-    // سنقوم بتحديث الواجهة مباشرة للتوضيح
-    
-    const requestIndex = allRequests.findIndex(req => req.id === requestId);
-    if (requestIndex !== -1) {
-        // تحديث البيانات المحلية
-        allRequests[requestIndex].status = newStatus;
-        allRequests[requestIndex].adminNotes = notes;
-        
-        // تحديث الصف في الجدول
-        const row = document.querySelector(`tr[data-request-id="${requestId}"]`);
-        if (row) {
-            const statusCell = row.querySelector('td:nth-child(5) span');
-            statusCell.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
-            
-            // تحديث لون الحالة
-            statusCell.className = `px-4 py-2 rounded-full text-base font-bold shadow capitalize ${
-                newStatus === 'approved' ? 'bg-green-100 text-green-800' :
-                newStatus === 'rejected' ? 'bg-red-100 text-red-800' :
-                'bg-yellow-100 text-yellow-800'
-            }`;
+  <button onclick="generateInvoice()">Download Invoice PDF</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script>
+    // Invoice Data
+    const invoiceData = {
+      invoiceNumber: "INV-2023-00542",
+      date: new Date().toLocaleDateString('en-US'),
+      company: {
+        name: "Spatrak Company",
+        address: "123 Main Street, Cairo, Egypt",
+        taxId: "123-456-789",
+        phone: "+20 100 123 4567",
+        email: "info@spatrak.com"
+      },
+      client: {
+        name: "Modern Tech Company",
+        address: "456 Tech Street, Giza, Egypt",
+        taxId: "987-654-321"
+      },
+      items: [
+        { id: 1, description: "Monthly Subscription - Business Package", quantity: 3, unitPrice: 500, total: 1500 },
+        { id: 2, description: "System Installation & Configuration", quantity: 1, unitPrice: 1000, total: 1000 },
+        { id: 3, description: "Team Training", quantity: 2, unitPrice: 750, total: 1500 }
+      ],
+      subtotal: 4000,
+      tax: 560, // 14%
+      total: 4560,
+      paymentTerms: "Payment due within 15 days from invoice date"
+    };
+
+    function generateInvoice() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      // Setup fonts
+      doc.addFont('Helvetica', 'Helvetica', 'normal');
+      doc.addFont('Helvetica-Bold', 'Helvetica-Bold', 'bold');
+      
+      // --- Header ---
+      // Spatrak Logo (text alternative)
+      doc.setFont("Helvetica-Bold");
+      doc.setFontSize(24);
+      doc.setTextColor(124, 58, 237); // Violet-600
+      doc.text("SPATRAK", 105, 20, { align: 'center' });
+      
+      // Invoice Title
+      doc.setFontSize(18);
+      doc.setTextColor(124, 58, 237); // Violet-600
+      doc.text("TAX INVOICE", 105, 35, { align: 'center' });
+      
+      // Company Information
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(invoiceData.company.address, 105, 45, { align: 'center' });
+      doc.text(`Phone: ${invoiceData.company.phone} | Email: ${invoiceData.company.email}`, 105, 50, { align: 'center' });
+      
+      // Separator Line
+      doc.setDrawColor(124, 58, 237); // Violet-600
+      doc.line(15, 55, 195, 55);
+      
+      // --- Invoice Details ---
+      doc.setFontSize(12);
+      doc.setTextColor(0);
+      
+      // Basic Invoice Information
+      doc.text(`Invoice Number: ${invoiceData.invoiceNumber}`, 180, 65, { align: 'right' });
+      doc.text(`Date: ${invoiceData.date}`, 180, 75, { align: 'right' });
+      
+      // Client Information
+      doc.setFont("Helvetica-Bold");
+      doc.text("Client:", 180, 90, { align: 'right' });
+      doc.setFont("Helvetica");
+      doc.text(invoiceData.client.name, 180, 100, { align: 'right' });
+      doc.text(invoiceData.client.address, 180, 110, { align: 'right' });
+      doc.text(`Tax ID: ${invoiceData.client.taxId}`, 180, 120, { align: 'right' });
+      
+      // --- Items Table ---
+      const itemsTable = {
+        head: [['#', 'Description', 'Quantity', 'Unit Price', 'Amount']],
+        body: invoiceData.items.map(item => [
+          item.id,
+          item.description,
+          item.quantity,
+          `$${item.unitPrice.toLocaleString('en-US')}`,
+          `$${item.total.toLocaleString('en-US')}`
+        ]),
+        foot: [
+          ['', '', '', 'Subtotal:', `$${invoiceData.subtotal.toLocaleString('en-US')}`],
+          ['', '', '', 'Tax (14%):', `$${invoiceData.tax.toLocaleString('en-US')}`],
+          ['', '', '', 'Total Amount:', `$${invoiceData.total.toLocaleString('en-US')}`]
+        ]
+      };
+      
+      doc.autoTable({
+        startY: 130,
+        head: itemsTable.head,
+        body: itemsTable.body,
+        foot: itemsTable.foot,
+        margin: { right: 15 },
+        styles: {
+          font: 'Helvetica',
+          fontSize: 10,
+          textColor: [0, 0, 0],
+          cellPadding: 5,
+          halign: 'right'
+        },
+        headStyles: {
+          fillColor: [124, 58, 237], // Violet-600
+          textColor: [255, 255, 255],
+          fontStyle: 'bold'
+        },
+        footStyles: {
+          fontStyle: 'bold'
+        },
+        columnStyles: {
+          0: { cellWidth: 15 },
+          1: { cellWidth: 80 },
+          2: { cellWidth: 30 },
+          3: { cellWidth: 40 },
+          4: { cellWidth: 40 }
         }
-        
-        // إغلاق المودال
-        closeModal('editModal');
-        
-        // عرض رسالة نجاح
-        alert('Request updated successfully!');
+      });
+      
+      // --- Invoice Notes ---
+      doc.setFont("Helvetica-Bold");
+      doc.text("Payment Terms:", 20, doc.autoTable.previous.finalY + 20);
+      doc.setFont("Helvetica");
+      doc.text(invoiceData.paymentTerms, 20, doc.autoTable.previous.finalY + 30);
+      
+      // --- Footer ---
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text("Thank you for choosing Spatrak", 105, 280, { align: 'center' });
+      doc.text("For inquiries: info@spatrak.com | Phone: +20 100 123 4567", 105, 285, { align: 'center' });
+      
+      // Save the file
+      doc.save(`Invoice_${invoiceData.invoiceNumber}.pdf`);
     }
-}
+  </script>
 
-// إغلاق المودال
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.add('hidden');
-    document.getElementById(modalId).classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
+</body>
+</html>
