@@ -45,11 +45,7 @@
           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
           >Verify</a
         >
-        <a
-          href="state_request.html"
-          class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
-          >Requests</a
-        >
+    
         <a
           href="payment.html"
           class="text-violet-900 font-semibold hover:text-violet-700 hover:bg-violet-100 px-3 py-2 rounded transition"
@@ -288,3 +284,232 @@
     </script>
 </body>
 </html> 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOM fully loaded");
+
+    // Check for token and user role in session storage
+    const token = sessionStorage.getItem('authToken');
+    const userRole = sessionStorage.getItem('userRole');
+    const isLoggedIn = !!token;
+    const isAdmin = userRole === 'admin';
+
+    console.log('Login Status:', isLoggedIn);
+    console.log('User Role:', userRole);
+    console.log('Is Admin:', isAdmin);
+
+    // Get dropdown elements
+    const avatarDropdownBtn = document.getElementById('avatar-dropdown-btn');
+    const avatarDropdownMenu = document.getElementById('avatar-dropdown-menu');
+    const mobileUserSection = document.getElementById('mobile-user-section');
+    const navToggle = document.getElementById("nav-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const desktopDashboardLink = document.getElementById('desktop-dashboard-link');
+    const mobileDashboardLink = document.getElementById('mobile-dashboard-link');
+
+    // Function to handle Dashboard visibility
+    function handleDashboardVisibility() {
+      if (isAdmin) {
+        // Show Dashboard for admin
+        if (desktopDashboardLink) desktopDashboardLink.classList.remove('hidden');
+        if (mobileDashboardLink) mobileDashboardLink.classList.remove('hidden');
+      } else {
+        // Hide Dashboard for non-admin users
+        if (desktopDashboardLink) desktopDashboardLink.classList.add('hidden');
+        if (mobileDashboardLink) mobileDashboardLink.classList.add('hidden');
+      }
+    }
+
+    // Function to populate dropdown menu based on login status
+    function updateDropdownMenus() {
+      // Desktop dropdown
+      if (isLoggedIn) {
+        avatarDropdownMenu.innerHTML = `
+          <a href="admin-dashboard/profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
+          ${isAdmin ? '<a href="admin-dashboard/dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>' : ''}
+          <a href="#" id="sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
+        `;
+      } else {
+        avatarDropdownMenu.innerHTML = `
+          <a href="login.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Login</a>
+          <a href="register.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Register</a>
+        `;
+      }
+
+      // Mobile menu user section
+      if (isLoggedIn) {
+        mobileUserSection.innerHTML = `
+          <div class="flex items-center gap-2 px-3 py-2">
+            <img
+              src="images/Sample_User_Icon.png"
+              alt="User"
+              class="h-8 w-8 rounded-full border-2 border-violet-300 shadow-sm"
+            />
+            <span class="text-violet-900 font-semibold">User</span>
+          </div>
+          <a href="admin-dashboard/profile.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Profile</a>
+          ${isAdmin ? '<a href="admin-dashboard/dashboard.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Dashboard</a>' : ''}
+          <a href="#" id="mobile-sign-out-btn" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Sign out</a>
+        `;
+      } else {
+        mobileUserSection.innerHTML = `
+          <a href="login.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Login</a>
+          <a href="register.html" class="block px-4 py-2 text-violet-900 hover:bg-violet-50">Register</a>
+        `;
+      }
+
+      // Add sign out functionality if logged in
+      if (isLoggedIn) {
+        const signOutBtn = document.getElementById('sign-out-btn');
+        const mobileSignOutBtn = document.getElementById('mobile-sign-out-btn');
+        
+        if (signOutBtn) {
+          signOutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('IdUser');
+            sessionStorage.removeItem('password');
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'index.html';
+          });
+        }
+        
+        if (mobileSignOutBtn) {
+          mobileSignOutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('IdUser');
+            sessionStorage.removeItem('password');
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'index.html';
+          });
+        }
+      }
+    }
+
+    // Initialize menus and handle Dashboard visibility
+    updateDropdownMenus();
+    handleDashboardVisibility();
+
+    // Toggle dropdown menu on click (for better mobile UX)
+    if (avatarDropdownBtn && avatarDropdownMenu) {
+      avatarDropdownBtn.addEventListener('click', function() {
+        const isVisible = avatarDropdownMenu.classList.contains('opacity-100');
+        
+        if (isVisible) {
+          avatarDropdownMenu.classList.remove('opacity-100', 'visible');
+          avatarDropdownMenu.classList.add('opacity-0', 'invisible');
+        } else {
+          avatarDropdownMenu.classList.remove('opacity-0', 'invisible');
+          avatarDropdownMenu.classList.add('opacity-100', 'visible');
+        }
+      });
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+      if (avatarDropdownMenu && avatarDropdownBtn && 
+          !avatarDropdownMenu.contains(e.target) && 
+          !avatarDropdownBtn.contains(e.target)) {
+        avatarDropdownMenu.classList.remove('opacity-100', 'visible');
+        avatarDropdownMenu.classList.add('opacity-0', 'invisible');
+      }
+    });
+
+    // Mobile menu toggle functionality
+    if (navToggle && mobileMenu) {
+      function toggleMobileMenu() {
+        const isHidden = mobileMenu.classList.contains("hidden");
+
+        if (isHidden) {
+          mobileMenu.classList.remove("hidden");
+          setTimeout(() => {
+            mobileMenu.style.opacity = "1";
+            mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+          }, 10);
+
+          navToggle.innerHTML = `
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>`;
+        } else {
+          mobileMenu.style.opacity = "0";
+          mobileMenu.style.maxHeight = "0";
+          setTimeout(() => {
+            mobileMenu.classList.add("hidden");
+          }, 300);
+
+          navToggle.innerHTML = `
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>`;
+        }
+      }
+
+      navToggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        toggleMobileMenu();
+      });
+    }
+
+    // Contact Form Submission
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevent default form submission
+
+        const name = document.querySelector('#contact-form input[name="name"]').value;
+        const email = document.querySelector('#contact-form input[name="email"]').value;
+        const messageText = document.querySelector('#contact-form textarea[name="message"]').value;
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+          "name": name,
+          "email": email,
+          "messageText": messageText
+        });
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow"
+        };
+
+        // Basic UI feedback: Disable button and show loading
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+
+        try {
+          const response = await fetch("https://backend-production-816c.up.railway.app/api/requests/contact", requestOptions);
+          const result = await response.text(); // Or response.json() if your API returns JSON
+          console.log(result);
+
+          if (response.ok) {
+             // Success feedback
+             alert('Message sent successfully!');
+             contactForm.reset(); // Clear the form
+          } else {
+             // Error feedback based on response status
+             alert(`Failed to send message. Status: ${response.status}. Response: ${result}`);
+          }
+
+        } catch (error) {
+          console.error(error);
+          // Network error feedback
+          alert('An error occurred while sending your message. Please try again.');
+        } finally {
+           // Restore button state
+           submitButton.disabled = false;
+           submitButton.textContent = originalButtonText;
+        }
+      });
+    }
+  });
+</script>
