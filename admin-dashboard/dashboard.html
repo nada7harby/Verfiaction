@@ -24,6 +24,9 @@
         },
       };
     </script>
+    <style>
+      /* Add your styles here */
+    </style>
   </head>
   <body>
        <!-- Navbar -->
@@ -69,7 +72,7 @@
       </aside>
 
       <!-- Main Content Area -->
-      <div class="flex-1 lg:ml-64">
+      <div id="mainDashboardContent" class="flex-1 lg:ml-64" style="display: none;">
         <!-- Header -->
         <header
           class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40"
@@ -522,13 +525,17 @@
         function checkAuth() {
             const authToken = sessionStorage.getItem('authToken');
             const userRole = sessionStorage.getItem('userRole');
+            const sidebar = document.getElementById('Sidebar-container');
             
             if (!authToken || userRole !== 'admin') {
+                if (sidebar) {
+                  sidebar.classList.add('hidden');
+                }
                 Swal.fire({
                     icon: 'error',
                     title: 'Access Denied',
                     text: 'You must be logged in as an admin to access this page',
-                    confirmButtonText: 'Go to Login',
+                    confirmButtonText: 'Go to Home',
                     confirmButtonColor: '#4c1d95',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -549,15 +556,15 @@
 
         // Check authentication when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            if (!checkAuth()) {
-                return;
-            }
-            // Initialize dashboard elements and load data
-            if (typeof initializeCharts === 'function') {
-                initializeCharts();
-            }
-            if (typeof fetchRecentRequests === 'function') {
-                fetchRecentRequests();
+            if (checkAuth()) {
+                document.getElementById('mainDashboardContent').style.display = 'block'; // Show the content
+                // Initialize dashboard elements and load data
+                if (typeof initializeCharts === 'function') {
+                    initializeCharts();
+                }
+                if (typeof fetchRecentRequests === 'function') {
+                    fetchRecentRequests();
+                }
             }
         });
 
