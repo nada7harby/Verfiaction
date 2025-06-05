@@ -348,69 +348,69 @@ function updateChart(data, period) {
 
 // Function to safely get DOM element
 function getElement(id) {
-    const element = document.getElementById(id);
-    if (!element) {
-        console.warn(`Element with id '${id}' not found`);
-        return null;
-    }
-    return element;
+  const element = document.getElementById(id);
+  if (!element) {
+    console.warn(`Element with id '${id}' not found`);
+    return null;
+  }
+  return element;
 }
 
 // Function to safely get canvas context
 function getCanvasContext(canvasId) {
-    const canvas = getElement(canvasId);
-    if (!canvas) {
-        console.warn(`Canvas with id '${canvasId}' not found`);
-        return null;
-    }
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-        console.warn(`Could not get 2d context for canvas '${canvasId}'`);
-        return null;
-    }
-    return ctx;
+  const canvas = getElement(canvasId);
+  if (!canvas) {
+    console.warn(`Canvas with id '${canvasId}' not found`);
+    return null;
+  }
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    console.warn(`Could not get 2d context for canvas '${canvasId}'`);
+    return null;
+  }
+  return ctx;
 }
 
 // Function to safely create chart
 function createChart(canvasId, config) {
-    const ctx = getCanvasContext(canvasId);
-    if (!ctx) return null;
+  const ctx = getCanvasContext(canvasId);
+  if (!ctx) return null;
 
-    try {
-        return new Chart(ctx, config);
-    } catch (error) {
-        console.error(`Error creating chart for canvas '${canvasId}':`, error);
-        return null;
-    }
+  try {
+    return new Chart(ctx, config);
+  } catch (error) {
+    console.error(`Error creating chart for canvas '${canvasId}':`, error);
+    return null;
+  }
 }
 
 // Function to safely add event listener
 function addEventListenerSafe(element, event, handler) {
-    if (element) {
-        element.addEventListener(event, handler);
-    }
+  if (element) {
+    element.addEventListener(event, handler);
+  }
 }
 
 // Function to safely set innerHTML
 function setInnerHTMLSafe(element, content) {
-    if (element) {
-        element.innerHTML = content;
-    }
+  if (element) {
+    element.innerHTML = content;
+  }
 }
 
 // Function to safely set textContent
 function setTextContentSafe(element, content) {
-    if (element) {
-        element.textContent = content;
-    }
+  if (element) {
+    element.textContent = content;
+  }
 }
 
 // Modify the fetchRecentRequests function
 function fetchRecentRequests() {
-    const tableBody = getElement("requestsTableBody");
-    if (!tableBody) return;
+  const tableBody = getElement("requestsTableBody");
+  if (!tableBody) return;
 
-  fetch("https://backend-production-816c.up.railway.app/api/requests/")
+  fetch("https://spatrak.com/api/requests/")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -427,17 +427,20 @@ function fetchRecentRequests() {
       const recentRequests = requests.slice(0, 2);
 
       if (recentRequests.length === 0) {
-                setInnerHTMLSafe(tableBody, `
+        setInnerHTMLSafe(
+          tableBody,
+          `
           <tr>
             <td colspan="4" class="px-6 py-4 text-center text-violet-900">
               No requests found
             </td>
           </tr>
-                `);
+                `
+        );
         return;
       }
 
-            let tableContent = '';
+      let tableContent = "";
       recentRequests.forEach((request) => {
         let statusClass = "bg-gray-100 text-gray-800";
         if (request.status === "approved") {
@@ -452,7 +455,7 @@ function fetchRecentRequests() {
           ? new Date(request.createdAt).toLocaleDateString()
           : "N/A";
 
-                tableContent += `
+        tableContent += `
                     <tr>
           <td class="px-6 py-4 whitespace-nowrap text-violet-900">
             ${request._id || "N/A"}
@@ -472,220 +475,243 @@ function fetchRecentRequests() {
         `;
       });
 
-            setInnerHTMLSafe(tableBody, tableContent);
+      setInnerHTMLSafe(tableBody, tableContent);
     })
     .catch((error) => {
       console.error("Error fetching requests:", error);
-            setInnerHTMLSafe(tableBody, `
+      setInnerHTMLSafe(
+        tableBody,
+        `
         <tr>
           <td colspan="4" class="px-6 py-4 text-center text-violet-900">
             Error loading requests. Please try again later.
           </td>
         </tr>
-            `);
-        });
+            `
+      );
+    });
 }
 
 // Modify the initializeCharts function
 async function initializeCharts() {
-    try {
-        const data = await fetchDataForCharts();
-        if (!data || !Array.isArray(data)) {
-            console.error("Invalid data format received");
-        return;
-      }
-
-        // Calculate counts from API data
-        const totalRequests = data.length;
-        const pendingRequests = data.filter((req) => req.status === "pending").length;
-        const acceptedRequests = data.filter((req) => req.status === "accepted").length;
-        const rejectedRequests = data.filter((req) => req.status === "rejected").length;
-
-        // Get current month data
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth();
-        const currentYear = currentDate.getFullYear();
-
-        const newThisMonth = data.filter((req) => {
-            if (!req.createdAt) return false;
-            const reqDate = new Date(req.createdAt);
-            return reqDate.getMonth() === currentMonth && reqDate.getFullYear() === currentYear;
-        }).length;
-
-        // Update the numbers displayed in the center of each donut chart
-        const totalElement = document.querySelector("#donut-total + div span");
-        const pendingElement = document.querySelector("#donut-pending + div span");
-        const rejectedElement = document.querySelector("#donut-rejected + div span");
-        const newElement = document.querySelector("#donut-new + div span");
-
-        setTextContentSafe(totalElement, totalRequests);
-        setTextContentSafe(pendingElement, pendingRequests);
-        setTextContentSafe(rejectedElement, acceptedRequests);
-        setTextContentSafe(newElement, newThisMonth);
-
-        // Initialize donut charts
-        const donutConfigs = [
-            {
-                id: "donut-total",
-                data: [pendingRequests, acceptedRequests, rejectedRequests],
-                colors: ["#fbbf24", "#34d399", "#f3f4f6"],
-                labels: ["Pending", "Accepted", "Rejected"],
-            },
-            {
-                id: "donut-pending",
-                data: [pendingRequests, totalRequests - pendingRequests],
-                colors: ["#fbbf24", "#f3f4f6"],
-                labels: ["Pending", "Others"],
-            },
-            {
-                id: "donut-rejected",
-                data: [acceptedRequests, totalRequests - acceptedRequests],
-                colors: ["#34d399", "#f3f4f6"],
-                labels: ["Accepted", "Others"],
-            },
-            {
-                id: "donut-new",
-                data: [
-                    data.filter((req) => req.status === "pending" && new Date(req.createdAt).getMonth() === currentMonth).length,
-                    data.filter((req) => req.status === "accepted" && new Date(req.createdAt).getMonth() === currentMonth).length,
-                    data.filter((req) => req.status === "rejected" && new Date(req.createdAt).getMonth() === currentMonth).length,
-                ],
-                colors: ["#fbbf24", "#34d399", "#f3f4f6"],
-                labels: ["Pending", "Accepted", "Rejected"],
-            },
-        ];
-
-        donutConfigs.forEach((cfg) => {
-            createChart(cfg.id, {
-                type: "doughnut",
-                data: {
-                    labels: cfg.labels,
-                    datasets: [{
-                        data: cfg.data,
-                        backgroundColor: cfg.colors,
-                        borderWidth: 0,
-                    }],
-                },
-                options: {
-                    cutout: "70%",
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { enabled: true },
-                    },
-                    responsive: false,
-                },
-            });
-        });
-
-        // Initialize the main chart
-        const requestsCtx = getCanvasContext("requestsChart");
-        if (requestsCtx) {
-            const chartData = processDataForChart(data);
-            requestsChart = new Chart(requestsCtx, {
-                type: "line",
-                data: chartData,
-                options: {
-                    responsive: true,
-                    animation: {
-                        duration: 2000,
-                        easing: "easeInOutQuart",
-                    },
-                    plugins: {
-                        legend: {
-                            position: "top",
-                            align: "end",
-                            labels: {
-                                usePointStyle: true,
-                                padding: 20,
-                                font: {
-                                    size: 12,
-                                    family: "'Inter', sans-serif",
-                                },
-                            },
-                        },
-                        tooltip: {
-                            backgroundColor: "rgba(76, 29, 149, 0.9)",
-                            titleFont: {
-                                size: 14,
-                                family: "'Inter', sans-serif",
-                            },
-                            bodyFont: {
-                                size: 13,
-                                family: "'Inter', sans-serif",
-                            },
-                            padding: 12,
-                            cornerRadius: 8,
-                            displayColors: false,
-                        },
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: "rgba(76, 29, 149, 0.1)",
-                                drawBorder: false,
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Inter', sans-serif",
-                                },
-                                padding: 10,
-                            },
-                        },
-                        x: {
-                            grid: {
-                                display: false,
-                            },
-                            ticks: {
-                                font: {
-                                    family: "'Inter', sans-serif",
-                                },
-                                padding: 10,
-                            },
-                        },
-                    },
-                    interaction: {
-                        intersect: false,
-                        mode: "index",
-                    },
-                },
-            });
-        }
-    } catch (error) {
-        console.error("Error initializing charts:", error);
+  try {
+    const data = await fetchDataForCharts();
+    if (!data || !Array.isArray(data)) {
+      console.error("Invalid data format received");
+      return;
     }
+
+    // Calculate counts from API data
+    const totalRequests = data.length;
+    const pendingRequests = data.filter((req) => req.status === "pending")
+      .length;
+    const acceptedRequests = data.filter((req) => req.status === "accepted")
+      .length;
+    const rejectedRequests = data.filter((req) => req.status === "rejected")
+      .length;
+
+    // Get current month data
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    const newThisMonth = data.filter((req) => {
+      if (!req.createdAt) return false;
+      const reqDate = new Date(req.createdAt);
+      return (
+        reqDate.getMonth() === currentMonth &&
+        reqDate.getFullYear() === currentYear
+      );
+    }).length;
+
+    // Update the numbers displayed in the center of each donut chart
+    const totalElement = document.querySelector("#donut-total + div span");
+    const pendingElement = document.querySelector("#donut-pending + div span");
+    const rejectedElement = document.querySelector(
+      "#donut-rejected + div span"
+    );
+    const newElement = document.querySelector("#donut-new + div span");
+
+    setTextContentSafe(totalElement, totalRequests);
+    setTextContentSafe(pendingElement, pendingRequests);
+    setTextContentSafe(rejectedElement, acceptedRequests);
+    setTextContentSafe(newElement, newThisMonth);
+
+    // Initialize donut charts
+    const donutConfigs = [
+      {
+        id: "donut-total",
+        data: [pendingRequests, acceptedRequests, rejectedRequests],
+        colors: ["#fbbf24", "#34d399", "#f3f4f6"],
+        labels: ["Pending", "Accepted", "Rejected"],
+      },
+      {
+        id: "donut-pending",
+        data: [pendingRequests, totalRequests - pendingRequests],
+        colors: ["#fbbf24", "#f3f4f6"],
+        labels: ["Pending", "Others"],
+      },
+      {
+        id: "donut-rejected",
+        data: [acceptedRequests, totalRequests - acceptedRequests],
+        colors: ["#34d399", "#f3f4f6"],
+        labels: ["Accepted", "Others"],
+      },
+      {
+        id: "donut-new",
+        data: [
+          data.filter(
+            (req) =>
+              req.status === "pending" &&
+              new Date(req.createdAt).getMonth() === currentMonth
+          ).length,
+          data.filter(
+            (req) =>
+              req.status === "accepted" &&
+              new Date(req.createdAt).getMonth() === currentMonth
+          ).length,
+          data.filter(
+            (req) =>
+              req.status === "rejected" &&
+              new Date(req.createdAt).getMonth() === currentMonth
+          ).length,
+        ],
+        colors: ["#fbbf24", "#34d399", "#f3f4f6"],
+        labels: ["Pending", "Accepted", "Rejected"],
+      },
+    ];
+
+    donutConfigs.forEach((cfg) => {
+      createChart(cfg.id, {
+        type: "doughnut",
+        data: {
+          labels: cfg.labels,
+          datasets: [
+            {
+              data: cfg.data,
+              backgroundColor: cfg.colors,
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          cutout: "70%",
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+          },
+          responsive: false,
+        },
+      });
+    });
+
+    // Initialize the main chart
+    const requestsCtx = getCanvasContext("requestsChart");
+    if (requestsCtx) {
+      const chartData = processDataForChart(data);
+      requestsChart = new Chart(requestsCtx, {
+        type: "line",
+        data: chartData,
+        options: {
+          responsive: true,
+          animation: {
+            duration: 2000,
+            easing: "easeInOutQuart",
+          },
+          plugins: {
+            legend: {
+              position: "top",
+              align: "end",
+              labels: {
+                usePointStyle: true,
+                padding: 20,
+                font: {
+                  size: 12,
+                  family: "'Inter', sans-serif",
+                },
+              },
+            },
+            tooltip: {
+              backgroundColor: "rgba(76, 29, 149, 0.9)",
+              titleFont: {
+                size: 14,
+                family: "'Inter', sans-serif",
+              },
+              bodyFont: {
+                size: 13,
+                family: "'Inter', sans-serif",
+              },
+              padding: 12,
+              cornerRadius: 8,
+              displayColors: false,
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: {
+                color: "rgba(76, 29, 149, 0.1)",
+                drawBorder: false,
+              },
+              ticks: {
+                font: {
+                  family: "'Inter', sans-serif",
+                },
+                padding: 10,
+              },
+            },
+            x: {
+              grid: {
+                display: false,
+              },
+              ticks: {
+                font: {
+                  family: "'Inter', sans-serif",
+                },
+                padding: 10,
+              },
+            },
+          },
+          interaction: {
+            intersect: false,
+            mode: "index",
+          },
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Error initializing charts:", error);
+  }
 }
 
 // Modify the event listeners
 document.addEventListener("DOMContentLoaded", () => {
-    const select = document.querySelector("select");
-    if (select) {
-        select.addEventListener("change", function () {
-            fetchDataForCharts().then(data => {
-                if (data) {
-                    updateChart(data, this.value);
-                }
-            });
-        });
-    }
+  const select = document.querySelector("select");
+  if (select) {
+    select.addEventListener("change", function () {
+      fetchDataForCharts().then((data) => {
+        if (data) {
+          updateChart(data, this.value);
+        }
+      });
+    });
+  }
 
-    // Initialize charts and fetch requests
+  // Initialize charts and fetch requests
+  initializeCharts();
+  fetchRecentRequests();
+
+  // Refresh data every 5 minutes
+  setInterval(() => {
     initializeCharts();
     fetchRecentRequests();
-
-    // Refresh data every 5 minutes
-    setInterval(() => {
-        initializeCharts();
-        fetchRecentRequests();
-    }, 300000);
-  });
+  }, 300000);
+});
 
 // Function to fetch and process data for charts
 async function fetchDataForCharts() {
   try {
-    const response = await fetch(
-      "https://backend-production-816c.up.railway.app/api/requests"
-    );
+    const response = await fetch("https://spatrak.com/api/requests");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -713,15 +739,17 @@ fetch("./Sidebar.html")
   .then((response) => response.text())
   .then((htmlString) => {
     // Create a temporary div to parse the html string
-    const tempDiv = document.createElement('div');
+    const tempDiv = document.createElement("div");
     tempDiv.innerHTML = htmlString;
 
     // Get the inner content of the aside element
-    const sidebarInnerContent = tempDiv.querySelector('aside').innerHTML;
+    const sidebarInnerContent = tempDiv.querySelector("aside").innerHTML;
 
     // Inject the inner content into the sidebar container in dashboard.html
-    document.getElementById("Sidebar-container").innerHTML = sidebarInnerContent;
+    document.getElementById(
+      "Sidebar-container"
+    ).innerHTML = sidebarInnerContent;
 
     // Initialize navbar functionality (assuming loadNavbar is defined elsewhere or not needed with this approach)
     // loadNavbar();
-});
+  });

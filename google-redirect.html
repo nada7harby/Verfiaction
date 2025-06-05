@@ -63,10 +63,7 @@
           redirect: "follow",
         };
 
-        fetch(
-          "https://backend-production-816c.up.railway.app/api/requests/me",
-          requestOptions
-        )
+        fetch("https://spatrak.com/api/requests/me", requestOptions)
           .then((response) => {
             if (!response.ok) {
               throw new Error("Network response was not ok");

@@ -159,10 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         redirect: "follow",
       };
 
-      fetch(
-        "https://backend-production-816c.up.railway.app/api/requests/signup",
-        requestOptions
-      )
+      fetch("https://spatrak.com/api/requests/signup", requestOptions)
         .then((response) => {
           if (!response.ok) {
             return response.json().then((err) => {

@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
     myHeaders.append("Authorization", `Bearer ${authToken}`);
 
     // 6. جهزي الـ API endpoint
-    const apiUrl = `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`;
+    const apiUrl = `https://spatrak.com/api/requests/users/${userId}`;
 
     const requestOptions = {
       method: "PUT",
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // إرسال الطلب
         const response = await fetch(
-          `https://backend-production-816c.up.railway.app/api/requests/${requestId}`,
+          `https://spatrak.com/api/requests/${requestId}`,
           requestOptions
         );
 
@@ -289,10 +289,7 @@ function fetchRequests() {
     redirect: "follow",
   };
 
-  fetch(
-    `https://backend-production-816c.up.railway.app/api/requests/user/${userId}`,
-    requestOptions
-  )
+  fetch(`https://spatrak.com/api/requests/user/${userId}`, requestOptions)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -399,9 +396,7 @@ function applyFilters() {
       row.dataset.requestId = request._id;
       row.innerHTML = `
                     <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg font-semibold">${
-                      request._id
-                        ?  "RV"+request._id.substring(0, 6) 
-                        : "N/A"
+                      request._id ? "RV" + request._id.substring(0, 6) : "N/A"
                     }</td>
                     <td class="px-6 py-5 whitespace-nowrap">
                         <div class="flex items-center space-x-3">
@@ -557,13 +552,13 @@ function renderRequestDetails(request) {
 
   // روابط الملفات (بافتراض أن الـ API يوفر مسارات الملفات)
   const consentFormLink = request.files?.consentForm
-    ? `<a href="https://backend-production-816c.up.railway.app/${request.files.consentForm}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-file-alt mr-2"></i>Consent Form <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
+    ? `<a href="https://spatrak.com/${request.files.consentForm}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-file-alt mr-2"></i>Consent Form <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
     : "N/A";
   const idCardLink = request.files?.idCard
-    ? `<a href="https://backend-production-816c.up.railway.app/${request.files.idCard}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-id-card mr-2"></i>ID Card <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
+    ? `<a href="https://spatrak.com/${request.files.idCard}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-id-card mr-2"></i>ID Card <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
     : "N/A";
   const diplomaLink = request.files?.diploma
-    ? `<a href="https://backend-production-816c.up.railway.app/${request.files.diploma}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-graduation-cap mr-2"></i>Diploma Copy <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
+    ? `<a href="https://spatrak.com/${request.files.diploma}" target="_blank" class="text-violet-600 hover:underline"><i class="fas fa-graduation-cap mr-2"></i>Diploma Copy <i class="fas fa-external-link-alt ml-1 text-xs"></i></a>`
     : "N/A";
 
   // تفاصيل الرد (إذا وجدت)
@@ -872,7 +867,7 @@ async function fetchUserProfile() {
     const userId = payload.id;
 
     const response = await fetch(
-      `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
+      `https://spatrak.com/api/requests/users/${userId}`,
       {
         method: "GET",
         headers: {
@@ -1002,7 +997,7 @@ async function updateUserProfile(event) {
 
     // إرسال طلب تحديث البروفايل
     const response = await fetch(
-      `https://backend-production-816c.up.railway.app/api/requests/users/${userId}`,
+      `https://spatrak.com/api/requests/users/${userId}`,
       requestOptions
     );
 
@@ -1030,7 +1025,7 @@ async function updateUserProfile(event) {
 
     //   try {
     //     const passwordResponse = await fetch(
-    //       "https://backend-production-816c.up.railway.app/api/requests/forgot-password",
+    //       "https://spatrak.com/api/requests/forgot-password",
     //       passwordResetOptions
     //     );
 
@@ -1171,7 +1166,7 @@ async function openEditRequestModal(requestId) {
 
     // جلب بيانات الطلب من API
     const response = await fetch(
-      `https://backend-production-816c.up.railway.app/api/requests/${requestId}`,
+      `https://spatrak.com/api/requests/${requestId}`,
       requestOptions
     );
 
@@ -1215,7 +1210,7 @@ async function openEditRequestModal(requestId) {
 
     // تعبئة روابط الملفات
     if (request.files) {
-      const baseUrl = "https://backend-production-816c.up.railway.app/";
+      const baseUrl = "https://spatrak.com/";
 
       // Consent Form
       const consentFormContainer = document.getElementById(
@@ -1361,7 +1356,7 @@ async function saveRequestChanges() {
     }
 
     const response = await fetch(
-      `https://backend-production-816c.up.railway.app/api/requests/${requestId}`,
+      `https://spatrak.com/api/requests/${requestId}`,
       {
         method: "PUT",
         headers: {
@@ -1494,9 +1489,7 @@ async function getAllConversations(userId, requestId) {
   if (!authToken) throw new Error("Authentication token not found");
 
   // إضافة بارامترات الفلترة إلى URL
-  const url = new URL(
-    "https://backend-production-816c.up.railway.app/api/requests/conversations"
-  );
+  const url = new URL("https://spatrak.com/api/requests/conversations");
   if (userId) url.searchParams.append("userId", userId);
   if (requestId) url.searchParams.append("requestId", requestId);
 
@@ -1516,7 +1509,7 @@ async function getAllConversations(userId, requestId) {
 async function loadMessages(conversationId) {
   try {
     const response = await fetch(
-      `https://backend-production-816c.up.railway.app/api/requests/conversation/${conversationId}`,
+      `https://spatrak.com/api/requests/conversation/${conversationId}`,
       {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("authToken")}`,
@@ -1636,17 +1629,14 @@ async function sendMessage() {
     }
 
     // إرسال الرسالة
-    const response = await fetch(
-      "https://backend-production-816c.up.railway.app/api/requests/messages",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify(messageData),
-      }
-    );
+    const response = await fetch("https://spatrak.com/api/requests/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify(messageData),
+    });
 
     console.log("ll");
     if (!response.ok) throw new Error("Failed to send message");

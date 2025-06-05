@@ -5,7 +5,10 @@
     <title>Forgot Password - VerifDiploma</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.cdnfonts.com/css/ge-ss-unique" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/all.min.css"
+    />
     <!-- Add SweetAlert CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -36,12 +39,22 @@
       }
     </style>
   </head>
-  <body class="bg-gradient-to-br from-violet-200 via-white to-violet-400 min-h-screen flex items-center justify-center">
-    <div class="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl min-h-[80vh]">
+  <body
+    class="bg-gradient-to-br from-violet-200 via-white to-violet-400 min-h-screen flex items-center justify-center"
+  >
+    <div
+      class="flex flex-col md:flex-row items-center justify-center w-full max-w-4xl min-h-[80vh]"
+    >
       <!-- Left: Illustration (hidden on mobile) -->
-      <div class="hidden md:flex flex-col items-center justify-center flex-1 h-full">
+      <div
+        class="hidden md:flex flex-col items-center justify-center flex-1 h-full"
+      >
         <div class="rounded-3xl p-8 flex flex-col items-center">
-          <img src="images/Forgot password-amico.png" alt="Forgot Password" class="w-89 h-89 object-contain mb-4 bg-transparent" />
+          <img
+            src="images/Forgot password-amico.png"
+            alt="Forgot Password"
+            class="w-89 h-89 object-contain mb-4 bg-transparent"
+          />
           <h2 class="text-violet-900 text-2xl font-bold mb-2 text-center">
             Forgot Password?
           </h2>
@@ -53,11 +66,18 @@
       </div>
       <!-- Right: Glassmorphism Forgot Password Card -->
       <div class="flex-1 flex items-center justify-center w-full">
-        <div class="glass w-full max-w-md p-8 md:p-12 shadow-2xl flex flex-col gap-6">
+        <div
+          class="glass w-full max-w-md p-8 md:p-12 shadow-2xl flex flex-col gap-6"
+        >
           <h2 class="text-violet-900 text-2xl font-bold mb-2 text-center">
             Forgot Password?
           </h2>
-          <form id="forgotPasswordForm" class="flex flex-col gap-4"  action="Reset_password.html${token}" method="POST">
+          <form
+            id="forgotPasswordForm"
+            class="flex flex-col gap-4"
+            action="Reset_password.html${token}"
+            method="POST"
+          >
             <div class="relative">
               <input
                 id="email"
@@ -78,7 +98,9 @@
                   />
                 </svg>
               </span>
-              <span id="emailError" class="error-message">Please enter a valid email address</span>
+              <span id="emailError" class="error-message"
+                >Please enter a valid email address</span
+              >
             </div>
             <button
               type="submit"
@@ -92,35 +114,35 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('forgotPasswordForm');
-        const emailInput = document.getElementById('email');
-        const emailError = document.getElementById('emailError');
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("forgotPasswordForm");
+        const emailInput = document.getElementById("email");
+        const emailError = document.getElementById("emailError");
 
         // Email validation function
         function validateEmail() {
           const value = emailInput.value.trim();
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          
+
           if (!emailRegex.test(value)) {
-            emailInput.classList.add('input-error');
-            emailError.style.display = 'block';
+            emailInput.classList.add("input-error");
+            emailError.style.display = "block";
             return false;
           } else {
-            emailInput.classList.remove('input-error');
-            emailInput.classList.add('input-success');
-            emailError.style.display = 'none';
+            emailInput.classList.remove("input-error");
+            emailInput.classList.add("input-success");
+            emailError.style.display = "none";
             return true;
           }
         }
 
         // Form submission
-        form.addEventListener('submit', function(e) {
+        form.addEventListener("submit", function (e) {
           e.preventDefault();
-          
+
           // Validate email
           const isEmailValid = validateEmail();
-          
+
           if (isEmailValid) {
             // Show loading state with SVG spinner
             const submitButton = form.querySelector('button[type="submit"]');
@@ -134,10 +156,10 @@
                 Sending...
               </span>
             `;
-            
+
             // Prepare the request data
             const formData = {
-              email: emailInput.value.trim()
+              email: emailInput.value.trim(),
             };
 
             const myHeaders = new Headers();
@@ -147,54 +169,62 @@
               method: "POST",
               headers: myHeaders,
               body: JSON.stringify(formData),
-              redirect: "follow"
+              redirect: "follow",
             };
 
-            fetch("https://backend-production-816c.up.railway.app/api/requests/forgot-password", requestOptions)
-              .then(response => {
+            fetch(
+              "https://spatrak.com/api/requests/forgot-password",
+              requestOptions
+            )
+              .then((response) => {
                 if (!response.ok) {
-                  return response.json().then(err => { throw err; });
+                  return response.json().then((err) => {
+                    throw err;
+                  });
                 }
                 return response.json();
               })
-              .then(result => {
+              .then((result) => {
                 console.log(result);
                 // Handle successful response
                 Swal.fire({
-                  title: 'Email Sent!',
-                  text: 'Please check your email for the password reset link',
-                  icon: 'success',
-                  confirmButtonText: 'OK',
-                  confirmButtonColor: '#7e22ce',
+                  title: "Email Sent!",
+                  text: "Please check your email for the password reset link",
+                  icon: "success",
+                  confirmButtonText: "OK",
+                  confirmButtonColor: "#7e22ce",
                 }).then(() => {
                   // Optionally redirect to another page
                   // window.location.href = 'login.html';
                 });
               })
-              .catch(error => {
-                console.error('Error:', error);
-                let errorMessage = 'Failed to send reset email. Please try again.';
-                
-                if (error.message && error.message.includes('not found')) {
-                  errorMessage = 'Email not found in our system';
-                  emailInput.classList.add('input-error');
+              .catch((error) => {
+                console.error("Error:", error);
+                let errorMessage =
+                  "Failed to send reset email. Please try again.";
+
+                if (error.message && error.message.includes("not found")) {
+                  errorMessage = "Email not found in our system";
+                  emailInput.classList.add("input-error");
                   emailError.textContent = errorMessage;
-                  emailError.style.display = 'block';
+                  emailError.style.display = "block";
                 }
-                
+
                 Swal.fire({
-                  title: 'Error!',
+                  title: "Error!",
                   text: errorMessage,
-                  icon: 'error',
-                  confirmButtonText: 'OK',
-                  confirmButtonColor: '#ef4444',
+                  icon: "error",
+                  confirmButtonText: "OK",
+                  confirmButtonColor: "#ef4444",
                 });
               })
               .finally(() => {
                 // Reset button state
-                const submitButton = form.querySelector('button[type="submit"]');
+                const submitButton = form.querySelector(
+                  'button[type="submit"]'
+                );
                 submitButton.disabled = false;
-                submitButton.textContent = 'Confirm Mail';
+                submitButton.textContent = "Confirm Mail";
               });
           }
         });

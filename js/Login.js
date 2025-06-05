@@ -94,10 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
         redirect: "follow",
       };
 
-      fetch(
-        "https://backend-production-816c.up.railway.app/api/requests/login",
-        requestOptions
-      )
+      fetch("https://spatrak.com/api/requests/login", requestOptions)
         .then((response) => {
           if (!response.ok) {
             return response.json().then((err) => {
@@ -111,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Handle successful login
           sessionStorage.setItem("authToken", result.token);
           const token = sessionStorage.getItem("authToken");
-          const UserRole = sessionStorage.setItem("userRole",result.user.role);
+          const UserRole = sessionStorage.setItem("userRole", result.user.role);
           if (result.user.password === "set") {
             sessionStorage.setItem("password", "yes");
           } else if (result.password === null) {
@@ -161,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 document.getElementById("googleSignIn").addEventListener("click", function () {
   const googleAuthWindow = (window.location.href =
-    "https://backend-production-816c.up.railway.app/api/requests/auth/google");
+    "https://spatrak.com/api/requests/auth/google");
 
   // استمع لرسائل من النافذة الفرعية كل 100 مللي ثانية
   const checkPopup = setInterval(() => {
@@ -190,20 +187,20 @@ function fetchUserData() {
 
   try {
     // استخراج الـ payload من التوكن
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split(".")[1]));
     const userId = payload.id; // استخراج الـ userId من الـ payload
 
     if (!userId) {
       throw new Error("User ID not found in token");
     }
 
-    fetch(`https://backend-production-816c.up.railway.app/api/requests/users/${userId}`, {
+    fetch(`https://spatrak.com/api/requests/users/${userId}`, {
       method: "GET",
       headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-      redirect: "follow"
+      redirect: "follow",
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to fetch user data");
@@ -213,13 +210,13 @@ function fetchUserData() {
         console.log("User data fetched:", data);
         sessionStorage.setItem("user", JSON.stringify(data));
         sessionStorage.setItem("userRole", data.role || "user");
-        
+
         Swal.fire({
           title: "Success!",
           text: "User data fetched successfully",
           icon: "success",
         });
-        
+
         // يمكنك إعادة التوجيه هنا إذا كنت بحاجة لذلك
         // window.location.href = "index.html";
       })
