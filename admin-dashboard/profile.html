@@ -432,89 +432,64 @@
           </div>
         </div>
         <div class="w-3/4 mx-auto hidden" id="contact-section">
-          <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl p-10">
-            <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">
-              Contact Us
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <!-- Contact Form -->
-              <form
-                id="contact-form"
-                class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6"
-                novalidate
-              >
-                <label class="block">
-                  <span class="text-violet-900 font-semibold mb-1 block"
-                    >Name</span
-                  >
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder="Your name"
-                    class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                  />
-                </label>
-                <label class="block">
-                  <span class="text-violet-900 font-semibold mb-1 block"
-                    >Email</span
-                  >
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="Your email"
-                    class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
-                  />
-                </label>
-                <label class="block">
-                  <span class="text-violet-900 font-semibold mb-1 block"
-                    >Message</span
-                  >
-                  <textarea
-                    name="message"
-                    rows="5"
-                    required
-                    placeholder="Your message"
-                    class="w-full border border-violet-300 rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-violet-400"
-                  ></textarea>
-                </label>
-                <button
-                  type="submit"
-                  class="bg-violet-700 hover:bg-violet-800 rounded-xl text-white py-3 font-semibold transition shadow-lg"
-                >
-                  Send Message
-                </button>
-              </form>
+         <!-- 5. Contact Us Section -->
+    <section
+    id="contact"
+    class="max-w-7xl mx-auto mt-28 px-6 md:px-12 py-12 bg-white bg-opacity-70 rounded-xl shadow-xl mb-32"
+    data-aos="flip-down"
+    data-aos-duration="1500"
+  >
+    <h2 class="text-4xl font-bold text-violet-900 text-center mb-12">
+      Contact Us
+    </h2>
+    <div class="grid grid-cols-1  gap-12 items-center">
+      <!-- Contact Form -->
+      <form
+        id="contact-form"
+        class="bg-white p-8 rounded-xl shadow-lg flex flex-col space-y-6"
+      >
+        <label class="block">
+          <span class="text-violet-900 font-semibold mb-1 block">Name</span>
+          <input
+            type="text"
+            name="name"
+            required
+            placeholder="Your name"
+            class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
+          />
+        </label>
+        <label class="block">
+          <span class="text-violet-900 font-semibold mb-1 block">Email</span>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder="Your email"
+            class="w-full border border-violet-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-400"
+          />
+        </label>
+        <label class="block">
+          <span class="text-violet-900 font-semibold mb-1 block"
+            >Message</span
+          >
+          <textarea
+            name="message"
+            rows="5"
+            required
+            placeholder="Your message"
+            class="w-full border border-violet-300 rounded-lg px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-violet-400"
+          ></textarea>
+        </label>
+        <button
+          type="submit"
+          class="bg-violet-700 hover:bg-violet-800 rounded-xl text-white py-3 font-semibold transition shadow-lg"
+        >
+          Send Message
+        </button>
+      </form>
 
-              <!-- Contact Information & Map -->
-              <div class="space-y-6 text-violet-900 ">
-              
-                 <div>
-          <h3 class="text-2xl font-bold mb-2">Email</h3>
-          <div class="space-y-2">
-            <a href="mailto:info@spatrak.com" class="text-blue-600 hover:text-blue-800">info@spatrak.com</a>
-            <br>
-            <a href="mailto:support@spatrak.com" class="text-blue-600 hover:text-blue-800">support@spatrak.com</a>
-          </div>
-        </div>
-                <div
-                  class="rounded-xl overflow-hidden shadow-lg border border-violet-300"
-                >
-                  <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799149533!2d-74.25986668729262!3d40.69767006346656!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c250b6c30aa0f1%3A0x7e48ef6164c085b1!2sNew%20York%20City%2C%20NY%2010022%2C%20USA!5e0!3m2!1sen!2ses!4v1685611397707!5m2!1sen!2ses"
-                    width="100%"
-                    height="300"
-                    style="border: 0"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    aria-label="Google Maps"
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-          </div>
+    </div>
+  </section>
         </div>
       </div>
 
