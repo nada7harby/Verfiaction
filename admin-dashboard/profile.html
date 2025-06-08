@@ -86,11 +86,52 @@
             if (!checkAuth()) {
                 return;
             }
+
+            // Check URL hash for direct section linking
+            const urlHash = window.location.hash;
+            if (urlHash === '#requests-section') {
+                showSection('requests');
+                // Smooth scroll to the section after a short delay to allow rendering
+                setTimeout(() => {
+                    const requestsSection = document.getElementById('requests-section');
+                    if (requestsSection) {
+                        requestsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }, 100); 
+            } else {
+                // Default behavior: show profile section or other initial section
+                showSection('profile'); 
+            }
+
             // Initialize page elements and load data
             if (typeof fetchUserProfile === 'function') {
                 fetchUserProfile();
             }
         });
+
+        // Function to show/hide sections
+        function showSection(sectionId) {
+            // Hide all sections
+            document.getElementById('profile-section').classList.add('hidden');
+            document.getElementById('requests-section').classList.add('hidden');
+            document.getElementById('add-verification-section').classList.add('hidden');
+            document.getElementById('contact-section').classList.add('hidden');
+
+            // Show the target section
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            // Update active sidebar button styling
+            document.querySelectorAll('#sidebar button').forEach(button => {
+                button.classList.remove('bg-violet-100', 'font-bold');
+                button.classList.add('hover:bg-violet-100');
+            });
+
+            const activeBtn = document.getElementById(`sidebar-${sectionId.replace('-section', '')}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-violet-100', 'font-bold');
+                activeBtn.classList.remove('hover:bg-violet-100');
+            }
+        }
 
         // Logout Functionality
         function initLogout() {
