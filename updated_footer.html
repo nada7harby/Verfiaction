@@ -1,144 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SPATRAK Footer</title>
-  <!-- Font Awesome CDN - إضافة مكتبة الأيقونات -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .social-icon {
-      @apply text-white hover:text-violet-200 bg-violet-800/40 hover:bg-violet-700/60 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 transform hover:scale-110;
-    }
-    
-    .footer-link {
-      @apply text-violet-100 hover:text-white text-sm transition duration-200 hover:pl-2;
-    }
-  </style>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPATRAK Footer</title>
+    <!-- Font Awesome CDN - إضافة مكتبة الأيقونات -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .social-icon {
+        @apply text-white hover:text-violet-200 bg-violet-800/40 hover:bg-violet-700/60 rounded-full w-10 h-10 flex items-center justify-center transition-all duration-300 transform hover:scale-110;
+      }
 
-  <footer class="w-full py-16 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80')] bg-cover bg-center relative">
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-gradient-to-br from-violet-300/55 to-violet-950/95 backdrop-blur-sm"></div>
-    
-    <!-- Content -->
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
-        <!-- Logo & About -->
-        <div class="flex flex-col gap-6">
-          <div class="flex items-center gap-3 group">
-            <div class="relative">
-              <img
-                src="././images/logo-removebg-preview 12.png"
-                alt="SPATRAK Logo"
-                class="h-32 w-32 object-contain transform group-hover:rotate-12 transition duration-300"
-              />
-              <div class="absolute -inset-2 bg-violet-600/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition duration-500"></div>
+      .footer-link {
+        @apply text-violet-100 hover:text-white text-sm transition duration-200 hover:pl-2;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <footer
+      class="w-full py-16 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80')] bg-cover bg-center relative"
+    >
+      <!-- Overlay -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-violet-300/55 to-violet-950/95 backdrop-blur-sm"
+      ></div>
+
+      <!-- Content -->
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 max-w-7xl mx-auto">
+          <!-- Logo & About -->
+          <div class="flex flex-col gap-6">
+            <div class="flex items-center gap-3 group">
+              <div class="relative">
+                <img
+                  src="././images/logo-removebg-preview.png"
+                  alt="SPATRAK Logo"
+                  class="h-32 w-32 object-contain transform group-hover:rotate-12 transition duration-300"
+                />
+                <div
+                  class="absolute -inset-2 bg-violet-600/30 rounded-full blur-md opacity-0 group-hover:opacity-100 transition duration-500"
+                ></div>
+              </div>
+              <span class="text-2xl font-bold text-white tracking-wide">
+                SPATRAK
+              </span>
             </div>
-            <span class="text-2xl font-bold text-white tracking-wide">
-              SPATRAK
-            </span>
-          </div>
-          
-          <p class="text-violet-200/80 text-sm">
-            Leading space tracking technology for satellite monitoring and space exploration.
-          </p>
-          
-          <div class="flex gap-4 mt-2">
-            <a href="#" class="social-icon" aria-label="Facebook">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon" aria-label="Twitter">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon" aria-label="LinkedIn">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="#" class="social-icon" aria-label="YouTube">
-              <i class="fab fa-youtube"></i>
-            </a>
-          </div>
-        </div>
 
-        <!-- Quick Links -->
-        <div class="flex flex-col gap-4">
-          <h3 class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2">Quick Links</h3>
-          <a href="#" class="footer-link">Home</a>
-          <a href="#" class="footer-link">Services</a>
-          <a href="#" class="footer-link">Pricing</a>
-          <a href="#" class="footer-link">Case Studies</a>
-          <a href="#" class="footer-link">Contact</a>
-        </div>
-
-        <!-- Services -->
-        <div class="flex flex-col gap-4">
-          <h3 class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2">Our Services</h3>
-          <a href="#" class="footer-link">Satellite Tracking</a>
-          <a href="#" class="footer-link">Orbit Analysis</a>
-          <a href="#" class="footer-link">Space Debris Monitoring</a>
-          <a href="#" class="footer-link">Launch Support</a>
-          <a href="#" class="footer-link">Data Analytics</a>
-        </div>
-
-        <!-- Contact & Newsletter -->
-        <div class="flex flex-col gap-6">
-          <div class="flex flex-col gap-4">
-            <h3 class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2">Contact Us</h3>
-            <div class="flex items-start gap-3">
-              <i class="fas fa-map-marker-alt text-violet-300 mt-1"></i>
-              <span class="footer-link">Space Innovation Center, Paris, France</span>
-            </div>
-            <div class="flex items-start gap-3">
-              <i class="fas fa-phone-alt text-violet-300 mt-1"></i>
-              <a href="tel:+33123456789" class="footer-link">+33 1 23 45 67 89</a>
-            </div>
-            <div class="flex items-start gap-3">
-              <i class="fas fa-envelope text-violet-300 mt-1"></i>
-              <a href="mailto:contact@spatrak.com" class="footer-link">contact@spatrak.com</a>
-            </div>
-          </div>
-
-          <div class="flex flex-col gap-3">
-            <h3 class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2">Newsletter</h3>
-            <p class="text-sm text-violet-200/80">
-              Subscribe to our space updates and news
+            <p class="text-violet-200/80 text-sm">
+              Leading space tracking technology for satellite monitoring and
+              space exploration.
             </p>
-            <form class="flex flex-col gap-2 mt-1 w-full">
-              <input
-                type="email"
-                placeholder="Your email address"
-                class="px-4 py-3 rounded-lg bg-violet-100/60 border border-violet-700/50 focus:outline-none focus:ring-2 focus:ring-violet-400/50 text-white placeholder-white w-full"
-                required
-              />
-              <button
-                type="submit"
-                class="bg-violet-600 hover:bg-violet-500 text-white py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2"
+
+            <div class="flex gap-4 mt-2">
+              <a href="#" class="social-icon" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="social-icon" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-icon" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="#" class="social-icon" aria-label="YouTube">
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="flex flex-col gap-4">
+            <h3
+              class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2"
+            >
+              Quick Links
+            </h3>
+            <a href="#" class="footer-link">Home</a>
+            <a href="#" class="footer-link">Services</a>
+            <a href="#" class="footer-link">Pricing</a>
+            <a href="#" class="footer-link">Case Studies</a>
+            <a href="#" class="footer-link">Contact</a>
+          </div>
+
+          <!-- Services -->
+          <div class="flex flex-col gap-4">
+            <h3
+              class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2"
+            >
+              Our Services
+            </h3>
+            <a href="#" class="footer-link">Satellite Tracking</a>
+            <a href="#" class="footer-link">Orbit Analysis</a>
+            <a href="#" class="footer-link">Space Debris Monitoring</a>
+            <a href="#" class="footer-link">Launch Support</a>
+            <a href="#" class="footer-link">Data Analytics</a>
+          </div>
+
+          <!-- Contact & Newsletter -->
+          <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-4">
+              <h3
+                class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2"
               >
-                <i class="fas fa-paper-plane"></i>
-                Subscribe
-              </button>
-            </form>
+                Contact Us
+              </h3>
+              <div class="flex items-start gap-3">
+                <i class="fas fa-map-marker-alt text-violet-300 mt-1"></i>
+                <span class="footer-link"
+                  >Space Innovation Center, Paris, France</span
+                >
+              </div>
+              <div class="flex items-start gap-3">
+                <i class="fas fa-phone-alt text-violet-300 mt-1"></i>
+                <a href="tel:+33123456789" class="footer-link"
+                  >+33 1 23 45 67 89</a
+                >
+              </div>
+              <div class="flex items-start gap-3">
+                <i class="fas fa-envelope text-violet-300 mt-1"></i>
+                <a href="mailto:contact@spatrak.com" class="footer-link"
+                  >contact@spatrak.com</a
+                >
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <h3
+                class="text-lg font-semibold text-white mb-2 border-b border-violet-400/30 pb-2"
+              >
+                Newsletter
+              </h3>
+              <p class="text-sm text-violet-200/80">
+                Subscribe to our space updates and news
+              </p>
+              <form class="flex flex-col gap-2 mt-1 w-full">
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  class="px-4 py-3 rounded-lg bg-violet-100/60 border border-violet-700/50 focus:outline-none focus:ring-2 focus:ring-violet-400/50 text-white placeholder-white w-full"
+                  required
+                />
+                <button
+                  type="submit"
+                  class="bg-violet-600 hover:bg-violet-500 text-white py-3 rounded-lg transition duration-300 flex items-center justify-center gap-2"
+                >
+                  <i class="fas fa-paper-plane"></i>
+                  Subscribe
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-violet-700/50 my-8"></div>
+
+        <!-- Copyright -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-violet-300/80"
+        >
+          <div>
+            &copy; 2025 <span class="text-white font-medium">SPATRAK</span>. All
+            rights reserved.
+          </div>
+          <div class="flex gap-6">
+            <a href="#" class="hover:text-white transition duration-200"
+              >Privacy Policy</a
+            >
+            <a href="#" class="hover:text-white transition duration-200"
+              >Terms of Service</a
+            >
+            <a href="#" class="hover:text-white transition duration-200"
+              >Cookies</a
+            >
           </div>
         </div>
       </div>
-
-      <!-- Divider -->
-      <div class="border-t border-violet-700/50 my-8"></div>
-
-      <!-- Copyright -->
-      <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-violet-300/80">
-        <div>
-          &copy; 2025 <span class="text-white font-medium">SPATRAK</span>. All rights reserved.
-        </div>
-        <div class="flex gap-6">
-          <a href="#" class="hover:text-white transition duration-200">Privacy Policy</a>
-          <a href="#" class="hover:text-white transition duration-200">Terms of Service</a>
-          <a href="#" class="hover:text-white transition duration-200">Cookies</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-</body>
+    </footer>
+  </body>
 </html>
