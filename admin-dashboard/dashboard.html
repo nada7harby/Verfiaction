@@ -253,12 +253,7 @@
               <h2 class="text-2xl font-bold text-violet-900">
                 Monthly Requests Overview
               </h2>
-              <select
-                class="bg-violet-50 border border-violet-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-violet-400 text-violet-900"
-              >
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-              </select>
+           
             </div>
             <canvas id="requestsChart" height="100"></canvas>
           </div>
@@ -267,38 +262,16 @@
           <div
             class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
           >
-            <h2 class="text-xl font-bold text-violet-900 mb-4">
-              Latest Notifications
-            </h2>
-            <div class="space-y-4">
-              <div
-                class="flex items-center justify-between p-4 bg-violet-50 rounded-lg"
-              >
-                <div class="flex items-center space-x-4">
-                  <i class="fas fa-bell text-violet-900"></i>
-                  <span class="text-violet-900"
-                    >New payment received from John Doe</span
-                  >
-                </div>
-                <span
-                  class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm"
-                  >New</span
-                >
-              </div>
-              <div
-                class="flex items-center justify-between p-4 bg-violet-50 rounded-lg"
-              >
-                <div class="flex items-center space-x-4">
-                  <i class="fas fa-exclamation-circle text-violet-900"></i>
-                  <span class="text-violet-900"
-                    >Request #1234 requires attention</span
-                  >
-                </div>
-                <span
-                  class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-sm"
-                  >Alert</span
-                >
-              </div>
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-xl font-bold text-violet-900">
+                Latest Notifications
+              </h2>
+              <a href="notifications.html" class="text-violet-600 hover:text-violet-900 transition duration-300">
+                View All <i class="fas fa-arrow-right ml-1"></i>
+              </a>
+            </div>
+            <div id="latestNotifications" class="space-y-4">
+              <!-- Notifications will be loaded here -->
             </div>
           </div>
 
@@ -360,7 +333,7 @@
             </div>
           </div>
           <!-- Verification Manager -->
-          <div
+          <!-- <div
             class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
           >
             <h2 class="text-xl font-bold text-violet-900 mb-6">
@@ -428,7 +401,7 @@
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> -->
 
           <!-- Payments Section -->
           <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
@@ -516,10 +489,131 @@
       </div>
     </div>
 
+    <script>
+      // Function to fetch and display latest notifications
+      async function fetchLatestNotifications() {
+        try {
+          const [usersResponse, requestsResponse, contactsResponse] = await Promise.all([
+            fetch("https://spatrak.com/api/requests/users"),
+            fetch("https://spatrak.com/api/requests"),
+            fetch("https://spatrak.com/api/requests/contact")
+          ]);
+
+          const [usersData, requestsData, contactsData] = await Promise.all([
+            usersResponse.json(),
+            requestsResponse.json(),
+            contactsResponse.json()
+          ]);
+
+          // Create notifications array
+          let allNotifications = [];
+
+          // Add user notifications
+          if (Array.isArray(usersData)) {
+            usersData.forEach(user => {
+              allNotifications.push({
+                type: 'user',
+                title: 'New User Registration',
+                content: `User ${user.name || user.email} has registered`,
+                timestamp: new Date(user.updatedAt),
+                icon: 'fas fa-user-plus',
+                color: 'bg-blue-100',
+                textColor: 'text-blue-600'
+              });
+            });
+          }
+
+          // Add request notifications
+          if (Array.isArray(requestsData.requests)) {
+            requestsData.requests.forEach(request => {
+              allNotifications.push({
+                type: 'request',
+                title: 'New Service Request',
+                content: `Request #${request.id} has been submitted for ${request.service || 'Unknown Service'}`,
+                timestamp: new Date(request.updatedAt),
+                icon: 'fas fa-file-alt',
+                color: 'bg-purple-100',
+                textColor: 'text-purple-600'
+              });
+            });
+          }
+
+          // Add contact notifications
+          if (Array.isArray(contactsData.messages)) {
+            contactsData.messages.forEach(contact => {
+              allNotifications.push({
+                type: 'contact',
+                title: 'New Contact Message',
+                content: `Message from ${contact.name || 'Unknown'} : ${contact.messageText ? contact.messageText.substring(0, 50) + '...' : 'No message content'}`,
+                timestamp: new Date(contact.createdAt),
+                icon: 'fas fa-envelope',
+                color: 'bg-green-100',
+                textColor: 'text-green-600'
+              });
+            });
+          }
+
+          // Sort by timestamp (newest first)
+          allNotifications.sort((a, b) => b.timestamp - a.timestamp);
+
+          // Get only the latest 2 notifications
+          const latestNotifications = allNotifications.slice(0, 2);
+
+          // Display notifications
+          const container = document.getElementById('latestNotifications');
+          container.innerHTML = '';
+
+          if (latestNotifications.length === 0) {
+            container.innerHTML = '<p class="text-violet-600 text-center py-4">No new notifications.</p>';
+          } else {
+            latestNotifications.forEach(notification => {
+              const timeAgo = getTimeAgo(notification.timestamp);
+              
+              const notificationElement = document.createElement('div');
+              notificationElement.className = 'flex items-center justify-between p-4 bg-violet-50 rounded-lg transform transition-all duration-300 hover:scale-[1.02]';
+              notificationElement.innerHTML = `
+                <div class="flex items-center space-x-4">
+                  <div class="${notification.color} p-3 rounded-full">
+                    <i class="${notification.icon} ${notification.textColor}"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-sm font-semibold text-violet-900">${notification.title}</h3>
+                    <p class="text-sm text-violet-600">${notification.content}</p>
+                  </div>
+                </div>
+                <span class="text-xs text-violet-600">${timeAgo}</span>
+              `;
+              container.appendChild(notificationElement);
+            });
+          }
+
+        } catch (error) {
+          console.error('Error fetching notifications:', error);
+          document.getElementById('latestNotifications').innerHTML = '<p class="text-red-600 text-center py-4">Failed to load notifications. Please try again later.</p>';
+        }
+      }
+
+      // Helper function to format time ago
+      function getTimeAgo(timestamp) {
+        const now = new Date();
+        const diffInMinutes = Math.floor((now - timestamp) / (1000 * 60));
+
+        if (diffInMinutes < 60) {
+          return `${diffInMinutes} minute${diffInMinutes === 1 ? '' : 's'} ago`;
+        } else if (diffInMinutes < 1440) {
+          const hours = Math.floor(diffInMinutes / 60);
+          return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+        } else {
+          const days = Math.floor(diffInMinutes / 1440);
+          return `${days} day${days === 1 ? '' : 's'} ago`;
+        }
+      }
+    </script>
+
     <!-- Add Chart.js before our custom script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="./js/Dasboard.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.js"></script>
     <script>
         // Authentication Check
         function checkAuth() {
@@ -565,6 +659,9 @@
                 if (typeof fetchRecentRequests === 'function') {
                     fetchRecentRequests();
                 }
+                if (typeof fetchLatestNotifications === 'function') {
+                    fetchLatestNotifications();
+                }
             }
         });
 
@@ -590,8 +687,19 @@
         });
     </script>
     <script>
-        // Hide all content initially
-      
+        // Refresh notifications every minute
+        setInterval(fetchLatestNotifications, 60000);
+
+        // Load sidebar
+        fetch("./Sidebar.html")
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("Sidebar-container").innerHTML = data;
+            // Initialize navbar functionality
+            if (typeof loadNavbar === "function") {
+              loadNavbar();
+            }
+          });
     </script>
     </div>
   </body>

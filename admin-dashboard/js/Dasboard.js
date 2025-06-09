@@ -208,7 +208,7 @@ function processDataForChart(data) {
     const monthIndex = date.getMonth();
 
     totalRequests[monthIndex]++;
-    if (item.status === "approved") {
+    if (item.status === "accepted") {
       approvedRequests[monthIndex]++;
     } else if (item.status === "pending") {
       pendingRequests[monthIndex]++;
@@ -457,11 +457,13 @@ function fetchRecentRequests() {
 
         tableContent += `
                     <tr>
+          <td class="px-6 py-5 whitespace-nowrap text-violet-900 text-lg font-semibold">${
+                          request._id
+                            ? "RV" + request._id.substring(0, 6)
+                            : "N/A"
+                        }</td>
           <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-            ${request._id || "N/A"}
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-            ${request.lastName || request.user?.name || "N/A"}
+            ${request.firstName || request.user?.name || "N/A"}
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-violet-900">
             ${requestDate}
