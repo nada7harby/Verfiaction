@@ -12,9 +12,9 @@
     <!-- Add SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Add jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<!-- Add jspdf-autotable plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Add jspdf-autotable plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -35,73 +35,177 @@
     class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
   >
     <!-- Navbar -->
-    
+
     <!-- Add Authentication Check Script -->
     <script>
-        // Authentication Check
-        function checkAuth() {
-            const authToken = sessionStorage.getItem('authToken');
-            const userRole = sessionStorage.getItem('userRole');
-            
-            if (!authToken || userRole !== 'admin') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Access Denied',
-                    text: 'You must be logged in as an admin to access this page',
-                    confirmButtonText: 'Go to Login',
-                    confirmButtonColor: '#4c1d95',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                    showConfirmButton: true,
-                    showCloseButton: false,
-                    showDenyButton: false,
-                    showCancelButton: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '../index.html';
-                    }
-                });
-                return false;
+      // Authentication Check
+      function checkAuth() {
+        const authToken = sessionStorage.getItem("authToken");
+        const userRole = sessionStorage.getItem("userRole");
+
+        if (!authToken || userRole !== "admin") {
+          Swal.fire({
+            icon: "error",
+            title: "Access Denied",
+            text: "You must be logged in as an admin to access this page",
+            confirmButtonText: "Go to Login",
+            confirmButtonColor: "#4c1d95",
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            showConfirmButton: true,
+            showCloseButton: false,
+            showDenyButton: false,
+            showCancelButton: false,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = "../index.html";
             }
-            return true;
+          });
+          return false;
         }
+        return true;
+      }
 
-        // Check authentication when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            if (!checkAuth()) {
-                return;
-            }
-            // Initialize page elements and load data
-            if (typeof fetchPayments === 'function') {
-                fetchPayments();
-            }
-        });
-
-        // Logout Functionality
-        function initLogout() {
-            const signOutBtn = document.getElementById('sign-out-btn');
-            
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('IdUser');
-                    sessionStorage.removeItem('password');
-                    sessionStorage.removeItem('userRole');
-                    window.location.href = '../index.html';
-                });
-            }
+      // Check authentication when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!checkAuth()) {
+          return;
         }
+        // Initialize page elements and load data
+        if (typeof fetchPayments === "function") {
+          fetchPayments();
+        }
+      });
 
-        // Initialize logout when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initLogout();
-        });
+      // Logout Functionality
+      function initLogout() {
+        const signOutBtn = document.getElementById("sign-out-btn");
+
+        if (signOutBtn) {
+          signOutBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            sessionStorage.removeItem("authToken");
+            sessionStorage.removeItem("IdUser");
+            sessionStorage.removeItem("password");
+            sessionStorage.removeItem("userRole");
+            window.location.href = "../index.html";
+          });
+        }
+      }
+
+      // Initialize logout when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initLogout();
+      });
     </script>
     <div class="flex h-full">
       <!-- Sidebar -->
-      <div id="Sidebar-container"></div>
+      <aside
+        class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50"
+      >
+        <div class="flex flex-col h-full">
+          <div class="p-4">
+            <div class="flex items-center space-x-3 mb-8">
+              <button
+                onclick="window.location.href = '../index.html'"
+                class="w-full bg-violet-900 hover:bg-violet-800 text-white px-4 py-3 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+              >
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Home</span>
+              </button>
+            </div>
+
+            <nav>
+              <ul class="space-y-4">
+                <li>
+                  <a
+                    href="dashboard.html"
+                    id="dashboard-link"
+                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                  >
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="requests.html"
+                    id="requests-link"
+                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                  >
+                    <i class="fas fa-file-alt"></i>
+                    <span>Requests</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="contacts.html"
+                    id="Contact"
+                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                  >
+                    <i class="fas fa-check-circle"></i>
+                    <span>Contact Messages</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="payments.html"
+                    id="payments-link"
+                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                  >
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="notifications.html"
+                    id="notifications-link"
+                    class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                  >
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="mt-auto p-6">
+            <div class="flex items-center space-x-3 p-3 rounded-lg">
+              <img
+                src="../images/logo-removebg-preview.png"
+                alt="SPATRAK Logo"
+                class="h-12 w-12"
+              />
+              <span class="text-xl font-bold">SPATRAK</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <script>
+        // تحديد الصفحة الحالية وتفعيل العنصر المناسب في الـ Sidebar
+        document.addEventListener("DOMContentLoaded", function () {
+          // الحصول على مسار الصفحة الحالية
+          const currentPage =
+            window.location.pathname.split("/").pop() || "dashboard.html";
+
+          // إزالة الفئة النشطة من جميع الروابط
+          document.querySelectorAll("nav a").forEach((link) => {
+            link.classList.remove("bg-violet-100");
+          });
+
+          // إضافة الفئة النشطة للرابط الحالي
+          const activeLink = document.getElementById(
+            currentPage.replace(".html", "-link")
+          );
+          if (activeLink) {
+            activeLink.classList.add("bg-violet-100");
+          }
+        });
+      </script>
 
       <!-- Main Content Area -->
       <div class="flex-1 lg:ml-64">
@@ -399,19 +503,24 @@
     </div>
 
     <script>
-      sidebarToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("-translate-x-full");
-      });
+      // Sidebar Toggle Functionality
+      document.addEventListener("DOMContentLoaded", function() {
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const sidebar = document.querySelector("aside");
 
-      // Close sidebar when clicking outside on mobile
-      document.addEventListener("click", (e) => {
-        if (window.innerWidth < 1024) {
-          if (
-            !sidebar.contains(e.target) &&
-            !sidebarToggle.contains(e.target)
-          ) {
-            sidebar.classList.add("-translate-x-full");
-          }
+        if (sidebarToggle && sidebar) {
+          sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("-translate-x-full");
+          });
+
+          // Close sidebar when clicking outside on mobile
+          document.addEventListener("click", (e) => {
+            if (window.innerWidth < 1024) {
+              if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                sidebar.classList.add("-translate-x-full");
+              }
+            }
+          });
         }
       });
 
@@ -424,7 +533,8 @@
           amount: "$1,200.00",
           paymentMethod: "Credit Card",
           status: "Success",
-          description: "Payment for verification services and document processing.",
+          description:
+            "Payment for verification services and document processing.",
           transactionId: "TRX-123456789",
         },
         "INV-002": {
@@ -500,133 +610,139 @@
       }
 
       // Function to generate PDF invoice
-   function generateInvoicePDF(invoiceData) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    // إعداد الألوان الأساسية (Violet)
-    const primaryColor = [76, 29, 149]; // Violet-900
-    const primaryLight = [221, 214, 254]; // Violet-200
-    const primaryMedium = [167, 139, 250]; // Violet-400
-    
-    // إضافة خلفية متدرجة (Gradient)
-    doc.setFillColor(primaryLight[0], primaryLight[1], primaryLight[2]);
-    doc.rect(0, 0, 220, 30, 'F');
-    doc.setFillColor(255, 255, 255);
-    doc.rect(0, 30, 220, 240, 'F');
-    doc.setFillColor(primaryMedium[0], primaryMedium[1], primaryMedium[2]);
-    doc.rect(0, 270, 220, 30, 'F');
-    
-    // إضافة شعار و عنوان
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(24);
-    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-    doc.text("SPATRAK", 105, 20, { align: 'center' });
-    
-    // عنوان الفاتورة
-    doc.setFontSize(18);
-    doc.text("INVOICE", 105, 40, { align: 'center' });
-    
-    // معلومات الشركة
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text("123 Main Street, Cairo, Egypt", 105, 50, { align: 'center' });
-    doc.text("Phone: +20 100 123 4567 | Email: info@spatrak.com", 105, 55, { align: 'center' });
-    
-    // خط فاصل
-    doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-    doc.setLineWidth(0.5);
-    doc.line(20, 60, 190, 60);
-    
-    // تفاصيل الفاتورة
-    doc.setFontSize(12);
-    doc.setTextColor(0);
-    doc.setFont("helvetica", "bold");
-    doc.text("Invoice Number:", 20, 75);
-    doc.text("Date:", 20, 85);
-    doc.text("Customer:", 20, 95);
-    doc.text("Status:", 120, 75);
-    doc.text("Payment Method:", 120, 85);
-    
-    doc.setFont("helvetica", "normal");
-    doc.text(invoiceData.invoiceNumber, 50, 75);
-    doc.text(invoiceData.date, 50, 85);
-    doc.text(invoiceData.customer, 50, 95);
-    doc.text(invoiceData.status, 150, 75);
-    doc.text(invoiceData.paymentMethod, 150, 85);
-    
-    // جدول العناصر
-    doc.autoTable({
-        startY: 110,
-        head: [['Description', 'Amount']],
-        body: [
+      function generateInvoicePDF(invoiceData) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // إعداد الألوان الأساسية (Violet)
+        const primaryColor = [76, 29, 149]; // Violet-900
+        const primaryLight = [221, 214, 254]; // Violet-200
+        const primaryMedium = [167, 139, 250]; // Violet-400
+
+        // إضافة خلفية متدرجة (Gradient)
+        doc.setFillColor(primaryLight[0], primaryLight[1], primaryLight[2]);
+        doc.rect(0, 0, 220, 30, "F");
+        doc.setFillColor(255, 255, 255);
+        doc.rect(0, 30, 220, 240, "F");
+        doc.setFillColor(primaryMedium[0], primaryMedium[1], primaryMedium[2]);
+        doc.rect(0, 270, 220, 30, "F");
+
+        // إضافة شعار و عنوان
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(24);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.text("SPATRAK", 105, 20, { align: "center" });
+
+        // عنوان الفاتورة
+        doc.setFontSize(18);
+        doc.text("INVOICE", 105, 40, { align: "center" });
+
+        // معلومات الشركة
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text("123 Main Street, Cairo, Egypt", 105, 50, { align: "center" });
+        doc.text("Phone: +20 100 123 4567 | Email: info@spatrak.com", 105, 55, {
+          align: "center",
+        });
+
+        // خط فاصل
+        doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setLineWidth(0.5);
+        doc.line(20, 60, 190, 60);
+
+        // تفاصيل الفاتورة
+        doc.setFontSize(12);
+        doc.setTextColor(0);
+        doc.setFont("helvetica", "bold");
+        doc.text("Invoice Number:", 20, 75);
+        doc.text("Date:", 20, 85);
+        doc.text("Customer:", 20, 95);
+        doc.text("Status:", 120, 75);
+        doc.text("Payment Method:", 120, 85);
+
+        doc.setFont("helvetica", "normal");
+        doc.text(invoiceData.invoiceNumber, 50, 75);
+        doc.text(invoiceData.date, 50, 85);
+        doc.text(invoiceData.customer, 50, 95);
+        doc.text(invoiceData.status, 150, 75);
+        doc.text(invoiceData.paymentMethod, 150, 85);
+
+        // جدول العناصر
+        doc.autoTable({
+          startY: 110,
+          head: [["Description", "Amount"]],
+          body: [
             [invoiceData.description, invoiceData.amount],
-            ['', ''],
-            ['Subtotal', invoiceData.amount],
-            ['Tax (0%)', '$0.00'],
-            ['Total', invoiceData.amount]
-        ],
-        styles: {
-            font: 'helvetica',
+            ["", ""],
+            ["Subtotal", invoiceData.amount],
+            ["Tax (0%)", "$0.00"],
+            ["Total", invoiceData.amount],
+          ],
+          styles: {
+            font: "helvetica",
             fontSize: 10,
             cellPadding: 5,
-            halign: 'right',
-            valign: 'middle'
-        },
-        headStyles: {
+            halign: "right",
+            valign: "middle",
+          },
+          headStyles: {
             fillColor: primaryColor,
             textColor: [255, 255, 255],
-            fontStyle: 'bold'
-        },
-        bodyStyles: {
-            textColor: [0, 0, 0]
-        },
-        alternateRowStyles: {
-            fillColor: [245, 245, 245]
-        },
-        columnStyles: {
-            0: { 
-                cellWidth: 140, 
-                halign: 'left',
-                fillColor: [255, 255, 255]
+            fontStyle: "bold",
+          },
+          bodyStyles: {
+            textColor: [0, 0, 0],
+          },
+          alternateRowStyles: {
+            fillColor: [245, 245, 245],
+          },
+          columnStyles: {
+            0: {
+              cellWidth: 140,
+              halign: "left",
+              fillColor: [255, 255, 255],
             },
-            1: { 
-                cellWidth: 40,
-                fillColor: [255, 255, 255]
-            }
-        },
-        didDrawCell: function(data) {
+            1: {
+              cellWidth: 40,
+              fillColor: [255, 255, 255],
+            },
+          },
+          didDrawCell: function (data) {
             // تنسيق صف الإجمالي
             if (data.row.index === 4) {
-                data.cell.styles.fillColor = primaryColor;
-                data.cell.styles.textColor = [255, 255, 255];
-                data.cell.styles.fontStyle = 'bold';
+              data.cell.styles.fillColor = primaryColor;
+              data.cell.styles.textColor = [255, 255, 255];
+              data.cell.styles.fontStyle = "bold";
             }
-        },
-        margin: { top: 110 }
-    });
-    
-    // ملاحظات الدفع
-    doc.setFontSize(10);
-    doc.setTextColor(100);
-    doc.text("Payment Terms: Due upon receipt", 20, doc.lastAutoTable.finalY + 15);
-    doc.text("Thank you for your business!", 20, doc.lastAutoTable.finalY + 25);
-    
-    // تذييل الصفحة
-    doc.setFontSize(8);
-    doc.setTextColor(255, 255, 255);
-    doc.text("© 2024 SPATRAK - All Rights Reserved", 105, 285, { align: 'center' });
-    
-    // حفظ الملف
-    doc.save(`Invoice_${invoiceData.invoiceNumber}.pdf`);
-}      fetch("./Sidebar.html")
-        .then((response) => response.text())
-        .then((data) => {
-          document.getElementById("Sidebar-container").innerHTML = data;
-          // Initialize navbar functionality
-          loadNavbar();
+          },
+          margin: { top: 110 },
         });
+
+        // ملاحظات الدفع
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(
+          "Payment Terms: Due upon receipt",
+          20,
+          doc.lastAutoTable.finalY + 15
+        );
+        doc.text(
+          "Thank you for your business!",
+          20,
+          doc.lastAutoTable.finalY + 25
+        );
+
+        // تذييل الصفحة
+        doc.setFontSize(8);
+        doc.setTextColor(255, 255, 255);
+        doc.text("© 2024 SPATRAK - All Rights Reserved", 105, 285, {
+          align: "center",
+        });
+
+        // حفظ الملف
+        doc.save(`Invoice_${invoiceData.invoiceNumber}.pdf`);
+      }
     </script>
   </body>
 </html>

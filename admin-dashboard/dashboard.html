@@ -29,311 +29,390 @@
     </style>
   </head>
   <body>
-       <!-- Navbar -->
- 
-  <div
-    class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
-    id="BodyHome"
-  >
-    <div class="flex h-full">
-      <!-- Sidebar -->
-      <aside id="Sidebar-container" class="fixed inset-y-0 left-0 w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-50">
-        <div class="p-4">
-          <h2 class="text-2xl font-bold mb-6">Menu</h2>
-          <nav>
-            <ul class="space-y-4">
-              <li>
-                <a href="#" class="flex items-center space-x-2 text-violet-900 hover:text-violet-700">
-                  <i class="fas fa-home"></i>
-                  <span>Dashboard</span>
-                </a>
-              </li>
-              <li>
-                <a href="requests.html" class="flex items-center space-x-2 text-violet-900 hover:text-violet-700">
-                  <i class="fas fa-file-alt"></i>
-                  <span>Requests</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center space-x-2 text-violet-900 hover:text-violet-700">
-                  <i class="fas fa-users"></i>
-                  <span>Users</span>
-                </a>
-              </li>
-              <li>
-                <a href="#" class="flex items-center space-x-2 text-violet-900 hover:text-violet-700">
-                  <i class="fas fa-cogs"></i>
-                  <span>Settings</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </aside>
+    <!-- Navbar -->
 
-      <!-- Main Content Area -->
-      <div id="mainDashboardContent" class="flex-1 lg:ml-64" style="display: none;">
-        <!-- Header -->
-        <header
-          class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40"
+    <div
+      class="h-full bg-gradient-to-br from-violet-200 via-white to-violet-400"
+      id="BodyHome"
+    >
+      <div class="flex h-full">
+        <aside
+          class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50"
         >
-          <div
-            class="container mx-auto px-4 py-3 flex justify-between items-center"
+          <div class="flex flex-col h-full">
+            <div class="p-4">
+              <div class="flex items-center space-x-3 mb-8">
+                <button
+                  onclick="window.location.href = '../index.html'"
+                  class="w-full bg-violet-900 hover:bg-violet-800 text-white px-4 py-3 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+                >
+                  <i class="fas fa-arrow-left"></i>
+                  <span>Back to Home</span>
+                </button>
+              </div>
+
+              <nav>
+                <ul class="space-y-4">
+                  <li>
+                    <a
+                      href="dashboard.html"
+                      id="dashboard-link"
+                      class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                    >
+                      <i class="fas fa-home"></i>
+                      <span>Dashboard</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="requests.html"
+                      id="requests-link"
+                      class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                    >
+                      <i class="fas fa-file-alt"></i>
+                      <span>Requests</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="contacts.html"
+                      id="Contact"
+                      class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                    >
+                      <i class="fas fa-check-circle"></i>
+                      <span>Contact Messages</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="payments.html"
+                      id="payments-link"
+                      class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                    >
+                      <i class="fas fa-credit-card"></i>
+                      <span>Payments</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="notifications.html"
+                      id="notifications-link"
+                      class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+                    >
+                      <i class="fas fa-bell"></i>
+                      <span>Notifications</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+
+            <div class="mt-auto p-6">
+              <div class="flex items-center space-x-3 p-3 rounded-lg">
+                <img
+                  src="../images/logo-removebg-preview.png"
+                  alt="SPATRAK Logo"
+                  class="h-12 w-12"
+                />
+                <span class="text-xl font-bold">SPATRAK</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <script>
+          // تحديد الصفحة الحالية وتفعيل العنصر المناسب في الـ Sidebar
+          document.addEventListener("DOMContentLoaded", function () {
+            // الحصول على مسار الصفحة الحالية
+            const currentPage =
+              window.location.pathname.split("/").pop() || "dashboard.html";
+
+            // إزالة الفئة النشطة من جميع الروابط
+            document.querySelectorAll("nav a").forEach((link) => {
+              link.classList.remove("bg-violet-100");
+            });
+
+            // إضافة الفئة النشطة للرابط الحالي
+            const activeLink = document.getElementById(
+              currentPage.replace(".html", "-link")
+            );
+            if (activeLink) {
+              activeLink.classList.add("bg-violet-100");
+            }
+          });
+        </script>
+
+        <!-- Main Content Area -->
+        <div
+          id="mainDashboardContent"
+          class="flex-1 lg:ml-64"
+          style="display: none"
+        >
+          <!-- Header -->
+          <header
+            class="bg-white/80 backdrop-blur-md text-violet-900 shadow-lg fixed w-full lg:w-[calc(100%-16rem)] top-0 z-40"
           >
-            <div class="flex items-center space-x-4">
-              <button
-                id="sidebarToggle"
-                class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg"
+            <div
+              class="container mx-auto px-4 py-3 flex justify-between items-center"
+            >
+              <div class="flex items-center space-x-4">
+                <button
+                  id="sidebarToggle"
+                  class="lg:hidden bg-violet-100 text-violet-900 p-2 rounded-lg"
+                >
+                  <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+              </div>
+              <div class="flex items-center space-x-4">
+                <button
+                  id="sign-out-btn"
+                  class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+                >
+                  <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
+              </div>
+            </div>
+          </header>
+
+          <!-- Main Content -->
+          <main class="container mx-auto px-4 pt-20 pb-8 overflow-y-auto">
+            <!-- Overview Cards -->
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12"
+            >
+              <!-- Total Requests -->
+              <div
+                class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
               >
-                <i class="fas fa-bars"></i>
-              </button>
-              <h1 class="text-2xl font-bold">Admin Dashboard</h1>
-            </div>
-            <div class="flex items-center space-x-4">
-              <button
-                id="sign-out-btn"
-                class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+                <div class="flex flex-col items-center mb-4">
+                  <div class="bg-violet-100 p-5 rounded-full mb-2">
+                    <i class="fas fa-file-alt text-violet-900 text-3xl"></i>
+                  </div>
+                  <p
+                    class="text-violet-800 font-extrabold text-xl text-center leading-tight"
+                  >
+                    Total<br />Requests
+                  </p>
+                </div>
+                <div class="w-full flex flex-col items-center">
+                  <div
+                    class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
+                  >
+                    <canvas
+                      id="donut-total"
+                      width="120"
+                      height="120"
+                      class="z-20"
+                    ></canvas>
+                    <div
+                      class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                    >
+                      <span class="text-3xl font-extrabold text-violet-900 z-0"
+                        >1,234</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Pending Requests -->
+              <div
+                class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
               >
-                <i class="fas fa-sign-out-alt mr-2"></i>Logout
-              </button>
-            </div>
-          </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="container mx-auto px-4 pt-20 pb-8 overflow-y-auto">
-          <!-- Overview Cards -->
-          <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12"
-          >
-            <!-- Total Requests -->
-            <div
-              class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
-            >
-              <div class="flex flex-col items-center mb-4">
-                <div class="bg-violet-100 p-5 rounded-full mb-2">
-                  <i class="fas fa-file-alt text-violet-900 text-3xl"></i>
-                </div>
-                <p
-                  class="text-violet-800 font-extrabold text-xl text-center leading-tight"
-                >
-                  Total<br />Requests
-                </p>
-              </div>
-              <div class="w-full flex flex-col items-center">
-                <div
-                  class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
-                >
-                  <canvas
-                    id="donut-total"
-                    width="120"
-                    height="120"
-                    class="z-20"
-                  ></canvas>
-                  <div
-                    class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                <div class="flex flex-col items-center mb-4">
+                  <div class="bg-yellow-100 p-5 rounded-full mb-2">
+                    <i class="fas fa-clock text-yellow-600 text-3xl"></i>
+                  </div>
+                  <p
+                    class="text-violet-800 font-extrabold text-xl text-center leading-tight"
                   >
-                    <span class="text-3xl font-extrabold text-violet-900 z-0"
-                      >1,234</span
+                    Pending<br />Percentage
+                  </p>
+                </div>
+                <div class="w-full flex flex-col items-center">
+                  <div
+                    class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
+                  >
+                    <canvas
+                      id="donut-pending"
+                      width="120"
+                      height="120"
+                      class="z-20"
+                    ></canvas>
+                    <div
+                      class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
                     >
+                      <span class="text-3xl font-extrabold text-violet-900 z-0"
+                        >0%</span
+                      >
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- Pending Requests -->
-            <div
-              class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
-            >
-              <div class="flex flex-col items-center mb-4">
-                <div class="bg-yellow-100 p-5 rounded-full mb-2">
-                  <i class="fas fa-clock text-yellow-600 text-3xl"></i>
-                </div>
-                <p
-                  class="text-violet-800 font-extrabold text-xl text-center leading-tight"
-                >
-                  Pending<br />Percentage
-                </p>
-              </div>
-              <div class="w-full flex flex-col items-center">
-                <div
-                  class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
-                >
-                  <canvas
-                    id="donut-pending"
-                    width="120"
-                    height="120"
-                    class="z-20"
-                  ></canvas>
-                  <div
-                    class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
-                  >
-                    <span class="text-3xl font-extrabold text-violet-900 z-0"
-                      >0%</span
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Rejected Requests -->
-            <div
-              class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
-            >
-              <div class="flex flex-col items-center mb-4">
-                <div class="bg-green-100 p-5 rounded-full mb-2">
-                  <i class="fas fa-check-circle text-green-600 text-3xl"></i>
-                </div>
-                <p
-                  class="text-violet-800 font-extrabold text-xl text-center leading-tight"
-                >
-                  Accepted<br />Percentage
-                </p>
-              </div>
-              <div class="w-full flex flex-col items-center">
-                <div
-                  class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
-                >
-                  <canvas
-                    id="donut-rejected"
-                    width="120"
-                    height="120"
-                    class="z-20"
-                  ></canvas>
-                  <div
-                    class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
-                  >
-                    <span class="text-3xl font-extrabold text-violet-900 z-0"
-                      >0%</span
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- New This Month -->
-            <div
-              class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
-            >
-              <div class="flex flex-col items-center mb-4">
-                <div class="bg-violet-100 p-5 rounded-full mb-2">
-                  <i class="fas fa-calendar-alt text-violet-900 text-3xl"></i>
-                </div>
-                <p
-                  class="text-violet-800 font-extrabold text-xl text-center leading-tight"
-                >
-                  New<br />This Month
-                </p>
-              </div>
-              <div class="w-full flex flex-col items-center">
-                <div
-                  class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
-                >
-                  <canvas
-                    id="donut-new"
-                    width="120"
-                    height="120"
-                    class="z-20"
-                  ></canvas>
-                  <div
-                    class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
-                  >
-                    <span class="text-3xl font-extrabold text-violet-900 z-0"
-                      >89</span
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Revenue Overview Chart -->
-          <div
-            class="bg-white/90 rounded-3xl shadow-2xl p-8 mb-12 transform transition-all duration-1000 opacity-0 translate-y-10"
-            id="requestsChartContainer"
-          >
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold text-violet-900">
-                Monthly Requests Overview
-              </h2>
-           
-            </div>
-            <canvas id="requestsChart" height="100"></canvas>
-          </div>
-
-          <!-- Notifications Panel -->
-          <div
-            class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
-          >
-            <div class="flex justify-between items-center mb-4">
-              <h2 class="text-xl font-bold text-violet-900">
-                Latest Notifications
-              </h2>
-              <a href="notifications.html" class="text-violet-600 hover:text-violet-900 transition duration-300">
-                View All <i class="fas fa-arrow-right ml-1"></i>
-              </a>
-            </div>
-            <div id="latestNotifications" class="space-y-4">
-              <!-- Notifications will be loaded here -->
-            </div>
-          </div>
-
-          <!-- Requests Table -->
-          <!-- Requests Table -->
-          <div
-            class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
-          >
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-xl font-bold text-violet-900">Recent Requests</h2>
-              <a
-                href="requests.html"
-                class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+              <!-- Rejected Requests -->
+              <div
+                class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
               >
-                More Requests
-              </a>
+                <div class="flex flex-col items-center mb-4">
+                  <div class="bg-green-100 p-5 rounded-full mb-2">
+                    <i class="fas fa-check-circle text-green-600 text-3xl"></i>
+                  </div>
+                  <p
+                    class="text-violet-800 font-extrabold text-xl text-center leading-tight"
+                  >
+                    Accepted<br />Percentage
+                  </p>
+                </div>
+                <div class="w-full flex flex-col items-center">
+                  <div
+                    class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
+                  >
+                    <canvas
+                      id="donut-rejected"
+                      width="120"
+                      height="120"
+                      class="z-20"
+                    ></canvas>
+                    <div
+                      class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                    >
+                      <span class="text-3xl font-extrabold text-violet-900 z-0"
+                        >0%</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- New This Month -->
+              <div
+                class="bg-white/90 rounded-3xl shadow-2xl p-8 flex flex-col items-center transition-all duration-300 hover:scale-105 hover:shadow-violet-200"
+              >
+                <div class="flex flex-col items-center mb-4">
+                  <div class="bg-violet-100 p-5 rounded-full mb-2">
+                    <i class="fas fa-calendar-alt text-violet-900 text-3xl"></i>
+                  </div>
+                  <p
+                    class="text-violet-800 font-extrabold text-xl text-center leading-tight"
+                  >
+                    New<br />This Month
+                  </p>
+                </div>
+                <div class="w-full flex flex-col items-center">
+                  <div
+                    class="relative w-[120px] h-[120px] flex items-center justify-center mb-2"
+                  >
+                    <canvas
+                      id="donut-new"
+                      width="120"
+                      height="120"
+                      class="z-20"
+                    ></canvas>
+                    <div
+                      class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                    >
+                      <span class="text-3xl font-extrabold text-violet-900 z-0"
+                        >89</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="overflow-x-auto">
-              <table class="w-full">
-                <thead>
-                  <tr class="bg-violet-50">
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Request ID
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      User Name
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Date
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody
-                  id="requestsTableBody"
-                  class="divide-y divide-violet-100"
+
+            <!-- Revenue Overview Chart -->
+            <div
+              class="bg-white/90 rounded-3xl shadow-2xl p-8 mb-12 transform transition-all duration-1000 opacity-0 translate-y-10"
+              id="requestsChartContainer"
+            >
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-violet-900">
+                  Monthly Requests Overview
+                </h2>
+              </div>
+              <canvas id="requestsChart" height="100"></canvas>
+            </div>
+
+            <!-- Notifications Panel -->
+            <div
+              class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
+            >
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-violet-900">
+                  Latest Notifications
+                </h2>
+                <a
+                  href="notifications.html"
+                  class="text-violet-600 hover:text-violet-900 transition duration-300"
                 >
-                  <!-- سيتم ملؤه بالبيانات من الـ API -->
-                  <tr>
-                    <td
-                      colspan="4"
-                      class="px-6 py-4 text-center text-violet-900"
-                    >
-                      Loading requests...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  View All <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+              </div>
+              <div id="latestNotifications" class="space-y-4">
+                <!-- Notifications will be loaded here -->
+              </div>
             </div>
-          </div>
-          <!-- Verification Manager -->
-          <!-- <div
+
+            <!-- Requests Table -->
+            <!-- Requests Table -->
+            <div
+              class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
+            >
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-violet-900">
+                  Recent Requests
+                </h2>
+                <a
+                  href="requests.html"
+                  class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+                >
+                  More Requests
+                </a>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead>
+                    <tr class="bg-violet-50">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Request ID
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        User Name
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Date
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    id="requestsTableBody"
+                    class="divide-y divide-violet-100"
+                  >
+                    <!-- سيتم ملؤه بالبيانات من الـ API -->
+                    <tr>
+                      <td
+                        colspan="4"
+                        class="px-6 py-4 text-center text-violet-900"
+                      >
+                        Loading requests...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- Verification Manager -->
+            <!-- <div
             class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6 mb-8"
           >
             <h2 class="text-xl font-bold text-violet-900 mb-6">
@@ -403,175 +482,184 @@
             </div>
           </div> -->
 
-          <!-- Payments Section -->
-          <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-xl font-bold text-violet-900">Payments</h2>
-              <div class="flex space-x-4">
-                <button
-                  class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
-                >
-                  This Month
-                </button>
-                <button
-                  class="bg-white hover:bg-violet-50 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
-                >
-                  All Payments
-                </button>
+            <!-- Payments Section -->
+            <div class="bg-white/80 backdrop-blur-md rounded-lg shadow-lg p-6">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-violet-900">Payments</h2>
+                <div class="flex space-x-4">
+                  <button
+                    class="bg-violet-100 hover:bg-violet-200 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+                  >
+                    This Month
+                  </button>
+                  <button
+                    class="bg-white hover:bg-violet-50 text-violet-900 px-4 py-2 rounded-lg transition duration-300"
+                  >
+                    All Payments
+                  </button>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead>
+                    <tr class="bg-violet-50">
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Invoice Number
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Payment Status
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Amount
+                      </th>
+                      <th
+                        class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
+                      >
+                        Date
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-violet-100">
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+                        INV-001
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm"
+                          >Success</span
+                        >
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+                        $1,200.00
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+                        2024-03-15
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+                        INV-002
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm"
+                          >Failed</span
+                        >
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+                        $800.00
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-violet-900">
+                        2024-03-14
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div class="overflow-x-auto">
-              <table class="w-full">
-                <thead>
-                  <tr class="bg-violet-50">
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Invoice Number
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Payment Status
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Amount
-                    </th>
-                    <th
-                      class="px-6 py-3 text-left text-xs font-medium text-violet-900 uppercase tracking-wider"
-                    >
-                      Date
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-violet-100">
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                      INV-001
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm"
-                        >Success</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                      $1,200.00
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                      2024-03-15
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                      INV-002
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span
-                        class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-sm"
-                        >Failed</span
-                      >
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                      $800.00
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-violet-900">
-                      2024-03-14
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
 
-    <script>
-      // Function to fetch and display latest notifications
-      async function fetchLatestNotifications() {
-        try {
-          const [usersResponse, requestsResponse, contactsResponse] = await Promise.all([
-            fetch("https://spatrak.com/api/requests/users"),
-            fetch("https://spatrak.com/api/requests"),
-            fetch("https://spatrak.com/api/requests/contact")
-          ]);
+      <script>
+        // Function to fetch and display latest notifications
+        async function fetchLatestNotifications() {
+          try {
+            const [usersResponse, requestsResponse, contactsResponse] =
+              await Promise.all([
+                fetch("https://spatrak.com/api/requests/users"),
+                fetch("https://spatrak.com/api/requests"),
+                fetch("https://spatrak.com/api/requests/contact"),
+              ]);
 
-          const [usersData, requestsData, contactsData] = await Promise.all([
-            usersResponse.json(),
-            requestsResponse.json(),
-            contactsResponse.json()
-          ]);
+            const [usersData, requestsData, contactsData] = await Promise.all([
+              usersResponse.json(),
+              requestsResponse.json(),
+              contactsResponse.json(),
+            ]);
 
-          // Create notifications array
-          let allNotifications = [];
+            // Create notifications array
+            let allNotifications = [];
 
-          // Add user notifications
-          if (Array.isArray(usersData)) {
-            usersData.forEach(user => {
-              allNotifications.push({
-                type: 'user',
-                title: 'New User Registration',
-                content: `User ${user.name || user.email} has registered`,
-                timestamp: new Date(user.updatedAt),
-                icon: 'fas fa-user-plus',
-                color: 'bg-blue-100',
-                textColor: 'text-blue-600'
+            // Add user notifications
+            if (Array.isArray(usersData)) {
+              usersData.forEach((user) => {
+                allNotifications.push({
+                  type: "user",
+                  title: "New User Registration",
+                  content: `User ${user.name || user.email} has registered`,
+                  timestamp: new Date(user.updatedAt),
+                  icon: "fas fa-user-plus",
+                  color: "bg-blue-100",
+                  textColor: "text-blue-600",
+                });
               });
-            });
-          }
+            }
 
-          // Add request notifications
-          if (Array.isArray(requestsData.requests)) {
-            requestsData.requests.forEach(request => {
-              allNotifications.push({
-                type: 'request',
-                title: 'New Service Request',
-                content: `Request #${request.id} has been submitted for ${request.service || 'Unknown Service'}`,
-                timestamp: new Date(request.updatedAt),
-                icon: 'fas fa-file-alt',
-                color: 'bg-purple-100',
-                textColor: 'text-purple-600'
+            // Add request notifications
+            if (Array.isArray(requestsData.requests)) {
+              requestsData.requests.forEach((request) => {
+                allNotifications.push({
+                  type: "request",
+                  title: "New Service Request",
+                  content: `Request #${request.id} has been submitted for ${
+                    request.service || "Unknown Service"
+                  }`,
+                  timestamp: new Date(request.updatedAt),
+                  icon: "fas fa-file-alt",
+                  color: "bg-purple-100",
+                  textColor: "text-purple-600",
+                });
               });
-            });
-          }
+            }
 
-          // Add contact notifications
-          if (Array.isArray(contactsData.messages)) {
-            contactsData.messages.forEach(contact => {
-              allNotifications.push({
-                type: 'contact',
-                title: 'New Contact Message',
-                content: `Message from ${contact.name || 'Unknown'} : ${contact.messageText ? contact.messageText.substring(0, 50) + '...' : 'No message content'}`,
-                timestamp: new Date(contact.createdAt),
-                icon: 'fas fa-envelope',
-                color: 'bg-green-100',
-                textColor: 'text-green-600'
+            // Add contact notifications
+            if (Array.isArray(contactsData.messages)) {
+              contactsData.messages.forEach((contact) => {
+                allNotifications.push({
+                  type: "contact",
+                  title: "New Contact Message",
+                  content: `Message from ${contact.name || "Unknown"} : ${
+                    contact.messageText
+                      ? contact.messageText.substring(0, 50) + "..."
+                      : "No message content"
+                  }`,
+                  timestamp: new Date(contact.createdAt),
+                  icon: "fas fa-envelope",
+                  color: "bg-green-100",
+                  textColor: "text-green-600",
+                });
               });
-            });
-          }
+            }
 
-          // Sort by timestamp (newest first)
-          allNotifications.sort((a, b) => b.timestamp - a.timestamp);
+            // Sort by timestamp (newest first)
+            allNotifications.sort((a, b) => b.timestamp - a.timestamp);
 
-          // Get only the latest 2 notifications
-          const latestNotifications = allNotifications.slice(0, 2);
+            // Get only the latest 2 notifications
+            const latestNotifications = allNotifications.slice(0, 2);
 
-          // Display notifications
-          const container = document.getElementById('latestNotifications');
-          container.innerHTML = '';
+            // Display notifications
+            const container = document.getElementById("latestNotifications");
+            container.innerHTML = "";
 
-          if (latestNotifications.length === 0) {
-            container.innerHTML = '<p class="text-violet-600 text-center py-4">No new notifications.</p>';
-          } else {
-            latestNotifications.forEach(notification => {
-              const timeAgo = getTimeAgo(notification.timestamp);
-              
-              const notificationElement = document.createElement('div');
-              notificationElement.className = 'flex items-center justify-between p-4 bg-violet-50 rounded-lg transform transition-all duration-300 hover:scale-[1.02]';
-              notificationElement.innerHTML = `
+            if (latestNotifications.length === 0) {
+              container.innerHTML =
+                '<p class="text-violet-600 text-center py-4">No new notifications.</p>';
+            } else {
+              latestNotifications.forEach((notification) => {
+                const timeAgo = getTimeAgo(notification.timestamp);
+
+                const notificationElement = document.createElement("div");
+                notificationElement.className =
+                  "flex items-center justify-between p-4 bg-violet-50 rounded-lg transform transition-all duration-300 hover:scale-[1.02]";
+                notificationElement.innerHTML = `
                 <div class="flex items-center space-x-4">
                   <div class="${notification.color} p-3 rounded-full">
                     <i class="${notification.icon} ${notification.textColor}"></i>
@@ -583,110 +671,113 @@
                 </div>
                 <span class="text-xs text-violet-600">${timeAgo}</span>
               `;
-              container.appendChild(notificationElement);
-            });
+                container.appendChild(notificationElement);
+              });
+            }
+          } catch (error) {
+            console.error("Error fetching notifications:", error);
+            document.getElementById("latestNotifications").innerHTML =
+              '<p class="text-red-600 text-center py-4">Failed to load notifications. Please try again later.</p>';
           }
-
-        } catch (error) {
-          console.error('Error fetching notifications:', error);
-          document.getElementById('latestNotifications').innerHTML = '<p class="text-red-600 text-center py-4">Failed to load notifications. Please try again later.</p>';
         }
-      }
 
-      // Helper function to format time ago
-      function getTimeAgo(timestamp) {
-        const now = new Date();
-        const diffInMinutes = Math.floor((now - timestamp) / (1000 * 60));
+        // Helper function to format time ago
+        function getTimeAgo(timestamp) {
+          const now = new Date();
+          const diffInMinutes = Math.floor((now - timestamp) / (1000 * 60));
 
-        if (diffInMinutes < 60) {
-          return `${diffInMinutes} minute${diffInMinutes === 1 ? '' : 's'} ago`;
-        } else if (diffInMinutes < 1440) {
-          const hours = Math.floor(diffInMinutes / 60);
-          return `${hours} hour${hours === 1 ? '' : 's'} ago`;
-        } else {
-          const days = Math.floor(diffInMinutes / 1440);
-          return `${days} day${days === 1 ? '' : 's'} ago`;
+          if (diffInMinutes < 60) {
+            return `${diffInMinutes} minute${
+              diffInMinutes === 1 ? "" : "s"
+            } ago`;
+          } else if (diffInMinutes < 1440) {
+            const hours = Math.floor(diffInMinutes / 60);
+            return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+          } else {
+            const days = Math.floor(diffInMinutes / 1440);
+            return `${days} day${days === 1 ? "" : "s"} ago`;
+          }
         }
-      }
-    </script>
+      </script>
 
-    <!-- Add Chart.js before our custom script -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="./js/Dasboard.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.js"></script>
-    <script>
+      <!-- Add Chart.js before our custom script -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+      <script src="./js/Dasboard.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.js"></script>
+      <script>
         // Authentication Check
         function checkAuth() {
-            const authToken = sessionStorage.getItem('authToken');
-            const userRole = sessionStorage.getItem('userRole');
-            const sidebar = document.getElementById('Sidebar-container');
-            
-            if (!authToken || userRole !== 'admin') {
-                if (sidebar) {
-                  sidebar.classList.add('hidden');
-                }
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Access Denied',
-                    text: 'You must be logged in as an admin to access this page',
-                    confirmButtonText: 'Go to Home',
-                    confirmButtonColor: '#4c1d95',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    allowEnterKey: false,
-                    showConfirmButton: true,
-                    showCloseButton: false,
-                    showDenyButton: false,
-                    showCancelButton: false
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = '../index.html';
-                    }
-                });
-                return false;
+          const authToken = sessionStorage.getItem("authToken");
+          const userRole = sessionStorage.getItem("userRole");
+          const sidebar = document.getElementById("Sidebar-container");
+
+          if (!authToken || userRole !== "admin") {
+            if (sidebar) {
+              sidebar.classList.add("hidden");
             }
-            return true;
+            Swal.fire({
+              icon: "error",
+              title: "Access Denied",
+              text: "You must be logged in as an admin to access this page",
+              confirmButtonText: "Go to Home",
+              confirmButtonColor: "#4c1d95",
+              allowOutsideClick: false,
+              allowEscapeKey: false,
+              allowEnterKey: false,
+              showConfirmButton: true,
+              showCloseButton: false,
+              showDenyButton: false,
+              showCancelButton: false,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.href = "../index.html";
+              }
+            });
+            return false;
+          }
+          return true;
         }
 
         // Check authentication when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            if (checkAuth()) {
-                document.getElementById('mainDashboardContent').style.display = 'block'; // Show the content
-                // Initialize dashboard elements and load data
-                if (typeof initializeCharts === 'function') {
-                    initializeCharts();
-                }
-                if (typeof fetchRecentRequests === 'function') {
-                    fetchRecentRequests();
-                }
-                if (typeof fetchLatestNotifications === 'function') {
-                    fetchLatestNotifications();
-                }
+        document.addEventListener("DOMContentLoaded", function () {
+          if (checkAuth()) {
+            document.getElementById("mainDashboardContent").style.display =
+              "block"; // Show the content
+            // Initialize dashboard elements and load data
+            if (typeof initializeCharts === "function") {
+              initializeCharts();
             }
+            if (typeof fetchRecentRequests === "function") {
+              fetchRecentRequests();
+            }
+            if (typeof fetchLatestNotifications === "function") {
+              fetchLatestNotifications();
+            }
+          }
         });
 
         // Logout Functionality
         function initLogout() {
-            const signOutBtn = document.getElementById('sign-out-btn');
-            
-            if (signOutBtn) {
-                signOutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    sessionStorage.removeItem('authToken');
-                    sessionStorage.removeItem('IdUser');
-                    sessionStorage.removeItem('password');
-                    sessionStorage.removeItem('userRole');
-                    window.location.href = '../index.html';
-                });
-            }
+          const signOutBtn = document.getElementById("sign-out-btn");
+
+          if (signOutBtn) {
+            signOutBtn.addEventListener("click", function (e) {
+              e.preventDefault();
+              sessionStorage.removeItem("authToken");
+              sessionStorage.removeItem("IdUser");
+              sessionStorage.removeItem("password");
+              sessionStorage.removeItem("userRole");
+              window.location.href = "../index.html";
+            });
+          }
         }
 
         // Initialize logout when DOM is loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            initLogout();
+        document.addEventListener("DOMContentLoaded", function () {
+          initLogout();
         });
-    </script>
-    <script>
+      </script>
+      <script>
         // Refresh notifications every minute
         setInterval(fetchLatestNotifications, 60000);
 
@@ -700,7 +791,7 @@
               loadNavbar();
             }
           });
-    </script>
+      </script>
     </div>
   </body>
 </html>

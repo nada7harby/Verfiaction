@@ -169,7 +169,108 @@
     </script>
     <div class="flex h-full min-h-screen">
       <!-- Sidebar -->
-      <div id="Sidebar-container"></div>
+     <aside
+  class="fixed top-0 left-0 h-full w-64 bg-white/80 backdrop-blur-md text-violet-900 shadow-lg transition-transform duration-300 transform -translate-x-full lg:translate-x-0 z-50"
+>
+  <div class="flex flex-col h-full">
+    <div class="p-4">
+      <div class="flex items-center space-x-3 mb-8">
+        <button
+          onclick="window.location.href = '../index.html'"
+          class="w-full bg-violet-900 hover:bg-violet-800 text-white px-4 py-3 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+        >
+          <i class="fas fa-arrow-left"></i>
+          <span>Back to Home</span>
+        </button>
+      </div>
+
+      <nav>
+        <ul class="space-y-4">
+          <li>
+            <a
+              href="dashboard.html"
+              id="dashboard-link"
+              class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+            >
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="requests.html"
+              id="requests-link"
+              class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+            >
+              <i class="fas fa-file-alt"></i>
+              <span>Requests</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="contacts.html"
+              id="Contact"
+              class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+            >
+              <i class="fas fa-check-circle"></i>
+              <span>Contact Messages</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="payments.html"
+              id="payments-link"
+              class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+            >
+              <i class="fas fa-credit-card"></i>
+              <span>Payments</span>
+            </a>
+          </li>
+          <li>
+            <a
+              href="notifications.html"
+              id="notifications-link"
+              class="flex items-center space-x-3 p-3 rounded-lg hover:bg-violet-100 text-violet-900 transition duration-300"
+            >
+              <i class="fas fa-bell"></i>
+              <span>Notifications</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="mt-auto p-6">
+      <div class="flex items-center space-x-3 p-3 rounded-lg ">
+        <img
+          src="../images/logo-removebg-preview.png"
+          alt="SPATRAK Logo"
+          class="h-12 w-12"
+        />
+        <span class="text-xl font-bold">SPATRAK</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+  // تحديد الصفحة الحالية وتفعيل العنصر المناسب في الـ Sidebar
+  document.addEventListener('DOMContentLoaded', function() {
+    // الحصول على مسار الصفحة الحالية
+    const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+    
+    // إزالة الفئة النشطة من جميع الروابط
+    document.querySelectorAll('nav a').forEach(link => {
+      link.classList.remove('bg-violet-100');
+    });
+    
+    // إضافة الفئة النشطة للرابط الحالي
+    const activeLink = document.getElementById(currentPage.replace('.html', '-link'));
+    if (activeLink) {
+      activeLink.classList.add('bg-violet-100');
+    }
+  });
+</script>
 
       <!-- Main Content Area -->
       <div class="flex-1 lg:ml-64 p-8">
